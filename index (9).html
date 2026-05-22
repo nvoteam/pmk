@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PİXEL MİNECRAFT KOLEKSİYON</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ARKA PLAN PARTİKÜLLERİ -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-pixel">⛏</span>
+      <span class="logo-text">PMK</span>
+    </div>
+    <div class="nav-center">PİXEL MİNECRAFT KOLEKSİYON</div>
+    <div class="nav-right">
+      <div class="coin-display">
+        <span class="coin-icon">💎</span>
+        <span id="coinCount">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ANA EKRAN -->
+  <div class="main-container">
+
+    <!-- SOL PANEL: KOLEKSİYON -->
+    <div class="panel left-panel">
+      <div class="panel-title">📦 KOLEKSİYONUM</div>
+      <div class="collection-grid" id="collectionGrid">
+        <!-- JS ile doldurulacak -->
+      </div>
+      <div class="collection-stats">
+        <span id="collectedCount">0</span> / <span id="totalCount">3</span> karakter toplandı
+      </div>
+    </div>
+
+    <!-- ORTA PANEL: PAKET AÇ -->
+    <div class="panel center-panel">
+      <div class="panel-title">🎁 PAKET AÇ</div>
+
+      <div class="pack-area">
+        <div class="pack-wrapper" id="packWrapper" onclick="openPack()">
+          <img src="pmkimage/paketler/sıradanpaket.png" alt="Sıradan Paket" class="pack-img" id="packImg" onerror="this.style.display='none'; document.getElementById('packFallback').style.display='flex'"/>
+          <div class="pack-fallback" id="packFallback">
+            <div class="pack-pixel-art">
+              <div class="pixel-box">
+                <div class="pb-row"><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span></div>
+                <div class="pb-row"><span class="px brown"></span><span class="px gold"></span><span class="px gold"></span><span class="px brown"></span></div>
+                <div class="pb-row"><span class="px brown"></span><span class="px gold"></span><span class="px gold"></span><span class="px brown"></span></div>
+                <div class="pb-row"><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span></div>
+              </div>
+            </div>
+            <div class="pack-fallback-label">SIRADAN PAKET</div>
+          </div>
+          <div class="pack-shine"></div>
+          <div class="pack-label">SIRADAN PAKET</div>
+        </div>
+
+        <div class="pack-info">
+          <div class="pack-name">⭐ Sıradan Paket</div>
+          <div class="pack-desc">3 karakter içerir. Her pakette rastgele karakterler!</div>
+          <div class="pack-rarity">
+            <span class="rarity common">Sıradan</span>
+          </div>
+        </div>
+
+        <!-- COOLDOWN GÖSTERGESİ -->
+        <div class="cooldown-section">
+          <div class="cooldown-label" id="cooldownLabel">Paket açmaya hazır!</div>
+          <div class="cooldown-bar-wrap">
+            <div class="cooldown-bar" id="cooldownBar"></div>
+          </div>
+          <div class="cooldown-timer" id="cooldownTimer">Hemen aç!</div>
+        </div>
+
+        <button class="btn-open" id="openBtn" onclick="openPack()">
+          <span class="btn-icon">🎁</span> PAKET AÇ
+        </button>
+      </div>
+    </div>
+
+    <!-- SAĞ PANEL: KARAKTERLİK -->
+    <div class="panel right-panel">
+      <div class="panel-title">👾 KARAKTERLİK</div>
+      <div class="showcase-area" id="showcaseArea">
+        <div class="showcase-empty">Koleksiyonundan bir karakter seç!</div>
+      </div>
+      <div class="char-details" id="charDetails" style="display:none">
+        <div class="char-name" id="charName"></div>
+        <div class="char-rarity-badge" id="charRarity"></div>
+        <div class="char-desc" id="charDesc"></div>
+        <div class="char-count" id="charCount"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PAKET AÇMA MODALı -->
+  <div class="modal-overlay" id="packModal" style="display:none">
+    <div class="modal-box">
+      <div class="modal-title">✨ PAKET AÇILIYOR! ✨</div>
+      <div class="cards-reveal" id="cardsReveal">
+        <!-- Açılan kartlar buraya gelecek -->
+      </div>
+      <button class="btn-close-modal" id="closeModal" onclick="closePackModal()" style="display:none">
+        KOLEKSİYONA EKLE ✅
+      </button>
+    </div>
+  </div>
+
+  <!-- BİLDİRİM -->
+  <div class="toast" id="toast"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>
