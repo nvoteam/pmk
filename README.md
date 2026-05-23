@@ -10,11 +10,13 @@
 ├── README.md
 └── pmkimage/
     ├── karakterler/
+    │   ├── necronvo.png
+    │   ├── mavislime.png
     │   ├── herobrine.png
     │   ├── yusufte.png
-    │   ├── technoblade.png
-    │   ├── necronvo.png
-    │   └── ersincaki.png
+    │   ├── dream.png
+    │   ├── ersincaki.png
+    │   └── technoblade.png
     └── paketler/
         └── sıradanpaket.png
 ```
@@ -26,17 +28,19 @@
 3. `pmkimage/paketler/` klasörüne paket görselini ekle
 4. `index.html` dosyasını tarayıcıda aç
 
-> Görseller bulunamazsa otomatik pixel art yedek devreye girer.
+> Görseller bulunamazsa otomatik emoji yedek devreye girer.
 
 ## Karakterler
 
 | Karakter      | Nadirlik | Oran |
 |---------------|----------|------|
-| Yusuf'te      | Sıradan  | %45  |
-| Necronvo      | Nadir    | %25  |
-| Herobrine     | Epik     | %17  |
-| Ersin Çakı    | Epik     | %5   |
-| Technoblade   | Efsane   | %8   |
+| Necronvo      | Sıradan  | %37  |
+| MaviSlime     | Nadir    | %23  |
+| Herobrine     | Epik     | %9   |
+| Yusufde       | Epik     | %9   |
+| Dream         | Epik     | %9   |
+| Ersin Çakı    | Epik     | %9   |
+| Technoblade   | Efsane   | %5   |
 
 ## Özellikler
 
@@ -48,9 +52,9 @@
 - İlerleme çubuğu ve istatistik paneli
 - LocalStorage ile kayıt sistemi
 - Kayıt sıfırlama butonu
-- 2000×4000 paket görseli desteği
 
 ## Notlar
 
 - Paket görseli 2000×4000 piksel desteklenir, üstten kırpılır
-- Tüm kayıtlar tarayıcıda saklanır, silinmez
+- Tüm kayıtlar tarayıcıda saklanır
+- Eski kayıt varsa (pmk_v2) sıfırlanır, yeni anahtar pmk_v3
