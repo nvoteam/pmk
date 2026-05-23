@@ -39,6 +39,16 @@ body {
   font-family: var(--font);
   min-height: 100vh;
   overflow-x: hidden;
+  /* Ekrana otomatik sığdır */
+  zoom: 1;
+}
+
+/* Dar ekranlarda layout küçült */
+@media (max-width: 1300px) {
+  body { font-size: 90%; }
+}
+@media (max-width: 1100px) {
+  body { font-size: 80%; }
 }
 
 /* ====== YILDIZ CANVAS ====== */
@@ -448,42 +458,63 @@ body {
   background: rgba(0,0,0,.88);
   display: flex; align-items: center; justify-content: center;
   backdrop-filter: blur(5px);
+  padding: 12px;
+  overflow-y: auto;
 }
 .modal-box {
   background: var(--panel);
   border: 4px solid var(--gold);
-  padding: 28px;
-  max-width: 740px; width: 95%;
+  padding: 24px 20px;
+  width: 95%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
   display: flex; flex-direction: column;
-  align-items: center; gap: 20px;
+  align-items: center; gap: 16px;
   box-shadow: 0 0 80px rgba(245,197,24,.35);
   animation: modalPop .35s cubic-bezier(.175,.885,.32,1.275);
+  position: relative;
 }
 @keyframes modalPop {
   from{transform:scale(.6) translateY(30px);opacity:0}
   to{transform:scale(1) translateY(0);opacity:1}
 }
+
+/* X kapat butonu */
+.modal-close-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: transparent;
+  border: 2px solid var(--border2);
+  color: var(--text-dim);
+  font-size: 10px; width: 28px; height: 28px;
+  cursor: pointer; font-family: var(--font);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s, color .15s;
+}
+.modal-close-btn:hover { border-color: var(--red); color: var(--red); }
+
 .modal-header { display: flex; align-items: center; gap: 12px; }
 .mh-stars { font-size: 12px; color: var(--gold); opacity: .6; }
 .mh-title {
-  font-size: 13px; color: var(--gold);
+  font-size: 11px; color: var(--gold);
   text-shadow: 0 0 15px var(--gold);
   animation: titlePulse 1.5s ease-in-out infinite alternate;
-  letter-spacing: 3px;
+  letter-spacing: 2px; text-align: center;
 }
 @keyframes titlePulse {
   from{text-shadow:0 0 15px var(--gold)}
   to{text-shadow:0 0 35px var(--gold),0 0 70px rgba(245,197,24,.4)}
 }
-.modal-cards { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.modal-cards { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; width: 100%; }
 
 /* Reveal kart */
 .rev-card {
-  width: 155px;
+  width: 180px;
+  max-width: 90vw;
   background: var(--card);
   border: 4px solid var(--border);
   display: flex; flex-direction: column; align-items: center;
-  padding: 12px 8px; gap: 7px;
+  padding: 16px 12px; gap: 10px;
   opacity: 0; transform: scale(0) rotateY(90deg);
   transition: opacity .45s, transform .45s cubic-bezier(.175,.885,.32,1.275);
   position: relative; overflow: hidden;
