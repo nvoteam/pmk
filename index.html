@@ -1,123 +1,229 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PİXEL MİNECRAFT KOLEKSİYON</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-  <!-- ARKA PLAN PARTİKÜLLERİ -->
-  <div class="bg-particles" id="bgParticles"></div>
+<!-- YILDIZ ARKA PLAN -->
+<canvas id="starCanvas"></canvas>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="logo">
-      <span class="logo-pixel">⛏</span>
-      <span class="logo-text">PMK</span>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <span class="logo-icon">⛏</span>
+    <span class="logo-text">PMK</span>
+  </div>
+  <div class="nav-title">PİXEL MİNECRAFT KOLEKSİYON</div>
+  <div class="nav-right">
+    <div class="stat-pill">
+      <span>💎</span><span id="coinCount">0</span>
     </div>
-    <div class="nav-center">PİXEL MİNECRAFT KOLEKSİYON</div>
-    <div class="nav-right">
-      <div class="coin-display">
-        <span class="coin-icon">💎</span>
-        <span id="coinCount">0</span>
-      </div>
+    <div class="stat-pill">
+      <span>📦</span><span id="packOpenCount">0</span>
     </div>
-  </nav>
+    <button class="btn-reset" onclick="confirmReset()">🔄</button>
+  </div>
+</nav>
 
-  <!-- ANA EKRAN -->
-  <div class="main-container">
+<!-- ANA ALAN -->
+<div class="layout">
 
-    <!-- SOL PANEL: KOLEKSİYON -->
-    <div class="panel left-panel">
-      <div class="panel-title">📦 KOLEKSİYONUM</div>
-      <div class="collection-grid" id="collectionGrid">
-        <!-- JS ile doldurulacak -->
-      </div>
-      <div class="collection-stats">
-        <span id="collectedCount">0</span> / <span id="totalCount">3</span> karakter toplandı
-      </div>
+  <!-- SOL: KOLEKSİYON -->
+  <aside class="panel panel-left">
+    <div class="panel-header">
+      <span class="ph-icon">📚</span>
+      <span>KOLEKSİYONUM</span>
     </div>
 
-    <!-- ORTA PANEL: PAKET AÇ -->
-    <div class="panel center-panel">
-      <div class="panel-title">🎁 PAKET AÇ</div>
+    <!-- Filtre -->
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">TÜMÜ</button>
+      <button class="filter-btn" data-filter="collected" onclick="setFilter('collected',this)">TOPLANAN</button>
+      <button class="filter-btn" data-filter="missing" onclick="setFilter('missing',this)">EKSİK</button>
+    </div>
 
-      <div class="pack-area">
-        <div class="pack-wrapper" id="packWrapper" onclick="openPack()">
-          <img src="pmkimage/paketler/sıradanpaket.png" alt="Sıradan Paket" class="pack-img" id="packImg" onerror="this.style.display='none'; document.getElementById('packFallback').style.display='flex'"/>
-          <div class="pack-fallback" id="packFallback">
-            <div class="pack-pixel-art">
-              <div class="pixel-box">
-                <div class="pb-row"><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span></div>
-                <div class="pb-row"><span class="px brown"></span><span class="px gold"></span><span class="px gold"></span><span class="px brown"></span></div>
-                <div class="pb-row"><span class="px brown"></span><span class="px gold"></span><span class="px gold"></span><span class="px brown"></span></div>
-                <div class="pb-row"><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span><span class="px brown"></span></div>
-              </div>
+    <div class="collection-grid" id="collectionGrid"></div>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>İLERLEME</span>
+        <span id="progressText">0 / 5</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-pct" id="progressPct">%0</div>
+    </div>
+  </aside>
+
+  <!-- ORTA: PAKET -->
+  <main class="panel panel-center">
+    <div class="panel-header">
+      <span class="ph-icon">🎁</span>
+      <span>PAKET AÇ</span>
+    </div>
+
+    <div class="pack-stage">
+      <!-- Paket görseli -->
+      <div class="pack-frame" id="packFrame" onclick="openPack()">
+        <div class="pack-glow-ring"></div>
+        <img
+          src="pmkimage/paketler/sıradanpaket.png"
+          alt="Sıradan Paket"
+          class="pack-img"
+          id="packImg"
+          onerror="this.onerror=null; this.style.display='none'; document.getElementById('packFallback').style.display='flex';"
+        />
+        <div class="pack-fallback" id="packFallback">
+          <div class="pf-box">
+            <div class="pf-stripe pf-top"></div>
+            <div class="pf-center">
+              <span class="pf-ribbon">🎀</span>
             </div>
-            <div class="pack-fallback-label">SIRADAN PAKET</div>
+            <div class="pf-stripe pf-bottom"></div>
           </div>
-          <div class="pack-shine"></div>
-          <div class="pack-label">SIRADAN PAKET</div>
+          <div class="pf-label">SIRADAN PAKET</div>
         </div>
+        <div class="pack-click-hint" id="packHint">TIKLA!</div>
+        <div class="pack-particles" id="packParticles"></div>
+      </div>
 
-        <div class="pack-info">
-          <div class="pack-name">⭐ Sıradan Paket</div>
-          <div class="pack-desc">3 karakter içerir. Her pakette rastgele karakterler!</div>
-          <div class="pack-rarity">
-            <span class="rarity common">Sıradan</span>
-          </div>
+      <!-- Paket bilgisi -->
+      <div class="pack-info-card">
+        <div class="pic-name">⭐ Sıradan Paket</div>
+        <div class="pic-meta">
+          <span class="rarity-tag common">SIRADAM</span>
+          <span class="pic-cards">3 Kart / Paket</span>
         </div>
-
-        <!-- COOLDOWN GÖSTERGESİ -->
-        <div class="cooldown-section">
-          <div class="cooldown-label" id="cooldownLabel">Paket açmaya hazır!</div>
-          <div class="cooldown-bar-wrap">
-            <div class="cooldown-bar" id="cooldownBar"></div>
-          </div>
-          <div class="cooldown-timer" id="cooldownTimer">Hemen aç!</div>
+        <div class="pic-desc">Her pakette rastgele nadirlikte karakterler çıkar. Şansını dene!</div>
+        <div class="drop-table">
+          <div class="dt-title">DÜŞME ORANLARI</div>
+          <div class="dt-row"><span class="dt-dot" style="background:#aaa"></span><span>Sıradan</span><span class="dt-pct">%50</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#4a90d9"></span><span>Nadir</span><span class="dt-pct">%25</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#9b59b6"></span><span>Epik</span><span class="dt-pct">%17</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#f5c518"></span><span>Efsane</span><span class="dt-pct">%8</span></div>
         </div>
-
-        <button class="btn-open" id="openBtn" onclick="openPack()">
-          <span class="btn-icon">🎁</span> PAKET AÇ
-        </button>
       </div>
     </div>
 
-    <!-- SAĞ PANEL: KARAKTERLİK -->
-    <div class="panel right-panel">
-      <div class="panel-title">👾 KARAKTERLİK</div>
-      <div class="showcase-area" id="showcaseArea">
-        <div class="showcase-empty">Koleksiyonundan bir karakter seç!</div>
+    <!-- Cooldown -->
+    <div class="cd-section">
+      <div class="cd-top">
+        <span class="cd-label" id="cdLabel">Paket açmaya hazır!</span>
+        <span class="cd-time" id="cdTime">HAZIR</span>
       </div>
-      <div class="char-details" id="charDetails" style="display:none">
-        <div class="char-name" id="charName"></div>
-        <div class="char-rarity-badge" id="charRarity"></div>
-        <div class="char-desc" id="charDesc"></div>
-        <div class="char-count" id="charCount"></div>
+      <div class="cd-track">
+        <div class="cd-fill" id="cdFill" style="width:100%"></div>
+        <div class="cd-scanline"></div>
       </div>
     </div>
 
+    <button class="btn-open" id="openBtn" onclick="openPack()">
+      <span class="btn-glow"></span>
+      <span class="btn-label">🎁 PAKET AÇ</span>
+    </button>
+
+    <!-- Son açılan -->
+    <div class="recent-section" id="recentSection" style="display:none">
+      <div class="rs-title">SON AÇILAN</div>
+      <div class="rs-cards" id="recentCards"></div>
+    </div>
+  </main>
+
+  <!-- SAĞ: KARAKTERLİK + SKOR -->
+  <aside class="panel panel-right">
+    <div class="panel-header">
+      <span class="ph-icon">👾</span>
+      <span>KARAKTERLİK</span>
+    </div>
+
+    <div class="showcase-box" id="showcaseBox">
+      <div class="showcase-empty" id="showcaseEmpty">
+        <div class="se-icon">❓</div>
+        <div class="se-text">Bir karakter seç!</div>
+      </div>
+      <img class="showcase-img" id="showcaseImg" style="display:none" alt="Seçili Karakter"/>
+      <div class="showcase-bg-text" id="showcaseBgText"></div>
+    </div>
+
+    <div class="char-card" id="charCard" style="display:none">
+      <div class="cc-name" id="ccName"></div>
+      <div class="cc-rarity" id="ccRarity"></div>
+      <div class="cc-desc" id="ccDesc"></div>
+      <div class="cc-stats">
+        <div class="cc-stat"><span class="cs-label">SAHİP</span><span class="cs-val" id="ccOwned">0</span></div>
+        <div class="cc-stat"><span class="cs-label">NADİRLİK</span><span class="cs-val" id="ccRarVal"></span></div>
+      </div>
+    </div>
+
+    <!-- İstatistikler -->
+    <div class="stats-panel">
+      <div class="panel-header" style="font-size:7px">
+        <span class="ph-icon">📊</span><span>İSTATİSTİKLER</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="sb-num" id="statPacks">0</div>
+          <div class="sb-lbl">PAKET</div>
+        </div>
+        <div class="stat-box">
+          <div class="sb-num" id="statCards">0</div>
+          <div class="sb-lbl">KART</div>
+        </div>
+        <div class="stat-box">
+          <div class="sb-num" id="statUnique">0</div>
+          <div class="sb-lbl">TEKİL</div>
+        </div>
+        <div class="stat-box">
+          <div class="sb-num" id="statLucky">—</div>
+          <div class="sb-lbl">ŞANSLI</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- PAKET AÇMA MODALI -->
+<div class="modal-overlay" id="packModal" style="display:none" onclick="modalBgClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div class="mh-stars">✦ ✦ ✦</div>
+      <div class="mh-title" id="modalTitle">PAKET AÇILIYOR!</div>
+      <div class="mh-stars">✦ ✦ ✦</div>
+    </div>
+    <div class="modal-cards" id="modalCards"></div>
+    <div class="modal-summary" id="modalSummary" style="display:none">
+      <span id="summaryNew">0 yeni</span> karakter kazandın!
+    </div>
+    <button class="btn-collect" id="btnCollect" onclick="closeModal()" style="display:none">
+      ✅ KOLEKSİYONA EKLE
+    </button>
   </div>
+</div>
 
-  <!-- PAKET AÇMA MODALı -->
-  <div class="modal-overlay" id="packModal" style="display:none">
-    <div class="modal-box">
-      <div class="modal-title">✨ PAKET AÇILIYOR! ✨</div>
-      <div class="cards-reveal" id="cardsReveal">
-        <!-- Açılan kartlar buraya gelecek -->
-      </div>
-      <button class="btn-close-modal" id="closeModal" onclick="closePackModal()" style="display:none">
-        KOLEKSİYONA EKLE ✅
-      </button>
+<!-- KONFETI -->
+<div id="konfeti"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- RESET ONAY -->
+<div class="modal-overlay" id="resetModal" style="display:none">
+  <div class="modal-box" style="max-width:380px;gap:20px">
+    <div class="mh-title" style="color:#e74c3c">⚠ KAYDI SİL</div>
+    <div style="font-size:7px;color:#aaa;text-align:center;line-height:2">Tüm koleksiyonun silinecek. Emin misin?</div>
+    <div style="display:flex;gap:12px;width:100%">
+      <button class="btn-collect" style="flex:1;background:linear-gradient(180deg,#e74c3c,#c0392b);border-color:#ff8888 #7a0000 #7a0000 #ff8888" onclick="doReset()">EVET, SİL</button>
+      <button class="btn-collect" style="flex:1" onclick="document.getElementById('resetModal').style.display='none'">İPTAL</button>
     </div>
   </div>
+</div>
 
-  <!-- BİLDİRİM -->
-  <div class="toast" id="toast"></div>
-
-  <script src="game.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
