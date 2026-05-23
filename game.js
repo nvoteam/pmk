@@ -1,28 +1,57 @@
-// ====================================================
-//  PİXEL MİNECRAFT KOLEKSİYON - OYUN MOTORU
-// ====================================================
+// ============================================================
+//  PİXEL MİNECRAFT KOLEKSİYON — GAME ENGINE v2
+// ============================================================
 
-// -------- VERİ --------
+// ──── VERİ TABANI ────────────────────────────────────────────
+
 const CHARACTERS = [
+  {
+    id: "yusufte",
+    name: "Yusuf'te",
+    img: "pmkimage/karakterler/yusufte.png",
+    rarity: "common",
+    rarityLabel: "SIRADAN",
+    rarityColor: "#aaaaaa",
+    emoji: "⛏",
+    desc: "Her dünyada bir Yusuf vardır. Kazmayı bir dakika bile bırakmaz!",
+    weight: 45,
+    bgText: "YUSUF"
+  },
+  {
+    id: "necronvo",
+    name: "Necronvo",
+    img: "pmkimage/karakterler/necronvo.png",
+    rarity: "rare",
+    rarityLabel: "NADİR",
+    rarityColor: "#4a90e2",
+    emoji: "💀",
+    desc: "Gecenin karanlığından doğan, düşmanlarını korkuya boğan muharip.",
+    weight: 25,
+    bgText: "NECRON"
+  },
   {
     id: "herobrine",
     name: "Herobrine",
     img: "pmkimage/karakterler/herobrine.png",
     rarity: "epic",
     rarityLabel: "EPİK",
-    rarityColor: "#9b59b6",
-    desc: "Gizemli gözleri boş bir usta. Nereye bakıyor, kimse bilmez...",
-    weight: 30
+    rarityColor: "#a855f7",
+    emoji: "👁",
+    desc: "Gizemli boş gözleri. Nereye baktığı bilinmez, ama her yerde hissedilir...",
+    weight: 17,
+    bgText: "HERO"
   },
   {
-    id: "yusufte",
-    name: "Yusuf'te",
-    img: "pmkimage/karakterler/yusufte.png",
-    rarity: "common",
-    rarityLabel: "SIRADAM",
-    rarityColor: "#aaaaaa",
-    desc: "Her dünyada bir Yusuf vardır. Kazmayı bırakmaz!",
-    weight: 50
+    id: "ersincaki",
+    name: "Ersin Çakı",
+    img: "pmkimage/karakterler/ersincaki.png",
+    rarity: "epic",
+    rarityLabel: "EPİK",
+    rarityColor: "#a855f7",
+    emoji: "🔥",
+    desc: "Efsanevi Türk maceracı. Hiçbir engel onu durduramaz!",
+    weight: 5,
+    bgText: "ERSİN"
   },
   {
     id: "technoblade",
@@ -31,403 +60,552 @@ const CHARACTERS = [
     rarity: "legend",
     rarityLabel: "EFSANE",
     rarityColor: "#f5c518",
-    desc: "Technoblade never dies! PvP'nin efsanevi prensi.",
-    weight: 20
+    emoji: "⚔",
+    desc: "Technoblade never dies! PvP tarihinin değişmez efsanevi prensi.",
+    weight: 8,
+    bgText: "TECHNO"
   }
 ];
 
-const PACKS = [
-  {
-    id: "siradan",
-    name: "Sıradan Paket",
-    img: "pmkimage/paketler/sıradanpaket.png",
-    cardCount: 3,
-    cooldownMs: 10 * 60 * 1000  // 10 dakika
-  }
-];
-
-const ACTIVE_PACK = PACKS[0];
-const STORAGE_KEY = "pmk_save";
-
-// -------- OYUN DURUM --------
-let gameState = {
-  collection: {},   // { charId: { count, isNew } }
-  lastOpenTime: 0,
-  coins: 0
+const PACK = {
+  id: "siradan",
+  name: "Sıradan Paket",
+  img: "pmkimage/paketler/sıradanpaket.png",
+  cardCount: 3,
+  cooldownMs: 10 * 60 * 1000   // 10 dakika
 };
 
-// -------- KAYIT / YÜKLEMENDİ --------
+const SAVE_KEY = "pmk_v2";
+
+// ──── OYUN DURUMU ─────────────────────────────────────────────
+let state = {
+  collection: {},     // { charId: { count, isNew } }
+  lastOpen: 0,
+  totalPacksOpened: 0,
+  totalCardsGained: 0,
+  luckyChar: null     // en nadir çıkan
+};
+
+// ──── KAYIT / YÜKLEME ─────────────────────────────────────────
 function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch(_) {}
 }
-
 function load() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (raw) {
-    try {
-      gameState = JSON.parse(raw);
-    } catch(e) {
-      console.warn("Kayıt yüklenemedi, sıfırlanıyor.");
-    }
-  }
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(_) {}
 }
 
-// -------- AĞIRLIKLI RASTGELE --------
-function weightedRandom() {
-  const total = CHARACTERS.reduce((s, c) => s + c.weight, 0);
-  let r = Math.random() * total;
-  for (const c of CHARACTERS) {
-    r -= c.weight;
-    if (r <= 0) return c;
-  }
+// ──── AĞIRLIKLI RANDOM ────────────────────────────────────────
+const TOTAL_WEIGHT = CHARACTERS.reduce((s, c) => s + c.weight, 0);
+function randomChar() {
+  let r = Math.random() * TOTAL_WEIGHT;
+  for (const c of CHARACTERS) { r -= c.weight; if (r <= 0) return c; }
   return CHARACTERS[CHARACTERS.length - 1];
 }
+function pickPack() {
+  return Array.from({ length: PACK.cardCount }, randomChar);
+}
 
-function pickCards(count) {
-  const picked = [];
-  for (let i = 0; i < count; i++) {
-    picked.push(weightedRandom());
+// ──── YETKİNLİK SIRALAMA ─────────────────────────────────────
+const RARITY_ORDER = { common: 0, rare: 1, epic: 2, legend: 3 };
+function compareRarity(a, b) {
+  return RARITY_ORDER[b.rarity] - RARITY_ORDER[a.rarity];
+}
+
+// ──── YILDIZ ARKA PLAN ────────────────────────────────────────
+function initStars() {
+  const canvas = document.getElementById("starCanvas");
+  const ctx    = canvas.getContext("2d");
+  let W, H, stars;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    stars = Array.from({ length: 120 }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      a: Math.random(),
+      spd: 0.003 + Math.random() * 0.007,
+      col: ["#f5c518","#4a90e2","#a855f7","#ffffff"][Math.floor(Math.random()*4)]
+    }));
   }
-  return picked;
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.a += s.spd;
+      if (s.a > 1) s.spd = -s.spd;
+      if (s.a < 0) s.spd = -s.spd;
+      ctx.globalAlpha = Math.max(0, Math.min(1, s.a)) * 0.7;
+      ctx.fillStyle = s.col;
+      ctx.fillRect(Math.round(s.x), Math.round(s.y), Math.ceil(s.r * 2), Math.ceil(s.r * 2));
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
+  draw();
 }
 
-// -------- UI GÜNCELLE --------
-function updateCoinDisplay() {
-  document.getElementById("coinCount").textContent = gameState.coins;
+// ──── PAKET GÖRSEL FALLBACK ───────────────────────────────────
+// onerror artık inline HTML'de işleniyor; bu fonksiyon yedek olarak kalır
+function showPackFallback() {
+  const img = document.getElementById("packImg");
+  const fb  = document.getElementById("packFallback");
+  if (img) img.style.display = "none";
+  if (fb)  fb.style.display  = "flex";
 }
 
-function updateCollectionGrid() {
+// ──── COOLDOWN ────────────────────────────────────────────────
+let cdInterval = null;
+
+function updateCooldown() {
+  const btn    = document.getElementById("openBtn");
+  const fill   = document.getElementById("cdFill");
+  const label  = document.getElementById("cdLabel");
+  const timer  = document.getElementById("cdTime");
+  const elapsed = Date.now() - state.lastOpen;
+  const cd      = PACK.cooldownMs;
+
+  if (elapsed >= cd) {
+    fill.style.width = "100%";
+    fill.style.background = "linear-gradient(90deg,#2a7a2a,#4ec94e)";
+    label.textContent = "Paket açmaya hazır!";
+    timer.textContent = "HAZIR";
+    timer.style.color = "#4ec94e";
+    btn.disabled = false;
+    btn.querySelector(".btn-label").textContent = "🎁 PAKET AÇ";
+    clearInterval(cdInterval); cdInterval = null;
+  } else {
+    const pct  = (elapsed / cd) * 100;
+    fill.style.width = pct + "%";
+    fill.style.background = "linear-gradient(90deg,#9a7a00,#f5c518)";
+    label.textContent = "Sonraki paket için bekle...";
+
+    const rem  = Math.ceil((cd - elapsed) / 1000);
+    const min  = Math.floor(rem / 60).toString().padStart(2,"0");
+    const sec  = (rem % 60).toString().padStart(2,"0");
+    timer.textContent = `${min}:${sec}`;
+    timer.style.color = "#f5c518";
+    btn.disabled = true;
+    btn.querySelector(".btn-label").textContent = `⏳ ${min}:${sec}`;
+  }
+}
+
+function startCooldown() {
+  updateCooldown();
+  if (cdInterval) clearInterval(cdInterval);
+  cdInterval = setInterval(updateCooldown, 1000);
+}
+
+// ──── KOLEKSİYON GRID ────────────────────────────────────────
+let currentFilter = "all";
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  el.classList.add("active");
+  renderGrid();
+}
+
+function renderGrid() {
   const grid = document.getElementById("collectionGrid");
-  const total = document.getElementById("totalCount");
-  const collected = document.getElementById("collectedCount");
-
-  total.textContent = CHARACTERS.length;
-  let collectedCount = 0;
   grid.innerHTML = "";
 
-  CHARACTERS.forEach(char => {
+  let chars = [...CHARACTERS].sort(compareRarity);
+  if (currentFilter === "collected") chars = chars.filter(c => state.collection[c.id]?.count > 0);
+  if (currentFilter === "missing")   chars = chars.filter(c => !(state.collection[c.id]?.count > 0));
+
+  chars.forEach(char => {
+    const entry = state.collection[char.id];
+    const owned = entry?.count > 0;
+
     const slot = document.createElement("div");
-    slot.className = "collection-slot";
-    const entry = gameState.collection[char.id];
+    slot.className = "c-slot " + (owned ? "owned" : "missing");
+    slot.title = owned ? char.name : "???";
 
-    if (entry && entry.count > 0) {
-      collectedCount++;
-      slot.classList.add("collected");
-
+    if (owned) {
       const img = document.createElement("img");
       img.src = char.img;
       img.alt = char.name;
-      img.className = "slot-img";
-      img.onerror = () => {
-        img.style.display = "none";
-        slot.appendChild(makePixelFallback(char));
-      };
+      img.onerror = () => { img.replaceWith(makeSlotFallback(char)); };
       slot.appendChild(img);
 
+      // Nadirlik noktası
+      const dot = document.createElement("div");
+      dot.className = "slot-rarity-dot";
+      dot.style.background = char.rarityColor;
+      slot.appendChild(dot);
+
+      // Adet
       const cnt = document.createElement("div");
       cnt.className = "slot-count";
       cnt.textContent = `x${entry.count}`;
       slot.appendChild(cnt);
 
+      // YENİ badge
       if (entry.isNew) {
-        const badge = document.createElement("div");
-        badge.className = "slot-new-badge";
-        badge.textContent = "YENİ";
-        slot.appendChild(badge);
+        const b = document.createElement("div");
+        b.className = "slot-badge new-b";
+        b.textContent = "YENİ";
+        slot.appendChild(b);
       }
 
-      slot.title = char.name;
-      slot.onclick = () => showCharacter(char);
+      slot.onclick = () => showCharDetail(char);
     } else {
-      slot.classList.add("empty");
       const q = document.createElement("span");
-      q.className = "slot-question";
+      q.className = "q-mark";
       q.textContent = "?";
       slot.appendChild(q);
-      slot.title = "???";
     }
 
     grid.appendChild(slot);
   });
 
-  collected.textContent = collectedCount;
+  updateProgress();
 }
 
-function makePixelFallback(char) {
-  // Basit renkli pixel kutu
-  const colors = {
-    herobrine: ["#cccccc","#ffffff","#888888"],
-    yusufte:   ["#8B4513","#DEB887","#FFA500"],
-    technoblade: ["#ff6b6b","#cc0000","#ffaaaa"]
-  };
-  const cls = colors[char.id] || ["#4a90d9","#2a5fa0","#88bbff"];
-  const box = document.createElement("div");
-  box.style.cssText = `width:36px;height:36px;background:${cls[0]};border:3px solid ${cls[1]};box-shadow:inset 2px 2px 0 ${cls[2]};image-rendering:pixelated;`;
-  return box;
+function makeSlotFallback(char) {
+  const d = document.createElement("div");
+  d.style.cssText = `font-size:22px;`;
+  d.textContent = char.emoji;
+  return d;
 }
 
-function showCharacter(char) {
-  const area = document.getElementById("showcaseArea");
-  const details = document.getElementById("charDetails");
-  area.innerHTML = "";
+function updateProgress() {
+  const total     = CHARACTERS.length;
+  const collected = CHARACTERS.filter(c => state.collection[c.id]?.count > 0).length;
+  const pct       = total ? Math.round((collected / total) * 100) : 0;
 
-  const img = document.createElement("img");
-  img.src = char.img;
-  img.alt = char.name;
-  img.className = "showcase-char";
-  img.onerror = () => {
-    img.style.display = "none";
-    const fb = makeLargePixelFallback(char);
-    area.appendChild(fb);
+  document.getElementById("progressText").textContent = `${collected} / ${total}`;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressPct").textContent  = `%${pct}`;
+}
+
+// ──── KARAKTER DETAY ─────────────────────────────────────────
+function showCharDetail(char) {
+  const showcaseEmpty = document.getElementById("showcaseEmpty");
+  const showcaseImg   = document.getElementById("showcaseImg");
+  const charCard      = document.getElementById("charCard");
+  const bgText        = document.getElementById("showcaseBgText");
+
+  showcaseEmpty.style.display = "none";
+  showcaseImg.style.display   = "block";
+  showcaseImg.src = char.img;
+  showcaseImg.onerror = () => {
+    showcaseImg.style.display = "none";
+    showcaseEmpty.style.display = "flex";
+    document.getElementById("se-icon").textContent = char.emoji;
   };
-  area.appendChild(img);
 
-  document.getElementById("charName").textContent = char.name;
-  const rarityEl = document.getElementById("charRarity");
-  rarityEl.textContent = char.rarityLabel;
-  rarityEl.style.color = char.rarityColor;
-  rarityEl.style.borderColor = char.rarityColor;
-  rarityEl.style.textShadow = `0 0 8px ${char.rarityColor}`;
+  bgText.textContent = char.bgText || char.name.toUpperCase();
+  bgText.style.color = char.rarityColor;
 
-  document.getElementById("charDesc").textContent = char.desc;
-  const entry = gameState.collection[char.id];
-  document.getElementById("charCount").textContent = `Sahipsin: x${entry ? entry.count : 0}`;
+  document.getElementById("ccName").textContent = char.name;
+  const rEl = document.getElementById("ccRarity");
+  rEl.textContent = char.rarityLabel;
+  rEl.style.color = char.rarityColor;
+  rEl.style.textShadow = `0 0 8px ${char.rarityColor}`;
 
-  details.style.display = "flex";
+  document.getElementById("ccDesc").textContent  = char.desc;
+  const entry = state.collection[char.id];
+  document.getElementById("ccOwned").textContent = `x${entry?.count ?? 0}`;
+  document.getElementById("ccRarVal").textContent = char.rarityLabel;
+  document.getElementById("ccRarVal").style.color = char.rarityColor;
 
-  // "yeni" işaretini temizle
-  if (entry && entry.isNew) {
+  charCard.style.display = "flex";
+
+  // Yeni işareti temizle
+  if (entry?.isNew) {
     entry.isNew = false;
     save();
-    updateCollectionGrid();
+    renderGrid();
   }
 }
 
-function makeLargePixelFallback(char) {
-  const colors = {
-    herobrine: "#888888",
-    yusufte:   "#DEB887",
-    technoblade: "#ff6b6b"
-  };
-  const div = document.createElement("div");
-  div.style.cssText = `
-    width:120px;height:120px;
-    background:${colors[char.id] || "#4a90d9"};
-    image-rendering:pixelated;
-    border:6px solid rgba(255,255,255,0.2);
-    display:flex;align-items:center;justify-content:center;
-    font-size:40px;
-  `;
-  div.textContent = char.id === "herobrine" ? "👁" :
-                    char.id === "technoblade" ? "⚔" : "⛏";
-  return div;
+// ──── İSTATİSTİKLER ──────────────────────────────────────────
+function updateStats() {
+  document.getElementById("statPacks").textContent  = state.totalPacksOpened;
+  document.getElementById("statCards").textContent  = state.totalCardsGained;
+  document.getElementById("packOpenCount").textContent = state.totalPacksOpened;
+  document.getElementById("coinCount").textContent  = state.totalCardsGained; // coin = toplam kart
+
+  const unique = CHARACTERS.filter(c => state.collection[c.id]?.count > 0).length;
+  document.getElementById("statUnique").textContent = unique;
+
+  const lucky = state.luckyChar
+    ? CHARACTERS.find(c => c.id === state.luckyChar)
+    : null;
+  document.getElementById("statLucky").textContent = lucky ? lucky.emoji : "—";
 }
 
-// -------- COOLDOWN --------
-let cooldownInterval = null;
-
-function updateCooldownUI() {
-  const btn = document.getElementById("openBtn");
-  const bar = document.getElementById("cooldownBar");
-  const label = document.getElementById("cooldownLabel");
-  const timer = document.getElementById("cooldownTimer");
-
-  const now = Date.now();
-  const elapsed = now - gameState.lastOpenTime;
-  const cd = ACTIVE_PACK.cooldownMs;
-
-  if (elapsed >= cd) {
-    // Hazır
-    bar.style.width = "100%";
-    bar.style.background = "linear-gradient(90deg, #3a8c3a, #56b756)";
-    label.textContent = "Paket açmaya hazır!";
-    timer.textContent = "Hemen aç!";
-    timer.style.color = "#56b756";
-    btn.disabled = false;
-
-    if (cooldownInterval) {
-      clearInterval(cooldownInterval);
-      cooldownInterval = null;
-    }
-  } else {
-    // Bekleniyor
-    const remaining = cd - elapsed;
-    const pct = (elapsed / cd) * 100;
-    bar.style.width = pct + "%";
-    bar.style.background = "linear-gradient(90deg, #c09000, #f5c518)";
-    label.textContent = "Sonraki paket için bekle...";
-    timer.style.color = "#f5c518";
-
-    const totalSec = Math.ceil(remaining / 1000);
-    const min = Math.floor(totalSec / 60);
-    const sec = totalSec % 60;
-    timer.textContent = `${String(min).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
-    btn.disabled = true;
-  }
-}
-
-function startCooldownTimer() {
-  updateCooldownUI();
-  if (cooldownInterval) clearInterval(cooldownInterval);
-  cooldownInterval = setInterval(updateCooldownUI, 1000);
-}
-
-// -------- PAKET AÇMA --------
+// ──── PAKET AÇ ───────────────────────────────────────────────
 function openPack() {
-  const now = Date.now();
-  if (now - gameState.lastOpenTime < ACTIVE_PACK.cooldownMs) return;
+  if (Date.now() - state.lastOpen < PACK.cooldownMs) return;
 
-  const cards = pickCards(ACTIVE_PACK.cardCount);
-  gameState.lastOpenTime = now;
+  const cards = pickPack();
+  state.lastOpen = Date.now();
+  state.totalPacksOpened++;
+  state.totalCardsGained += cards.length;
 
-  // Koleksiyona ekle (ekranı göstermeden önce)
   const results = [];
+  let newCount = 0;
+
   cards.forEach(char => {
-    const isNew = !gameState.collection[char.id] || gameState.collection[char.id].count === 0;
-    if (!gameState.collection[char.id]) {
-      gameState.collection[char.id] = { count: 0, isNew: false };
+    const isNew = !(state.collection[char.id]?.count > 0);
+    if (!state.collection[char.id]) state.collection[char.id] = { count: 0, isNew: false };
+    state.collection[char.id].count++;
+    if (isNew) { state.collection[char.id].isNew = true; newCount++; }
+
+    // En şanslı karakter güncelle
+    const curLucky = state.luckyChar ? CHARACTERS.find(c => c.id === state.luckyChar) : null;
+    if (!curLucky || RARITY_ORDER[char.rarity] > RARITY_ORDER[curLucky.rarity]) {
+      state.luckyChar = char.id;
     }
-    gameState.collection[char.id].count++;
-    if (isNew) gameState.collection[char.id].isNew = true;
+
     results.push({ char, isNew });
   });
 
   save();
-  startCooldownTimer();
-  showPackModal(results);
+  startCooldown();
+  updateStats();
+  showRecentCards(results);
+  showModal(results, newCount);
+
+  // Confetti sadece yeni karakter açılınca
+  if (newCount > 0) spawnConfetti();
   spawnSparkles();
 }
 
-function showPackModal(results) {
-  const modal = document.getElementById("packModal");
-  const reveal = document.getElementById("cardsReveal");
-  const closeBtn = document.getElementById("closeModal");
+// ──── SON AÇILAN ─────────────────────────────────────────────
+function showRecentCards(results) {
+  const sec   = document.getElementById("recentSection");
+  const cont  = document.getElementById("recentCards");
+  cont.innerHTML = "";
+  sec.style.display = "block";
 
-  reveal.innerHTML = "";
-  closeBtn.style.display = "none";
-  modal.style.display = "flex";
-
-  results.forEach((res, i) => {
+  results.forEach(r => {
     const card = document.createElement("div");
-    card.className = `reveal-card ${res.isNew ? "new-card" : "duplicate-card"}`;
+    card.className = "rs-card";
+    card.title = r.char.name;
 
     const img = document.createElement("img");
-    img.src = res.char.img;
-    img.alt = res.char.name;
-    img.className = "reveal-card-img";
-    img.onerror = () => {
-      img.style.display = "none";
-      const fb = makeRevealFallback(res.char);
-      card.insertBefore(fb, img.nextSibling);
-    };
+    img.src = r.char.img;
+    img.alt = r.char.name;
+    img.onerror = () => { img.replaceWith(makeRecentFallback(r.char)); };
     card.appendChild(img);
 
-    const name = document.createElement("div");
-    name.className = "reveal-card-name";
-    name.textContent = res.char.name;
-    card.appendChild(name);
+    const dot = document.createElement("div");
+    dot.className = "rs-dot";
+    dot.style.background = r.char.rarityColor;
+    card.appendChild(dot);
 
-    const badge = document.createElement("div");
-    badge.className = `reveal-card-badge ${res.isNew ? "badge-new" : "badge-dupe"}`;
-    badge.textContent = res.isNew ? "✨ YENİ!" : "♻ TEKRAR";
-    card.appendChild(badge);
-
-    const rar = document.createElement("div");
-    rar.className = "reveal-card-rarity";
-    rar.textContent = res.char.rarityLabel;
-    rar.style.color = res.char.rarityColor;
-    card.appendChild(rar);
-
-    reveal.appendChild(card);
-
-    // Animasyonlu açılış
-    setTimeout(() => {
-      card.classList.add("show");
-      if (i === results.length - 1) {
-        setTimeout(() => { closeBtn.style.display = "block"; }, 400);
-      }
-    }, 300 + i * 400);
+    card.onclick = () => showCharDetail(r.char);
+    cont.appendChild(card);
   });
 }
 
-function makeRevealFallback(char) {
-  const div = document.createElement("div");
-  div.style.cssText = `
-    width:80px;height:80px;display:flex;align-items:center;
-    justify-content:center;font-size:36px;
-  `;
-  div.textContent = char.id === "herobrine" ? "👁" :
-                    char.id === "technoblade" ? "⚔" : "⛏";
-  return div;
+function makeRecentFallback(char) {
+  const d = document.createElement("div");
+  d.style.cssText = "font-size:20px;display:flex;align-items:center;justify-content:center;width:100%;height:100%";
+  d.textContent = char.emoji;
+  return d;
 }
 
-function closePackModal() {
+// ──── MODAL ──────────────────────────────────────────────────
+function showModal(results, newCount) {
+  const modal    = document.getElementById("packModal");
+  const cards    = document.getElementById("modalCards");
+  const summary  = document.getElementById("modalSummary");
+  const collectBtn = document.getElementById("btnCollect");
+  const title    = document.getElementById("modalTitle");
+
+  cards.innerHTML = "";
+  summary.style.display  = "none";
+  collectBtn.style.display = "none";
+  title.textContent = "PAKET AÇILIYOR!";
+  modal.style.display = "flex";
+
+  results.forEach((r, i) => {
+    const card = document.createElement("div");
+    card.className = `rev-card ${r.isNew ? "rev-new" : "rev-dupe"}`;
+
+    const img = document.createElement("img");
+    img.src = r.char.img;
+    img.alt = r.char.name;
+    img.className = "rev-img";
+    img.onerror = () => { img.replaceWith(makeRevFallback(r.char)); };
+    card.appendChild(img);
+
+    const name = document.createElement("div");
+    name.className = "rev-name";
+    name.textContent = r.char.name;
+    card.appendChild(name);
+
+    const badge = document.createElement("div");
+    badge.className = `rev-badge ${r.isNew ? "b-new" : "b-dupe"}`;
+    badge.textContent = r.isNew ? "✨ YENİ!" : "♻ TEKRAR";
+    card.appendChild(badge);
+
+    const rar = document.createElement("div");
+    rar.className = "rev-rarity";
+    rar.textContent = r.char.rarityLabel;
+    rar.style.color = r.char.rarityColor;
+    rar.style.textShadow = `0 0 6px ${r.char.rarityColor}`;
+    card.appendChild(rar);
+
+    cards.appendChild(card);
+
+    setTimeout(() => {
+      card.classList.add("rev-show");
+      if (i === results.length - 1) {
+        setTimeout(() => {
+          title.textContent = newCount > 0 ? "🎉 TEBRİKLER!" : "♻ PAKET AÇILDI";
+          document.getElementById("summaryNew").textContent = `${newCount} yeni`;
+          summary.style.display = "block";
+          collectBtn.style.display = "block";
+        }, 400);
+      }
+    }, 250 + i * 420);
+  });
+}
+
+function makeRevFallback(char) {
+  const d = document.createElement("div");
+  d.style.cssText = "width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:42px";
+  d.textContent = char.emoji;
+  return d;
+}
+
+function closeModal() {
   document.getElementById("packModal").style.display = "none";
-  updateCollectionGrid();
-  showToast("Karakterler koleksiyona eklendi! 🎉");
+  renderGrid();
+  updateStats();
+  toast("Karakterler koleksiyona eklendi! 🎉");
 }
 
-// -------- SPARKLE EFEKLER --------
+function modalBgClick(e) {
+  if (e.target === document.getElementById("packModal")) {
+    const collectBtn = document.getElementById("btnCollect");
+    if (collectBtn.style.display !== "none") closeModal();
+  }
+}
+
+// ──── RESET ──────────────────────────────────────────────────
+function confirmReset() { document.getElementById("resetModal").style.display = "flex"; }
+function doReset() {
+  state = { collection: {}, lastOpen: 0, totalPacksOpened: 0, totalCardsGained: 0, luckyChar: null };
+  save();
+  document.getElementById("resetModal").style.display = "none";
+  document.getElementById("showcaseEmpty").style.display  = "flex";
+  document.getElementById("showcaseImg").style.display    = "none";
+  document.getElementById("charCard").style.display       = "none";
+  document.getElementById("recentSection").style.display  = "none";
+  renderGrid();
+  updateStats();
+  startCooldown();
+  toast("Kayıt silindi. Yeni başlangıç! 🌱");
+}
+
+// ──── KONFETİ ────────────────────────────────────────────────
+function spawnConfetti() {
+  const cont = document.getElementById("konfeti");
+  const colors = ["#f5c518","#4ec94e","#4a90e2","#a855f7","#ef4444","#ffffff","#ffde60"];
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement("div");
+    p.className = "kf-piece";
+    p.style.cssText = `
+      left: ${Math.random()*100}vw;
+      top: -12px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${Math.random()>0.5?6:10}px;
+      height: ${Math.random()>0.5?6:10}px;
+      animation-duration: ${1.5+Math.random()*2}s;
+      animation-delay: ${Math.random()*0.8}s;
+    `;
+    cont.appendChild(p);
+    setTimeout(() => p.remove(), 3500);
+  }
+}
+
+// ──── SPARKLES ────────────────────────────────────────────────
 function spawnSparkles() {
-  const emojis = ["✨","⭐","💫","🌟","⚡","💎","🎉"];
-  for (let i = 0; i < 14; i++) {
+  const emojis = ["✨","⭐","💫","🌟","⚡","💎","🎉","🔮"];
+  for (let i = 0; i < 18; i++) {
     const el = document.createElement("div");
     el.className = "sparkle";
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    const startX = Math.random() * window.innerWidth;
-    const startY = Math.random() * window.innerHeight;
-    const dx = (Math.random() - 0.5) * 200;
-    const dy = (Math.random() - 0.5) * 200 - 100;
-    el.style.cssText = `left:${startX}px;top:${startY}px;--dx:${dx}px;--dy:${dy}px;animation-delay:${Math.random()*0.3}s;font-size:${14+Math.random()*16}px;`;
+    const dx = (Math.random() - 0.5) * 220;
+    const dy = (Math.random() - 0.5) * 220 - 80;
+    el.style.cssText = `
+      left:${Math.random()*window.innerWidth}px;
+      top:${Math.random()*window.innerHeight}px;
+      --sdx:${dx}px; --sdy:${dy}px;
+      font-size:${14+Math.random()*16}px;
+      animation-delay:${Math.random()*0.35}s;
+    `;
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 1000);
   }
 }
 
-// -------- TOAST BİLDİRİM --------
-let toastTimeout = null;
-function showToast(msg) {
+// ──── TOAST ──────────────────────────────────────────────────
+let toastTm = null;
+function toast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
   t.classList.add("show");
-  if (toastTimeout) clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => t.classList.remove("show"), 2800);
+  clearTimeout(toastTm);
+  toastTm = setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-// -------- ARKA PLAN PARTİKÜLLER --------
-function initParticles() {
-  const container = document.getElementById("bgParticles");
-  const colors = ["#f5c518","#56b756","#4a90d9","#9b59b6","#e74c3c","#ffffff"];
-  for (let i = 0; i < 35; i++) {
-    const p = document.createElement("div");
-    p.className = "bg-particle";
-    p.style.cssText = `
-      left: ${Math.random()*100}%;
-      top: ${100 + Math.random()*20}%;
-      background: ${colors[Math.floor(Math.random()*colors.length)]};
-      width: ${Math.random() > 0.5 ? 4 : 6}px;
-      height: ${Math.random() > 0.5 ? 4 : 6}px;
-      animation-duration: ${6 + Math.random()*10}s;
-      animation-delay: ${Math.random()*8}s;
-    `;
-    container.appendChild(p);
-  }
+// ──── PAKET HOVER PARTİKÜL ────────────────────────────────────
+function initPackHover() {
+  const frame = document.getElementById("packFrame");
+  frame.addEventListener("mouseenter", () => {
+    const cont = document.getElementById("packParticles");
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => {
+        const p = document.createElement("div");
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        p.style.cssText = `
+          position:absolute;
+          left:${x}%; top:${y}%;
+          width:4px; height:4px;
+          background:${["#f5c518","#4a90e2","#a855f7"][Math.floor(Math.random()*3)]};
+          animation:sparkleOut .7s ease-out forwards;
+          --sdx:${(Math.random()-0.5)*40}px;
+          --sdy:${-20-Math.random()*30}px;
+          font-size:0;
+        `;
+        cont.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }, i * 80);
+    }
+  });
 }
 
-// -------- BAŞLATMA --------
+// ──── BAŞLATMA ────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
   load();
-  initParticles();
-  updateCoinDisplay();
-  updateCollectionGrid();
-  startCooldownTimer();
+  initStars();
+  initPackHover();
+  renderGrid();
+  updateStats();
+  startCooldown();
 
-  // İlk kez oynuyor mu? (hoş geldin mesajı)
-  const allEmpty = Object.keys(gameState.collection).length === 0;
-  if (allEmpty) {
-    setTimeout(() => showToast("Hoş geldin! İlk paketini açmaya hazır mısın? 🎁"), 1000);
+  const isFirst = state.totalPacksOpened === 0;
+  if (isFirst) {
+    setTimeout(() => toast("Hoş geldin Koleksiyoncu! İlk paketini açmaya hazır mısın? 🎁"), 1200);
+  } else {
+    setTimeout(() => toast(`Tekrar hoş geldin! ${CHARACTERS.filter(c=>state.collection[c.id]?.count>0).length}/${CHARACTERS.length} karakter topladın 🃏`), 800);
   }
 });
 
-// Pencere kapatılmadan kaydet
 window.addEventListener("beforeunload", save);
