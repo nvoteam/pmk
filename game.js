@@ -42,14 +42,14 @@ const CHARACTERS = [
     bgText: "HERO"
   },
   {
-    id: "yusufde",
+    id: "yusufte",
     name: "Yusufte",
     img: "pmkimage/karakterler/yusufte.png",
     rarity: "epic",
     rarityLabel: "EPİK",
     rarityColor: "#a855f7",
     emoji: "⛏",
-    desc: "Türkiye'nin en iyi PvP oyuncularından biri. Rakipleri karşısında durma, kazmayı bırakma!",
+    desc: "Türkiye'nin en iyi PvP oyuncularından biri. Rakipleri karşısında durma, pes etme!",
     weight: 10,
     bgText: "YUSUFTE"
   },
@@ -95,7 +95,7 @@ const PACK = {
   id: "siradan",
   name: "Sıradan Paket",
   img: "pmkimage/paketler/sıradanpaket.png",
-  cardCount: 3,
+  cardCount: 1,
   cooldownMs: 10 * 60 * 1000   // 10 dakika
 };
 
@@ -431,8 +431,9 @@ function showModal(results, newCount) {
   const title      = document.getElementById("modalTitle");
 
   cards.innerHTML = "";
-  summary.style.display   = "none";
+  summary.style.display    = "none";
   collectBtn.style.display = "none";
+  document.getElementById("modalCloseBtn").style.display = "none";
   title.textContent = "PAKET AÇILIYOR!";
   modal.style.display = "flex";
 
@@ -472,8 +473,9 @@ function showModal(results, newCount) {
         setTimeout(() => {
           title.textContent = newCount > 0 ? "🎉 TEBRİKLER!" : "♻ PAKET AÇILDI";
           document.getElementById("summaryNew").textContent = `${newCount} yeni`;
-          summary.style.display  = "block";
+          summary.style.display   = "block";
           collectBtn.style.display = "block";
+          document.getElementById("modalCloseBtn").style.display = "block";
         }, 400);
       }
     }, 250 + i * 420);
