@@ -40,11 +40,10 @@
       <span>KOLEKSİYONUM</span>
     </div>
 
-    <!-- Filtre -->
     <div class="filter-row">
-      <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">TÜMÜ</button>
-      <button class="filter-btn" data-filter="collected" onclick="setFilter('collected',this)">TOPLANAN</button>
-      <button class="filter-btn" data-filter="missing" onclick="setFilter('missing',this)">EKSİK</button>
+      <button class="filter-btn active" data-filter="all"       onclick="setFilter('all',this)">TÜMÜ</button>
+      <button class="filter-btn"        data-filter="collected" onclick="setFilter('collected',this)">TOPLANAN</button>
+      <button class="filter-btn"        data-filter="missing"   onclick="setFilter('missing',this)">EKSİK</button>
     </div>
 
     <div class="collection-grid" id="collectionGrid"></div>
@@ -52,7 +51,7 @@
     <div class="progress-section">
       <div class="progress-label">
         <span>İLERLEME</span>
-        <span id="progressText">0 / 5</span>
+        <span id="progressText">0 / 7</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="progressFill"></div>
@@ -69,7 +68,6 @@
     </div>
 
     <div class="pack-stage">
-      <!-- Paket görseli -->
       <div class="pack-frame" id="packFrame" onclick="openPack()">
         <div class="pack-glow-ring"></div>
         <img
@@ -77,14 +75,12 @@
           alt="Sıradan Paket"
           class="pack-img"
           id="packImg"
-          onerror="this.onerror=null; this.style.display='none'; document.getElementById('packFallback').style.display='flex';"
+          onerror="this.style.display='none'; document.getElementById('packFallback').style.display='flex';"
         />
-        <div class="pack-fallback" id="packFallback">
+        <div class="pack-fallback" id="packFallback" style="display:none">
           <div class="pf-box">
             <div class="pf-stripe pf-top"></div>
-            <div class="pf-center">
-              <span class="pf-ribbon">🎀</span>
-            </div>
+            <div class="pf-center"><span class="pf-ribbon">🎀</span></div>
             <div class="pf-stripe pf-bottom"></div>
           </div>
           <div class="pf-label">SIRADAN PAKET</div>
@@ -93,20 +89,19 @@
         <div class="pack-particles" id="packParticles"></div>
       </div>
 
-      <!-- Paket bilgisi -->
       <div class="pack-info-card">
         <div class="pic-name">⭐ Sıradan Paket</div>
         <div class="pic-meta">
-          <span class="rarity-tag common">SIRADAM</span>
+          <span class="rarity-tag common">SIRADAN</span>
           <span class="pic-cards">3 Kart / Paket</span>
         </div>
         <div class="pic-desc">Her pakette rastgele nadirlikte karakterler çıkar. Şansını dene!</div>
         <div class="drop-table">
           <div class="dt-title">DÜŞME ORANLARI</div>
-          <div class="dt-row"><span class="dt-dot" style="background:#aaa"></span><span>Sıradan</span><span class="dt-pct">%50</span></div>
-          <div class="dt-row"><span class="dt-dot" style="background:#4a90d9"></span><span>Nadir</span><span class="dt-pct">%25</span></div>
-          <div class="dt-row"><span class="dt-dot" style="background:#9b59b6"></span><span>Epik</span><span class="dt-pct">%17</span></div>
-          <div class="dt-row"><span class="dt-dot" style="background:#f5c518"></span><span>Efsane</span><span class="dt-pct">%8</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#aaa"></span><span>Sıradan</span><span class="dt-pct">%37</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#4a90e2"></span><span>Nadir</span><span class="dt-pct">%23</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#a855f7"></span><span>Epik</span><span class="dt-pct">%37</span></div>
+          <div class="dt-row"><span class="dt-dot" style="background:#f5c518"></span><span>Efsane</span><span class="dt-pct">%5</span></div>
         </div>
       </div>
     </div>
@@ -115,7 +110,7 @@
     <div class="cd-section">
       <div class="cd-top">
         <span class="cd-label" id="cdLabel">Paket açmaya hazır!</span>
-        <span class="cd-time" id="cdTime">HAZIR</span>
+        <span class="cd-time"  id="cdTime">HAZIR</span>
       </div>
       <div class="cd-track">
         <div class="cd-fill" id="cdFill" style="width:100%"></div>
@@ -128,7 +123,6 @@
       <span class="btn-label">🎁 PAKET AÇ</span>
     </button>
 
-    <!-- Son açılan -->
     <div class="recent-section" id="recentSection" style="display:none">
       <div class="rs-title">SON AÇILAN</div>
       <div class="rs-cards" id="recentCards"></div>
@@ -152,37 +146,24 @@
     </div>
 
     <div class="char-card" id="charCard" style="display:none">
-      <div class="cc-name" id="ccName"></div>
+      <div class="cc-name"   id="ccName"></div>
       <div class="cc-rarity" id="ccRarity"></div>
-      <div class="cc-desc" id="ccDesc"></div>
+      <div class="cc-desc"   id="ccDesc"></div>
       <div class="cc-stats">
         <div class="cc-stat"><span class="cs-label">SAHİP</span><span class="cs-val" id="ccOwned">0</span></div>
         <div class="cc-stat"><span class="cs-label">NADİRLİK</span><span class="cs-val" id="ccRarVal"></span></div>
       </div>
     </div>
 
-    <!-- İstatistikler -->
     <div class="stats-panel">
       <div class="panel-header" style="font-size:7px">
         <span class="ph-icon">📊</span><span>İSTATİSTİKLER</span>
       </div>
       <div class="stats-grid">
-        <div class="stat-box">
-          <div class="sb-num" id="statPacks">0</div>
-          <div class="sb-lbl">PAKET</div>
-        </div>
-        <div class="stat-box">
-          <div class="sb-num" id="statCards">0</div>
-          <div class="sb-lbl">KART</div>
-        </div>
-        <div class="stat-box">
-          <div class="sb-num" id="statUnique">0</div>
-          <div class="sb-lbl">TEKİL</div>
-        </div>
-        <div class="stat-box">
-          <div class="sb-num" id="statLucky">—</div>
-          <div class="sb-lbl">ŞANSLI</div>
-        </div>
+        <div class="stat-box"><div class="sb-num" id="statPacks">0</div><div class="sb-lbl">PAKET</div></div>
+        <div class="stat-box"><div class="sb-num" id="statCards">0</div><div class="sb-lbl">KART</div></div>
+        <div class="stat-box"><div class="sb-num" id="statUnique">0</div><div class="sb-lbl">TEKİL</div></div>
+        <div class="stat-box"><div class="sb-num" id="statLucky">—</div><div class="sb-lbl">ŞANSLI</div></div>
       </div>
     </div>
   </aside>
@@ -206,7 +187,7 @@
   </div>
 </div>
 
-<!-- KONFETI -->
+<!-- KONFETİ -->
 <div id="konfeti"></div>
 
 <!-- TOAST -->
