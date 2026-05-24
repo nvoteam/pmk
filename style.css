@@ -449,7 +449,12 @@ body {
   padding: 10px 8px;
   display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
-.sb-num { font-size: 14px; color: var(--gold); }
+.sb-num { 
+  font-size: 14px; color: var(--gold); 
+  min-height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: visible;
+}
 .sb-lbl { font-size: 6px; color: var(--text-dim); letter-spacing: 1px; }
 
 
