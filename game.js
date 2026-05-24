@@ -439,8 +439,17 @@ function updateStats() {
   const unique = CHARACTERS.filter(c => state.collection[c.id]?.count > 0).length;
   document.getElementById("statUnique").textContent = unique;
 
+  const luckyEl = document.getElementById("statLucky");
   const lucky = state.luckyChar ? CHARACTERS.find(c => c.id === state.luckyChar) : null;
-  document.getElementById("statLucky").textContent = lucky ? lucky.emoji : "—";
+  if (lucky) {
+    luckyEl.innerHTML = "";
+    const sym = document.createElement("div");
+    sym.className = `px-symbol ${lucky.emoji}`;
+    sym.style.cssText = "margin:auto;position:relative;";
+    luckyEl.appendChild(sym);
+  } else {
+    luckyEl.textContent = "—";
+  }
 }
 
 // ──── PAKET AÇ ───────────────────────────────────────────────
