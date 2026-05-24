@@ -18,6 +18,42 @@ const CHARACTERS = [
     bgText: "NECRON"
   },
   {
+    id: "erdemoon",
+    name: "Erdemoon",
+    img: "pmkimage/karakterler/erdemoon.png",
+    rarity: "common",
+    rarityLabel: "SIRADAN",
+    rarityColor: "#aaaaaa",
+    emoji: "🌙",
+    desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, kızlara özel dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
+    weight: 35,
+    bgText: "ERDEM"
+  },
+  {
+    id: "themurat",
+    name: "TheMurat",
+    img: "pmkimage/karakterler/themurat.png",
+    rarity: "common",
+    rarityLabel: "SIRADAN",
+    rarityColor: "#aaaaaa",
+    emoji: "👑",
+    desc: "Murat Can. 'TheMurat vs Minecraft' serisiyle her gün yeni video çıkarıyor. Köyde kral olmaya yemin etmiş, durmak yok!",
+    weight: 30,
+    bgText: "MURAT"
+  },
+  {
+    id: "berkayinan",
+    name: "Berkay İnan",
+    img: "pmkimage/karakterler/berkayinan.png",
+    rarity: "rare",
+    rarityLabel: "NADİR",
+    rarityColor: "#4a90e2",
+    emoji: "⚡",
+    desc: "Minecraft shorts'tan uzun videolara geçen enerji dolu YouTuber. Ada ve yıkım videoları ikonik. 'Energy Going Onwards!'",
+    weight: 20,
+    bgText: "BERKAY"
+  },
+  {
     id: "mavislime",
     name: "MaviSlime",
     img: "pmkimage/karakterler/mavislime.png",
@@ -101,13 +137,30 @@ const PACK = {
 
 const SAVE_KEY = "pmk_v3";
 
+// ──── BAŞARILAR ───────────────────────────────────────────────
+const ACHIEVEMENTS = [
+  { id: "first_pack",    icon: "🎁", name: "İlk Adım",        desc: "İlk paketini aç",                       check: s => s.totalPacksOpened >= 1 },
+  { id: "packs_10",      icon: "📦", name: "Koleksiyoncu",     desc: "10 paket aç",                           check: s => s.totalPacksOpened >= 10 },
+  { id: "packs_50",      icon: "🏭", name: "Paket Ustası",     desc: "50 paket aç",                           check: s => s.totalPacksOpened >= 50 },
+  { id: "first_char",    icon: "🃏", name: "İlk Karakter",     desc: "İlk karakterini topla",                 check: s => Object.values(s.collection).some(e => e.count > 0) },
+  { id: "all_common",    icon: "⛏", name: "Başlangıç",        desc: "Tüm Sıradan karakterleri topla",        check: s => CHARACTERS.filter(c => c.rarity === "common").every(c => s.collection[c.id]?.count > 0) },
+  { id: "first_rare",    icon: "💎", name: "Nadir Bulucu",     desc: "İlk Nadir karakterini topla",           check: s => CHARACTERS.filter(c => c.rarity === "rare").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_epic",    icon: "🔮", name: "Epik An",          desc: "İlk Epik karakterini topla",            check: s => CHARACTERS.filter(c => c.rarity === "epic").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_legend",  icon: "⚔", name: "Efsanevi",         desc: "İlk Efsane karakterini topla",          check: s => CHARACTERS.filter(c => c.rarity === "legend").some(c => s.collection[c.id]?.count > 0) },
+  { id: "all_chars",     icon: "🏆", name: "Tam Koleksiyon",   desc: "Tüm karakterleri topla",                check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
+  { id: "dupe_5",        icon: "♻", name: "Çifte Şans",       desc: "Bir karakteri 5 kez aç",                check: s => Object.values(s.collection).some(e => e.count >= 5) },
+  { id: "necronvo_own",  icon: "💀", name: "Ev Sahibi",        desc: "Necronvo'yu topla",                     check: s => s.collection["necronvo"]?.count > 0 },
+  { id: "techno_own",    icon: "⚔", name: "Never Dies",       desc: "Technoblade'i topla",                   check: s => s.collection["technoblade"]?.count > 0 },
+];
+
 // ──── OYUN DURUMU ─────────────────────────────────────────────
 let state = {
   collection: {},     // { charId: { count, isNew } }
   lastOpen: 0,
   totalPacksOpened: 0,
   totalCardsGained: 0,
-  luckyChar: null
+  luckyChar: null,
+  achievements: {}    // { achId: true }
 };
 
 // ──── KAYIT / YÜKLEME ─────────────────────────────────────────
@@ -119,6 +172,43 @@ function load() {
     const raw = localStorage.getItem(SAVE_KEY);
     if (raw) Object.assign(state, JSON.parse(raw));
   } catch(_) {}
+}
+
+function checkAchievements() {
+  if (!state.achievements) state.achievements = {};
+  ACHIEVEMENTS.forEach(ach => {
+    if (!state.achievements[ach.id] && ach.check(state)) {
+      state.achievements[ach.id] = true;
+      showAchievementToast(ach);
+    }
+  });
+}
+
+function showAchievementToast(ach) {
+  const el = document.createElement("div");
+  el.className = "ach-toast";
+  el.innerHTML = `<span class="at-icon">${ach.icon}</span><div><div class="at-title">BAŞARI KAZANILDI!</div><div class="at-name">${ach.name}</div><div class="at-desc">${ach.desc}</div></div>`;
+  document.body.appendChild(el);
+  setTimeout(() => el.classList.add("show"), 50);
+  setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 500); }, 4000);
+}
+
+function renderAchievements() {
+  const grid = document.getElementById("achievementGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  if (!state.achievements) state.achievements = {};
+  ACHIEVEMENTS.forEach(ach => {
+    const earned = !!state.achievements[ach.id];
+    const box = document.createElement("div");
+    box.className = "ach-box " + (earned ? "ach-earned" : "ach-locked");
+    box.title = ach.desc;
+    box.innerHTML = `<div class="ach-icon">${earned ? ach.icon : "🔒"}</div><div class="ach-name">${earned ? ach.name : "???"}</div><div class="ach-desc">${earned ? ach.desc : "Henüz kazanılmadı"}</div>`;
+    grid.appendChild(box);
+  });
+  const earned = ACHIEVEMENTS.filter(a => state.achievements[a.id]).length;
+  const counter = document.getElementById("achCounter");
+  if (counter) counter.textContent = `${earned} / ${ACHIEVEMENTS.length}`;
 }
 
 // ──── AĞIRLIKLI RANDOM ────────────────────────────────────────
@@ -378,6 +468,8 @@ function openPack() {
   });
 
   save();
+  checkAchievements();
+  renderAchievements();
   startCooldown();
   updateStats();
   showRecentCards(results);
@@ -603,6 +695,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initPackHover();
   renderGrid();
   updateStats();
+  renderAchievements();
   startCooldown();
 
   const isFirst = state.totalPacksOpened === 0;
