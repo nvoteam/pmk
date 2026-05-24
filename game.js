@@ -25,7 +25,7 @@ const CHARACTERS = [
     rarityLabel: "SIRADAN",
     rarityColor: "#aaaaaa",
     emoji: "🌙",
-    desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, kızlara özel dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
+    desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
     weight: 35,
     bgText: "ERDEM"
   },
@@ -49,7 +49,7 @@ const CHARACTERS = [
     rarityLabel: "NADİR",
     rarityColor: "#4a90e2",
     emoji: "⚡",
-    desc: "Minecraft shorts'tan uzun videolara geçen enerji dolu YouTuber. Ada ve yıkım videoları ikonik. 'Energy Going Onwards!'",
+    desc: "Minecraft shorts'tan uzun videolara geçen enerji dolu YouTuber. 'Energy Going Onwards!'",
     weight: 20,
     bgText: "BERKAY"
   },
