@@ -12,7 +12,7 @@ const CHARACTERS = [
     rarity: "common",
     rarityLabel: "SIRADAN",
     rarityColor: "#aaaaaa",
-    emoji: "💀",
+    emoji: "px-skull",
     desc: "Bu koleksiyonun sahibi. Gecenin karanlığından doğan PvP ustası. Sıradan mı dedin? Aldatıcı görünüş!",
     weight: 40,
     bgText: "NECRON"
@@ -24,8 +24,7 @@ const CHARACTERS = [
     rarity: "common",
     rarityLabel: "SIRADAN",
     rarityColor: "#aaaaaa",
-    emoji: "🌙",
-    desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
+    emoji: "px-moon", ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
     weight: 35,
     bgText: "ERDEM"
   },
@@ -36,7 +35,7 @@ const CHARACTERS = [
     rarity: "common",
     rarityLabel: "SIRADAN",
     rarityColor: "#aaaaaa",
-    emoji: "👑",
+    emoji: "px-crown",
     desc: "Murat Can. 'TheMurat vs Minecraft' serisiyle her gün yeni video çıkarıyor. Köyde kral olmaya yemin etmiş, durmak yok!",
     weight: 30,
     bgText: "MURAT"
@@ -48,7 +47,7 @@ const CHARACTERS = [
     rarity: "rare",
     rarityLabel: "NADİR",
     rarityColor: "#4a90e2",
-    emoji: "⚡",
+    emoji: "px-bolt",
     desc: "Minecraft shorts'tan uzun videolara geçen enerji dolu YouTuber. 'Energy Going Onwards!'",
     weight: 20,
     bgText: "BERKAY"
@@ -60,7 +59,7 @@ const CHARACTERS = [
     rarity: "rare",
     rarityLabel: "NADİR",
     rarityColor: "#4a90e2",
-    emoji: "🟦",
+    emoji: "px-slime",
     desc: "Aykut'un kurduğu Türk Minecraft efsanesi. 2014'ten beri parkur ve survival içerikleri üretiyor. 600 milyonu aşkın izlenme!",
     weight: 25,
     bgText: "MAVİ"
@@ -72,7 +71,7 @@ const CHARACTERS = [
     rarity: "epic",
     rarityLabel: "EPİK",
     rarityColor: "#a855f7",
-    emoji: "👁",
+    emoji: "px-eye",
     desc: "Minecraft'ın en büyük urban efsanesi. Boş gözleri seni izliyor olabilir... ya da hiç olmamış olabilir. Kim bilir?",
     weight: 10,
     bgText: "HERO"
@@ -84,7 +83,7 @@ const CHARACTERS = [
     rarity: "epic",
     rarityLabel: "EPİK",
     rarityColor: "#a855f7",
-    emoji: "⛏",
+    emoji: "px-pickaxe",
     desc: "Türkiye'nin en iyi PvP oyuncularından biri. Rakipleri karşısında durma, pes etme!",
     weight: 10,
     bgText: "YUSUFTE"
@@ -96,20 +95,20 @@ const CHARACTERS = [
     rarity: "epic",
     rarityLabel: "EPİK",
     rarityColor: "#a855f7",
-    emoji: "😊",
+    emoji: "px-mask",
     desc: "Manhunt serisinin yaratıcısı. Speedrun skandalına rağmen YouTube'un en hızlı büyüyen oyuncularından biri olmayı başardı.",
     weight: 10,
     bgText: "DREAM"
   },
   {
     id: "ersincaki",
-    name: "Ersin Çakı",
+    name: "Ersin Caki",
     img: "pmkimage/karakterler/ersincaki.png",
     rarity: "epic",
     rarityLabel: "EPİK",
     rarityColor: "#a855f7",
-    emoji: "🔧",
-    desc: "ErsinCraft kanalıyla Minecraft mod, texture, shader ve add-on içerikleri paylaşan Türk YouTuber. Öğretici videoların adresi!",
+    emoji: "px-wrench",
+    desc: "ErsinCraft kanaliyla Minecraft mod, texture, shader ve add-on icerikleri paylasan Turk YouTuber. Ogretici videolarin adresi!",
     weight: 10,
     bgText: "ERSİN"
   },
@@ -120,8 +119,8 @@ const CHARACTERS = [
     rarity: "legend",
     rarityLabel: "EFSANE",
     rarityColor: "#f5c518",
-    emoji: "⚔",
-    desc: "Technoblade never dies. PvP tarihinin değişmez prensi. Hayatını oyuna adadı, ölüm bile onu durduramadı.",
+    emoji: "px-sword",
+    desc: "Technoblade never dies. PvP tarihinin degismez prensi. Hayatini oyuna adadi, olum bile onu durduramadi.",
     weight: 5,
     bgText: "TECHNO"
   }
@@ -139,18 +138,18 @@ const SAVE_KEY = "pmk_v3";
 
 // ──── BAŞARILAR ───────────────────────────────────────────────
 const ACHIEVEMENTS = [
-  { id: "first_pack",    icon: "🎁", name: "İlk Adım",        desc: "İlk paketini aç",                       check: s => s.totalPacksOpened >= 1 },
-  { id: "packs_10",      icon: "📦", name: "Koleksiyoncu",     desc: "10 paket aç",                           check: s => s.totalPacksOpened >= 10 },
-  { id: "packs_50",      icon: "🏭", name: "Paket Ustası",     desc: "50 paket aç",                           check: s => s.totalPacksOpened >= 50 },
-  { id: "first_char",    icon: "🃏", name: "İlk Karakter",     desc: "İlk karakterini topla",                 check: s => Object.values(s.collection).some(e => e.count > 0) },
-  { id: "all_common",    icon: "⛏", name: "Başlangıç",        desc: "Tüm Sıradan karakterleri topla",        check: s => CHARACTERS.filter(c => c.rarity === "common").every(c => s.collection[c.id]?.count > 0) },
-  { id: "first_rare",    icon: "💎", name: "Nadir Bulucu",     desc: "İlk Nadir karakterini topla",           check: s => CHARACTERS.filter(c => c.rarity === "rare").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_epic",    icon: "🔮", name: "Epik An",          desc: "İlk Epik karakterini topla",            check: s => CHARACTERS.filter(c => c.rarity === "epic").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_legend",  icon: "⚔", name: "Efsanevi",         desc: "İlk Efsane karakterini topla",          check: s => CHARACTERS.filter(c => c.rarity === "legend").some(c => s.collection[c.id]?.count > 0) },
-  { id: "all_chars",     icon: "🏆", name: "Tam Koleksiyon",   desc: "Tüm karakterleri topla",                check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
-  { id: "dupe_5",        icon: "♻", name: "Çifte Şans",       desc: "Bir karakteri 5 kez aç",                check: s => Object.values(s.collection).some(e => e.count >= 5) },
-  { id: "necronvo_own",  icon: "💀", name: "Ev Sahibi",        desc: "Necronvo'yu topla",                     check: s => s.collection["necronvo"]?.count > 0 },
-  { id: "techno_own",    icon: "⚔", name: "Never Dies",       desc: "Technoblade'i topla",                   check: s => s.collection["technoblade"]?.count > 0 },
+  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",       desc: "İlk paketini aç",                  check: s => s.totalPacksOpened >= 1 },
+  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",   desc: "10 paket aç",                      check: s => s.totalPacksOpened >= 10 },
+  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",   desc: "50 paket aç",                      check: s => s.totalPacksOpened >= 50 },
+  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",   desc: "İlk karakterini topla",            check: s => Object.values(s.collection).some(e => e.count > 0) },
+  { id: "all_common",    icon: "px-pickaxe", name: "Başlangıç",      desc: "Tüm Sıradan karakterleri topla",   check: s => CHARACTERS.filter(c => c.rarity === "common").every(c => s.collection[c.id]?.count > 0) },
+  { id: "first_rare",    icon: "px-gem",     name: "Nadir Bulucu",   desc: "İlk Nadir karakterini topla",      check: s => CHARACTERS.filter(c => c.rarity === "rare").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_epic",    icon: "px-orb",     name: "Epik An",        desc: "İlk Epik karakterini topla",       check: s => CHARACTERS.filter(c => c.rarity === "epic").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",       desc: "İlk Efsane karakterini topla",     check: s => CHARACTERS.filter(c => c.rarity === "legend").some(c => s.collection[c.id]?.count > 0) },
+  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon", desc: "Tüm karakterleri topla",           check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
+  { id: "dupe_5",        icon: "px-star",    name: "Cifte Sans",     desc: "Bir karakteri 5 kez ac",           check: s => Object.values(s.collection).some(e => e.count >= 5) },
+  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",      desc: "Necronvo'yu topla",                check: s => s.collection["necronvo"]?.count > 0 },
+  { id: "techno_own",    icon: "px-sword",   name: "Never Dies",     desc: "Technoblade'i topla",              check: s => s.collection["technoblade"]?.count > 0 },
 ];
 
 // ──── OYUN DURUMU ─────────────────────────────────────────────
@@ -187,7 +186,7 @@ function checkAchievements() {
 function showAchievementToast(ach) {
   const el = document.createElement("div");
   el.className = "ach-toast";
-  el.innerHTML = `<span class="at-icon">${ach.icon}</span><div><div class="at-title">BAŞARI KAZANILDI!</div><div class="at-name">${ach.name}</div><div class="at-desc">${ach.desc}</div></div>`;
+  el.innerHTML = `<div class="px-symbol at-sym ${ach.icon}"></div><div><div class="at-title">BASARI KAZANILDI!</div><div class="at-name">${ach.name}</div><div class="at-desc">${ach.desc}</div></div>`;
   document.body.appendChild(el);
   setTimeout(() => el.classList.add("show"), 50);
   setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 500); }, 4000);
@@ -203,7 +202,7 @@ function renderAchievements() {
     const box = document.createElement("div");
     box.className = "ach-box " + (earned ? "ach-earned" : "ach-locked");
     box.title = ach.desc;
-    box.innerHTML = `<div class="ach-icon">${earned ? ach.icon : "🔒"}</div><div class="ach-name">${earned ? ach.name : "???"}</div><div class="ach-desc">${earned ? ach.desc : "Henüz kazanılmadı"}</div>`;
+    box.innerHTML = `<div class="ach-icon"><div class="px-symbol ${earned ? ach.icon : 'px-lock'}"></div></div><div class="ach-name">${earned ? ach.name : "???"}</div><div class="ach-desc">${earned ? ach.desc : "Henüz kazanilmadi"}</div>`;
     grid.appendChild(box);
   });
   const earned = ACHIEVEMENTS.filter(a => state.achievements[a.id]).length;
@@ -373,8 +372,10 @@ function renderGrid() {
 
 function makeSlotFallback(char) {
   const d = document.createElement("div");
-  d.style.cssText = "font-size:22px;display:flex;align-items:center;justify-content:center;width:100%;height:100%";
-  d.textContent = char.emoji;
+  d.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%";
+  const sym = document.createElement("div");
+  sym.className = `px-symbol ${char.emoji}`;
+  d.appendChild(sym);
   return d;
 }
 
@@ -509,8 +510,10 @@ function showRecentCards(results) {
 
 function makeRecentFallback(char) {
   const d = document.createElement("div");
-  d.style.cssText = "font-size:20px;display:flex;align-items:center;justify-content:center;width:100%;height:100%";
-  d.textContent = char.emoji;
+  d.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%";
+  const sym = document.createElement("div");
+  sym.className = `px-symbol ${char.emoji}`;
+  d.appendChild(sym);
   return d;
 }
 
@@ -547,7 +550,7 @@ function showModal(results, newCount) {
 
     const badge = document.createElement("div");
     badge.className = `rev-badge ${r.isNew ? "b-new" : "b-dupe"}`;
-    badge.textContent = r.isNew ? "✨ YENİ!" : "♻ TEKRAR";
+    badge.textContent = r.isNew ? "*** YENİ!" : ">> TEKRAR";
     card.appendChild(badge);
 
     const rar = document.createElement("div");
@@ -563,7 +566,7 @@ function showModal(results, newCount) {
       card.classList.add("rev-show");
       if (i === results.length - 1) {
         setTimeout(() => {
-          title.textContent = newCount > 0 ? "🎉 TEBRİKLER!" : "♻ PAKET AÇILDI";
+          title.textContent = newCount > 0 ? ">> TEBRİKLER!" : ">> PAKET AÇILDI";
           document.getElementById("summaryNew").textContent = `${newCount} yeni`;
           summary.style.display   = "block";
           collectBtn.style.display = "block";
@@ -576,8 +579,10 @@ function showModal(results, newCount) {
 
 function makeRevFallback(char) {
   const d = document.createElement("div");
-  d.style.cssText = "width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:42px";
-  d.textContent = char.emoji;
+  d.style.cssText = "width:80px;height:80px;display:flex;align-items:center;justify-content:center";
+  const sym = document.createElement("div");
+  sym.className = `px-symbol px-symbol-lg ${char.emoji}`;
+  d.appendChild(sym);
   return d;
 }
 
@@ -585,7 +590,7 @@ function closeModal() {
   document.getElementById("packModal").style.display = "none";
   renderGrid();
   updateStats();
-  toast("Karakterler koleksiyona eklendi! 🎉");
+  toast("Karakter koleksiyona eklendi! [+]");
 }
 
 function modalBgClick(e) {
@@ -608,7 +613,7 @@ function doReset() {
   renderGrid();
   updateStats();
   startCooldown();
-  toast("Kayıt silindi. Yeni başlangıç! 🌱");
+  toast("Kayit silindi. Yeni baslangic! [>]");
 }
 
 // ──── KONFETİ ────────────────────────────────────────────────
@@ -634,7 +639,7 @@ function spawnConfetti() {
 
 // ──── SPARKLES ────────────────────────────────────────────────
 function spawnSparkles() {
-  const emojis = ["✨","⭐","💫","🌟","⚡","💎","🎉","🔮"];
+  const emojis = ["[*]","[+]","[!]","[x]","[o]","[#]","[~]","[^]"];
   for (let i = 0; i < 18; i++) {
     const el = document.createElement("div");
     el.className = "sparkle";
@@ -700,10 +705,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const isFirst = state.totalPacksOpened === 0;
   if (isFirst) {
-    setTimeout(() => toast("Hoş geldin Koleksiyoncu! İlk paketini açmaya hazır mısın? 🎁"), 1200);
+    setTimeout(() => toast("Hos geldin Koleksiyoncu! Ilk paketini acmaya hazir misin? [+]"), 1200);
   } else {
     const collected = CHARACTERS.filter(c => state.collection[c.id]?.count > 0).length;
-    setTimeout(() => toast(`Tekrar hoş geldin! ${collected}/${CHARACTERS.length} karakter topladın 🃏`), 800);
+    setTimeout(() => toast(`Tekrar hos geldin! ${collected}/${CHARACTERS.length} karakter topladın [C]`), 800);
   }
 });
 
