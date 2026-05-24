@@ -6,8 +6,25 @@
   <title>PİXEL MİNECRAFT KOLEKSİYON</title>
   <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
+
+<!-- TURNSTILE GİRİŞ EKRANI -->
+<div id="turnstileGate" class="ts-gate">
+  <div class="ts-box">
+    <div class="ts-logo">⛏</div>
+    <div class="ts-title">PİXEL MİNECRAFT<br>KOLEKSİYON</div>
+    <div class="ts-sub">Devam etmek için doğrula</div>
+    <div class="cf-turnstile"
+      data-sitekey="0x4AAAAAADVen5BU2Y8GYspp"
+      data-theme="dark"
+      data-callback="onTurnstileSuccess"
+      data-error-callback="onTurnstileError">
+    </div>
+    <div id="tsStatus" class="ts-status"></div>
+  </div>
+</div>
 
 <!-- YILDIZ ARKA PLAN -->
 <canvas id="starCanvas"></canvas>
@@ -213,6 +230,49 @@
   </div>
 </div>
 
+<script>
+// ── Turnstile ──────────────────────────────────────────────
+const WORKER_URL = "https://dark-dream-9e83.necron-offical.workers.dev";
+
+async function onTurnstileSuccess(token) {
+  const status = document.getElementById("tsStatus");
+  status.textContent = "Doğrulanıyor...";
+  status.style.color = "#f5c518";
+
+  try {
+    const res  = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      status.textContent = "Doğrulama başarılı!";
+      status.style.color = "#4ec94e";
+      setTimeout(() => {
+        document.getElementById("turnstileGate").style.opacity = "0";
+        setTimeout(() => {
+          document.getElementById("turnstileGate").style.display = "none";
+        }, 500);
+      }, 600);
+    } else {
+      status.textContent = "Doğrulama başarısız. Tekrar dene.";
+      status.style.color = "#ef4444";
+      turnstile.reset();
+    }
+  } catch {
+    status.textContent = "Bağlantı hatası. Tekrar dene.";
+    status.style.color = "#ef4444";
+    turnstile.reset();
+  }
+}
+
+function onTurnstileError() {
+  document.getElementById("tsStatus").textContent = "Hata oluştu. Sayfayı yenile.";
+  document.getElementById("tsStatus").style.color = "#ef4444";
+}
+</script>
 <script src="game.js"></script>
 </body>
 </html>
