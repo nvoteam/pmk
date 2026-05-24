@@ -890,3 +890,35 @@ body {
   .nav-title { display: none; }
   .pack-frame { width: 160px; height: 160px; }
 }
+
+/* ====== TURNSTILE GİRİŞ EKRANI ====== */
+.ts-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .5s;
+}
+.ts-box {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  background: var(--panel);
+  border: 4px solid var(--gold);
+  padding: 40px 32px;
+  box-shadow: 0 0 60px rgba(245,197,24,.3);
+  animation: modalPop .4s cubic-bezier(.175,.885,.32,1.275);
+}
+.ts-logo {
+  font-size: 40px;
+}
+.ts-title {
+  font-size: 11px; color: var(--gold);
+  text-align: center; line-height: 2;
+  text-shadow: 0 0 20px var(--gold);
+}
+.ts-sub {
+  font-size: 7px; color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.ts-status {
+  font-size: 7px; min-height: 16px;
+  letter-spacing: 1px; text-align: center;
+}
