@@ -453,6 +453,237 @@ body {
 .sb-lbl { font-size: 6px; color: var(--text-dim); letter-spacing: 1px; }
 
 
+/* ====== PİXEL ART SEMBOLLER ====== */
+/* box-shadow grid: her piksel 3px, sol-üst köşe ::before */
+
+.px-symbol {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.px-symbol::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 3px; height: 3px;
+  top: 0; left: 0;
+}
+/* Büyük versiyon (modal fallback) */
+.px-symbol-lg { transform: scale(2); transform-origin: top left; }
+
+/* ── Kafatası — Necronvo ─────────────────── */
+.px-skull::before {
+  background: #ccc;
+  box-shadow:
+    3px 0 #ccc,6px 0 #ccc,9px 0 #ccc,12px 0 #ccc,
+    0 3px #ccc,3px 3px #fff,6px 3px #fff,9px 3px #fff,12px 3px #fff,15px 3px #ccc,
+    0 6px #ccc,3px 6px #fff,6px 6px #111,9px 6px #fff,12px 6px #111,15px 6px #ccc,
+    0 9px #ccc,3px 9px #fff,6px 9px #fff,9px 9px #fff,12px 9px #fff,15px 9px #ccc,
+    3px 12px #ccc,6px 12px #fff,9px 12px #ccc,12px 12px #fff,
+    3px 15px #ccc,6px 15px #ccc,9px 15px #ccc,12px 15px #ccc;
+}
+
+/* ── Ay — Erdemoon ───────────────────────── */
+.px-moon::before {
+  background: #f5c518;
+  box-shadow:
+    6px 0 #f5c518,9px 0 #f5c518,
+    3px 3px #f5c518,12px 3px #f5c518,
+    0 6px #f5c518,
+    0 9px #f5c518,
+    3px 12px #f5c518,12px 12px #f5c518,
+    6px 15px #f5c518,9px 15px #f5c518;
+}
+
+/* ── Taç — TheMurat ──────────────────────── */
+.px-crown::before {
+  background: #f5c518;
+  box-shadow:
+    0 0 #f5c518,9px 0 #f5c518,18px 0 #f5c518,
+    0 3px #f5c518,3px 3px #f5c518,6px 3px #ffde60,9px 3px #f5c518,12px 3px #ffde60,15px 3px #f5c518,18px 3px #f5c518,
+    0 6px #f5c518,3px 6px #f5c518,6px 6px #f5c518,9px 6px #f5c518,12px 6px #f5c518,15px 6px #f5c518,18px 6px #f5c518,
+    0 9px #f5c518,3px 9px #f5c518,6px 9px #f5c518,9px 9px #f5c518,12px 9px #f5c518,15px 9px #f5c518,18px 9px #f5c518,
+    0 12px #9a7a00,3px 12px #9a7a00,6px 12px #9a7a00,9px 12px #9a7a00,12px 12px #9a7a00,15px 12px #9a7a00,18px 12px #9a7a00;
+}
+
+/* ── Şimşek — Berkay İnan ────────────────── */
+.px-bolt::before {
+  background: #4a90e2;
+  box-shadow:
+    9px 0 #4a90e2,12px 0 #4a90e2,
+    6px 3px #4a90e2,9px 3px #4a90e2,
+    3px 6px #4a90e2,6px 6px #4a90e2,9px 6px #4a90e2,12px 6px #4a90e2,
+    3px 9px #4a90e2,6px 9px #4a90e2,9px 9px #4a90e2,
+    6px 12px #4a90e2,
+    3px 15px #4a90e2,6px 15px #4a90e2,
+    0 18px #4a90e2,3px 18px #4a90e2;
+}
+
+/* ── Slime Küpü — MaviSlime ──────────────── */
+.px-slime::before {
+  background: #4a90e2;
+  box-shadow:
+    3px 0 #4a90e2,6px 0 #4a90e2,9px 0 #4a90e2,12px 0 #4a90e2,
+    0 3px #4a90e2,3px 3px #7ab8f5,6px 3px #7ab8f5,9px 3px #4a90e2,12px 3px #4a90e2,15px 3px #4a90e2,
+    0 6px #4a90e2,3px 6px #fff,6px 6px #4a90e2,9px 6px #fff,12px 6px #4a90e2,15px 6px #4a90e2,
+    0 9px #4a90e2,3px 9px #4a90e2,6px 9px #4a90e2,9px 9px #4a90e2,12px 9px #4a90e2,15px 9px #4a90e2,
+    0 12px #4a90e2,3px 12px #4a90e2,6px 12px #4a90e2,9px 12px #4a90e2,12px 12px #4a90e2,15px 12px #4a90e2,
+    3px 15px #2a60b2,6px 15px #2a60b2,9px 15px #2a60b2,12px 15px #2a60b2;
+}
+
+/* ── Göz — Herobrine ─────────────────────── */
+.px-eye::before {
+  background: #fff;
+  box-shadow:
+    3px 0 #fff,6px 0 #fff,9px 0 #fff,12px 0 #fff,
+    0 3px #fff,3px 3px #fff,6px 3px #a855f7,9px 3px #a855f7,12px 3px #fff,15px 3px #fff,
+    0 6px #fff,3px 6px #a855f7,6px 6px #111,9px 6px #a855f7,12px 6px #a855f7,15px 6px #fff,
+    0 9px #fff,3px 9px #fff,6px 9px #a855f7,9px 9px #a855f7,12px 9px #fff,15px 9px #fff,
+    3px 12px #fff,6px 12px #fff,9px 12px #fff,12px 12px #fff;
+}
+
+/* ── Kazma — Yusufte ─────────────────────── */
+.px-pickaxe::before {
+  background: #a855f7;
+  box-shadow:
+    12px 0 #a855f7,15px 0 #a855f7,18px 0 #a855f7,
+    9px 3px #a855f7,12px 3px #d4aaff,15px 3px #a855f7,
+    6px 6px #a855f7,9px 6px #d4aaff,12px 6px #a855f7,
+    3px 9px #a855f7,6px 9px #d4aaff,
+    0 12px #a855f7,3px 12px #d4aaff,
+    0 15px #a855f7;
+}
+
+/* ── Maske — Dream ───────────────────────── */
+.px-mask::before {
+  background: #a855f7;
+  box-shadow:
+    3px 0 #a855f7,6px 0 #a855f7,9px 0 #a855f7,12px 0 #a855f7,
+    0 3px #a855f7,3px 3px #fff,6px 3px #111,9px 3px #fff,12px 3px #111,15px 3px #a855f7,
+    0 6px #a855f7,3px 6px #fff,6px 6px #fff,9px 6px #fff,12px 6px #fff,15px 6px #a855f7,
+    0 9px #a855f7,3px 9px #fff,6px 9px #a855f7,9px 9px #a855f7,12px 9px #fff,15px 9px #a855f7,
+    3px 12px #a855f7,6px 12px #fff,9px 12px #fff,12px 12px #a855f7,
+    3px 15px #a855f7,6px 15px #a855f7,9px 15px #a855f7,12px 15px #a855f7;
+}
+
+/* ── İnşaat — Ersin Çakı ─────────────────── */
+.px-wrench::before {
+  background: #a855f7;
+  box-shadow:
+    0 0 #a855f7,3px 0 #a855f7,6px 0 #d4aaff,
+    0 3px #d4aaff,3px 3px #a855f7,
+    3px 6px #a855f7,6px 6px #a855f7,9px 6px #d4aaff,
+    6px 9px #d4aaff,9px 9px #a855f7,
+    9px 12px #a855f7,12px 12px #d4aaff,
+    12px 15px #d4aaff,15px 15px #a855f7,
+    15px 18px #a855f7,18px 18px #a855f7;
+}
+
+/* ── Kılıç — Technoblade ─────────────────── */
+.px-sword::before {
+  background: #eee;
+  box-shadow:
+    15px 0 #eee,
+    12px 3px #eee,15px 3px #aaa,
+    9px 6px #eee,12px 6px #aaa,
+    6px 9px #eee,9px 9px #aaa,
+    3px 12px #f5c518,6px 12px #eee,
+    0 15px #f5c518,3px 15px #9a7a00,6px 15px #f5c518,
+    0 18px #9a7a00,3px 18px #f5c518;
+}
+
+/* ── Başarı özel sembolleri ──────────────── */
+.px-pack::before { /* Paket kutusu */
+  background: #4ec94e;
+  box-shadow:
+    3px 0 #4ec94e,6px 0 #4ec94e,9px 0 #4ec94e,12px 0 #4ec94e,
+    0 3px #4ec94e,3px 3px #7ae87a,6px 3px #fff,9px 3px #7ae87a,12px 3px #4ec94e,15px 3px #4ec94e,
+    0 6px #4ec94e,3px 6px #4ec94e,6px 6px #fff,9px 6px #4ec94e,12px 6px #4ec94e,15px 6px #4ec94e,
+    0 9px #4ec94e,3px 9px #4ec94e,6px 9px #4ec94e,9px 9px #4ec94e,12px 9px #4ec94e,15px 9px #4ec94e,
+    0 12px #4ec94e,3px 12px #4ec94e,6px 12px #4ec94e,9px 12px #4ec94e,12px 12px #4ec94e,15px 12px #4ec94e,
+    3px 15px #2a7a2a,6px 15px #2a7a2a,9px 15px #2a7a2a,12px 15px #2a7a2a;
+}
+.px-box::before { /* Sandık */
+  background: #4a90e2;
+  box-shadow:
+    0 0 #4a90e2,3px 0 #4a90e2,6px 0 #4a90e2,9px 0 #4a90e2,12px 0 #4a90e2,15px 0 #4a90e2,
+    0 3px #4a90e2,15px 3px #4a90e2,
+    0 6px #4a90e2,3px 6px #7ab8f5,6px 6px #7ab8f5,9px 6px #7ab8f5,12px 6px #7ab8f5,15px 6px #4a90e2,
+    0 9px #4a90e2,15px 9px #4a90e2,
+    0 12px #4a90e2,3px 12px #4a90e2,6px 12px #4a90e2,9px 12px #4a90e2,12px 12px #4a90e2,15px 12px #4a90e2;
+}
+.px-chest::before { /* Büyük sandık */
+  background: #9a7a00;
+  box-shadow:
+    0 0 #9a7a00,3px 0 #9a7a00,6px 0 #9a7a00,9px 0 #9a7a00,12px 0 #9a7a00,15px 0 #9a7a00,18px 0 #9a7a00,
+    0 3px #9a7a00,3px 3px #f5c518,6px 3px #f5c518,9px 3px #f5c518,12px 3px #f5c518,15px 3px #f5c518,18px 3px #9a7a00,
+    0 6px #9a7a00,6px 6px #9a7a00,9px 6px #ffde60,12px 6px #9a7a00,18px 6px #9a7a00,
+    0 9px #9a7a00,3px 9px #f5c518,6px 9px #f5c518,9px 9px #f5c518,12px 9px #f5c518,15px 9px #f5c518,18px 9px #9a7a00,
+    0 12px #9a7a00,3px 12px #9a7a00,6px 12px #9a7a00,9px 12px #9a7a00,12px 12px #9a7a00,15px 12px #9a7a00,18px 12px #9a7a00;
+}
+.px-card::before { /* Kart */
+  background: #e2e2ff;
+  box-shadow:
+    3px 0 #e2e2ff,6px 0 #e2e2ff,9px 0 #e2e2ff,
+    0 3px #e2e2ff,3px 3px #a855f7,6px 3px #a855f7,9px 3px #e2e2ff,12px 3px #e2e2ff,
+    0 6px #e2e2ff,3px 6px #e2e2ff,6px 6px #e2e2ff,9px 6px #e2e2ff,12px 6px #e2e2ff,
+    0 9px #e2e2ff,3px 9px #e2e2ff,6px 9px #e2e2ff,9px 9px #e2e2ff,12px 9px #e2e2ff,
+    0 12px #e2e2ff,3px 12px #7070a0,6px 12px #7070a0,9px 12px #7070a0,12px 12px #e2e2ff,
+    3px 15px #e2e2ff,6px 15px #e2e2ff,9px 15px #e2e2ff;
+}
+.px-gem::before { /* Elmas */
+  background: #4a90e2;
+  box-shadow:
+    3px 0 #4a90e2,6px 0 #4a90e2,9px 0 #4a90e2,
+    0 3px #4a90e2,3px 3px #7ab8f5,6px 3px #fff,9px 3px #7ab8f5,12px 3px #4a90e2,
+    0 6px #4a90e2,3px 6px #4a90e2,6px 6px #7ab8f5,9px 6px #4a90e2,12px 6px #4a90e2,
+    3px 9px #4a90e2,6px 9px #4a90e2,9px 9px #4a90e2,
+    6px 12px #4a90e2;
+}
+.px-orb::before { /* Büyü küresi */
+  background: #a855f7;
+  box-shadow:
+    3px 0 #a855f7,6px 0 #a855f7,9px 0 #a855f7,
+    0 3px #a855f7,3px 3px #d4aaff,6px 3px #fff,9px 3px #d4aaff,12px 3px #a855f7,
+    0 6px #a855f7,3px 6px #d4aaff,6px 6px #a855f7,9px 6px #a855f7,12px 6px #a855f7,
+    0 9px #a855f7,3px 9px #a855f7,6px 9px #a855f7,9px 9px #a855f7,12px 9px #a855f7,
+    3px 12px #a855f7,6px 12px #a855f7,9px 12px #a855f7,
+    6px 15px #a855f7;
+}
+.px-trophy::before { /* Kupa */
+  background: #f5c518;
+  box-shadow:
+    3px 0 #f5c518,6px 0 #f5c518,9px 0 #f5c518,12px 0 #f5c518,
+    0 3px #f5c518,3px 3px #ffde60,6px 3px #ffde60,9px 3px #ffde60,12px 3px #ffde60,15px 3px #f5c518,
+    0 6px #f5c518,3px 6px #f5c518,6px 6px #f5c518,9px 6px #f5c518,12px 6px #f5c518,15px 6px #f5c518,
+    3px 9px #f5c518,6px 9px #f5c518,9px 9px #f5c518,12px 9px #f5c518,
+    6px 12px #f5c518,9px 12px #f5c518,
+    3px 15px #9a7a00,6px 15px #9a7a00,9px 15px #9a7a00,12px 15px #9a7a00,
+    0 18px #f5c518,3px 18px #f5c518,6px 18px #f5c518,9px 18px #f5c518,12px 18px #f5c518,15px 18px #f5c518;
+}
+.px-star::before { /* Yıldız */
+  background: #f5c518;
+  box-shadow:
+    6px 0 #f5c518,
+    3px 3px #f5c518,6px 3px #ffde60,9px 3px #f5c518,
+    0 6px #f5c518,3px 6px #ffde60,6px 6px #fff,9px 6px #ffde60,12px 6px #f5c518,
+    3px 9px #f5c518,6px 9px #ffde60,9px 9px #f5c518,
+    0 12px #f5c518,12px 12px #f5c518,
+    3px 15px #f5c518,9px 15px #f5c518;
+}
+.px-lock::before { /* Kilit */
+  background: #555;
+  box-shadow:
+    3px 0 #555,6px 0 #555,9px 0 #555,
+    0 3px #555,12px 3px #555,
+    0 6px #555,12px 6px #555,
+    0 9px #555,3px 9px #555,6px 9px #555,9px 9px #555,12px 9px #555,
+    0 12px #555,3px 12px #888,6px 12px #fff,9px 12px #888,12px 12px #555,
+    0 15px #555,3px 15px #555,6px 15px #555,9px 15px #555,12px 15px #555;
+}
+
 /* ====== BAŞARILAR ====== */
 .achievement-grid {
   display: grid;
@@ -488,7 +719,8 @@ body {
   max-width: 280px;
 }
 .ach-toast.show { transform: translateX(0); }
-.at-icon { font-size: 28px; }
+.at-icon { width: 32px; height: 32px; display:flex; align-items:center; justify-content:center; }
+.at-sym { transform: scale(1.3); transform-origin: center; }
 .at-title { font-size: 6px; color: var(--gold); margin-bottom: 3px; }
 .at-name  { font-size: 8px; color: var(--text); margin-bottom: 2px; }
 .at-desc  { font-size: 6px; color: var(--text-dim); }
