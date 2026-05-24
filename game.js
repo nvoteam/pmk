@@ -24,7 +24,8 @@ const CHARACTERS = [
     rarity: "common",
     rarityLabel: "SIRADAN",
     rarityColor: "#aaaaaa",
-    emoji: "px-moon", ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
+    emoji: "px-moon",
+    desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
     weight: 35,
     bgText: "ERDEM"
   },
