@@ -320,23 +320,27 @@ window.onTurnstileSuccess = async (token) => {
       status.style.color = "#4ec94e";
       setTimeout(() => {
         const gate = document.getElementById("turnstileGate");
+        gate.style.transition = "opacity 0.5s";
         gate.style.opacity = "0";
         setTimeout(() => {
           gate.style.display = "none";
-          // Auth durumunu kontrol et
-          if (!auth.currentUser) {
+          // Kullanıcı zaten giriş yapmışsa oyunu aç, yoksa auth ekranı göster
+          if (auth.currentUser) {
+            document.getElementById("gameArea").style.display = "block";
+          } else {
             document.getElementById("authGate").style.display = "flex";
           }
         }, 500);
-      }, 600);
+      }, 800);
     } else {
       status.textContent = "Başarısız. Tekrar dene.";
       status.style.color = "#ef4444";
       if (window.turnstile) turnstile.reset();
     }
-  } catch {
-    status.textContent = "Bağlantı hatası.";
+  } catch(e) {
+    status.textContent = "Bağlantı hatası. Tekrar dene.";
     status.style.color = "#ef4444";
+    if (window.turnstile) turnstile.reset();
   }
 };
 window.onTurnstileError = () => {
@@ -416,24 +420,27 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     // Email/şifre ile girişteyse doğrulama zorunlu
     if (!user.emailVerified && user.providerData[0]?.providerId === "password") {
-      document.getElementById("authGate").style.display = "flex";
-      document.getElementById("gameArea").style.display  = "none";
-      document.getElementById("authError").textContent = "E-postanı doğrulamadan giriş yapamazsın.";
       await signOut(auth);
+      document.getElementById("gameArea").style.display  = "none";
+      if (turnstilePassed) {
+        document.getElementById("authGate").style.display = "flex";
+        document.getElementById("authError").textContent = "E-postanı doğrulamadan giriş yapamazsın.";
+      }
       return;
     }
-    // Giriş başarılı
-    document.getElementById("authGate").style.display = "none";
+    // Giriş başarılı — turnstile geçilmişse oyunu göster
+    document.getElementById("authGate").style.display  = "none";
+    document.getElementById("turnstileGate").style.display = "none";
     document.getElementById("gameArea").style.display  = "block";
 
     const name = user.displayName || user.email?.split("@")[0] || "Oyuncu";
     document.getElementById("tbUser").textContent = name;
 
-    // Firestore'dan kayıt yükle
     await window.loadFromFirestore(user.uid);
     window.initGame();
   } else {
     document.getElementById("gameArea").style.display = "none";
+    // Sadece turnstile geçildiyse auth ekranını göster
     if (turnstilePassed) {
       document.getElementById("authGate").style.display = "flex";
     }
