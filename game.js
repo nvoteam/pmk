@@ -154,24 +154,31 @@ const ACHIEVEMENTS = [
 ];
 
 // ──── OYUN DURUMU ─────────────────────────────────────────────
-let state = {
-  collection: {},     // { charId: { count, isNew } }
+window.defaultState = () => ({
+  collection: {},
   lastOpen: 0,
   totalPacksOpened: 0,
   totalCardsGained: 0,
   luckyChar: null,
-  achievements: {}    // { achId: true }
-};
+  achievements: {}
+});
+
+window.gameState = window.defaultState();
+
+// state proxy — game.js içinde state olarak kullan
+Object.defineProperty(window, 'state', {
+  get: () => window.gameState,
+  set: (v) => { window.gameState = v; }
+});
 
 // ──── KAYIT / YÜKLEME ─────────────────────────────────────────
 function save() {
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch(_) {}
+  // Firestore'a kaydet (async, beklemeden çağır)
+  if (window.saveToFirestore) window.saveToFirestore();
 }
 function load() {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (raw) Object.assign(state, JSON.parse(raw));
-  } catch(_) {}
+  // Firebase auth callback'te loadFromFirestore çağrılıyor
+  // Burada bir şey yapmaya gerek yok
 }
 
 function checkAchievements() {
@@ -305,6 +312,56 @@ function startCooldown() {
   updateCooldown();
   if (cdInterval) clearInterval(cdInterval);
   cdInterval = setInterval(updateCooldown, 1000);
+}
+
+// ──── SEKME SİSTEMİ ──────────────────────────────────────────
+window.showTab = (tab) => {
+  document.querySelectorAll(".tab-content").forEach(el => el.style.display = "none");
+  document.querySelectorAll(".tb-btn").forEach(el => el.classList.remove("active"));
+
+  if (tab === "menu") {
+    document.getElementById("tabMenu").style.display = "block";
+    document.getElementById("tbMenu").classList.add("active");
+  } else if (tab === "collection") {
+    document.getElementById("tabCollection").style.display = "block";
+    document.getElementById("tbCollection").classList.add("active");
+    renderCollectionFull();
+  } else if (tab === "achievements") {
+    document.getElementById("tabAchievements").style.display = "block";
+    document.getElementById("tbAchieve").classList.add("active");
+    renderAchievements();
+  }
+};
+
+function renderCollectionFull() {
+  const grid = document.getElementById("collectionGridFull");
+  if (!grid) return;
+  grid.innerHTML = "";
+  const chars = [...CHARACTERS].sort(compareRarity);
+  chars.forEach(char => {
+    const entry = state.collection[char.id];
+    const owned = entry?.count > 0;
+    const slot = document.createElement("div");
+    slot.className = "c-slot " + (owned ? "owned" : "missing");
+    slot.title = owned ? char.name : "???";
+    if (owned) {
+      const img = document.createElement("img");
+      img.src = char.img; img.alt = char.name;
+      img.onerror = () => { img.replaceWith(makeSlotFallback(char)); };
+      slot.appendChild(img);
+      const dot = document.createElement("div");
+      dot.className = "slot-rarity-dot"; dot.style.background = char.rarityColor;
+      slot.appendChild(dot);
+      const cnt = document.createElement("div");
+      cnt.className = "slot-count"; cnt.textContent = `x${entry.count}`;
+      slot.appendChild(cnt);
+      slot.onclick = () => { showTab("menu"); showCharDetail(char); };
+    } else {
+      const q = document.createElement("span"); q.className = "q-mark"; q.textContent = "?";
+      slot.appendChild(q);
+    }
+    grid.appendChild(slot);
+  });
 }
 
 // ──── KOLEKSİYON GRID ────────────────────────────────────────
@@ -486,240 +543,4 @@ function openPack() {
   showRecentCards(results);
   showModal(results, newCount);
 
-  if (newCount > 0) spawnConfetti();
-  spawnSparkles();
-}
-
-// ──── SON AÇILAN ─────────────────────────────────────────────
-function showRecentCards(results) {
-  const sec  = document.getElementById("recentSection");
-  const cont = document.getElementById("recentCards");
-  cont.innerHTML = "";
-  sec.style.display = "block";
-
-  results.forEach(r => {
-    const card = document.createElement("div");
-    card.className = "rs-card";
-    card.title = r.char.name;
-
-    const img = document.createElement("img");
-    img.src = r.char.img;
-    img.alt = r.char.name;
-    img.onerror = () => { img.replaceWith(makeRecentFallback(r.char)); };
-    card.appendChild(img);
-
-    const dot = document.createElement("div");
-    dot.className = "rs-dot";
-    dot.style.background = r.char.rarityColor;
-    card.appendChild(dot);
-
-    card.onclick = () => showCharDetail(r.char);
-    cont.appendChild(card);
-  });
-}
-
-function makeRecentFallback(char) {
-  const d = document.createElement("div");
-  d.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%";
-  const sym = document.createElement("div");
-  sym.className = `px-symbol ${char.emoji}`;
-  d.appendChild(sym);
-  return d;
-}
-
-// ──── MODAL ──────────────────────────────────────────────────
-function showModal(results, newCount) {
-  const modal      = document.getElementById("packModal");
-  const cards      = document.getElementById("modalCards");
-  const summary    = document.getElementById("modalSummary");
-  const collectBtn = document.getElementById("btnCollect");
-  const title      = document.getElementById("modalTitle");
-
-  cards.innerHTML = "";
-  summary.style.display    = "none";
-  collectBtn.style.display = "none";
-  document.getElementById("modalCloseBtn").style.display = "none";
-  title.textContent = "PAKET AÇILIYOR!";
-  modal.style.display = "flex";
-
-  results.forEach((r, i) => {
-    const card = document.createElement("div");
-    card.className = `rev-card ${r.isNew ? "rev-new" : "rev-dupe"}`;
-
-    const img = document.createElement("img");
-    img.src = r.char.img;
-    img.alt = r.char.name;
-    img.className = "rev-img";
-    img.onerror = () => { img.replaceWith(makeRevFallback(r.char)); };
-    card.appendChild(img);
-
-    const name = document.createElement("div");
-    name.className = "rev-name";
-    name.textContent = r.char.name;
-    card.appendChild(name);
-
-    const badge = document.createElement("div");
-    badge.className = `rev-badge ${r.isNew ? "b-new" : "b-dupe"}`;
-    badge.textContent = r.isNew ? "*** YENİ!" : ">> TEKRAR";
-    card.appendChild(badge);
-
-    const rar = document.createElement("div");
-    rar.className = "rev-rarity";
-    rar.textContent = r.char.rarityLabel;
-    rar.style.color = r.char.rarityColor;
-    rar.style.textShadow = `0 0 6px ${r.char.rarityColor}`;
-    card.appendChild(rar);
-
-    cards.appendChild(card);
-
-    setTimeout(() => {
-      card.classList.add("rev-show");
-      if (i === results.length - 1) {
-        setTimeout(() => {
-          title.textContent = newCount > 0 ? ">> TEBRİKLER!" : ">> PAKET AÇILDI";
-          document.getElementById("summaryNew").textContent = `${newCount} yeni`;
-          summary.style.display   = "block";
-          collectBtn.style.display = "block";
-          document.getElementById("modalCloseBtn").style.display = "block";
-        }, 400);
-      }
-    }, 250 + i * 420);
-  });
-}
-
-function makeRevFallback(char) {
-  const d = document.createElement("div");
-  d.style.cssText = "width:80px;height:80px;display:flex;align-items:center;justify-content:center";
-  const sym = document.createElement("div");
-  sym.className = `px-symbol px-symbol-lg ${char.emoji}`;
-  d.appendChild(sym);
-  return d;
-}
-
-function closeModal() {
-  document.getElementById("packModal").style.display = "none";
-  renderGrid();
-  updateStats();
-  toast("Karakter koleksiyona eklendi! [+]");
-}
-
-function modalBgClick(e) {
-  if (e.target === document.getElementById("packModal")) {
-    const collectBtn = document.getElementById("btnCollect");
-    if (collectBtn.style.display !== "none") closeModal();
-  }
-}
-
-// ──── RESET ──────────────────────────────────────────────────
-function confirmReset() { document.getElementById("resetModal").style.display = "flex"; }
-function doReset() {
-  state = { collection: {}, lastOpen: 0, totalPacksOpened: 0, totalCardsGained: 0, luckyChar: null };
-  save();
-  document.getElementById("resetModal").style.display  = "none";
-  document.getElementById("showcaseEmpty").style.display = "flex";
-  document.getElementById("showcaseImg").style.display   = "none";
-  document.getElementById("charCard").style.display      = "none";
-  document.getElementById("recentSection").style.display = "none";
-  renderGrid();
-  updateStats();
-  startCooldown();
-  toast("Kayit silindi. Yeni baslangic! [>]");
-}
-
-// ──── KONFETİ ────────────────────────────────────────────────
-function spawnConfetti() {
-  const cont = document.getElementById("konfeti");
-  const colors = ["#f5c518","#4ec94e","#4a90e2","#a855f7","#ef4444","#ffffff","#ffde60"];
-  for (let i = 0; i < 60; i++) {
-    const p = document.createElement("div");
-    p.className = "kf-piece";
-    p.style.cssText = `
-      left:${Math.random()*100}vw;
-      top:-12px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      width:${Math.random()>0.5?6:10}px;
-      height:${Math.random()>0.5?6:10}px;
-      animation-duration:${1.5+Math.random()*2}s;
-      animation-delay:${Math.random()*0.8}s;
-    `;
-    cont.appendChild(p);
-    setTimeout(() => p.remove(), 3500);
-  }
-}
-
-// ──── SPARKLES ────────────────────────────────────────────────
-function spawnSparkles() {
-  const emojis = ["[*]","[+]","[!]","[x]","[o]","[#]","[~]","[^]"];
-  for (let i = 0; i < 18; i++) {
-    const el = document.createElement("div");
-    el.className = "sparkle";
-    const dx = (Math.random() - 0.5) * 220;
-    const dy = (Math.random() - 0.5) * 220 - 80;
-    el.style.cssText = `
-      left:${Math.random()*window.innerWidth}px;
-      top:${Math.random()*window.innerHeight}px;
-      --sdx:${dx}px; --sdy:${dy}px;
-      font-size:${14+Math.random()*16}px;
-      animation-delay:${Math.random()*0.35}s;
-    `;
-    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 1000);
-  }
-}
-
-// ──── TOAST ──────────────────────────────────────────────────
-let toastTm = null;
-function toast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toastTm);
-  toastTm = setTimeout(() => t.classList.remove("show"), 3000);
-}
-
-// ──── PAKET HOVER PARTİKÜL ────────────────────────────────────
-function initPackHover() {
-  const frame = document.getElementById("packFrame");
-  frame.addEventListener("mouseenter", () => {
-    const cont = document.getElementById("packParticles");
-    for (let i = 0; i < 6; i++) {
-      setTimeout(() => {
-        const p = document.createElement("div");
-        p.style.cssText = `
-          position:absolute;
-          left:${Math.random()*100}%; top:${Math.random()*100}%;
-          width:4px; height:4px;
-          background:${["#f5c518","#4a90e2","#a855f7"][Math.floor(Math.random()*3)]};
-          animation:sparkleOut .7s ease-out forwards;
-          --sdx:${(Math.random()-0.5)*40}px;
-          --sdy:${-20-Math.random()*30}px;
-          font-size:0;
-        `;
-        cont.appendChild(p);
-        setTimeout(() => p.remove(), 800);
-      }, i * 80);
-    }
-  });
-}
-
-// ──── BAŞLATMA ────────────────────────────────────────────────
-window.addEventListener("DOMContentLoaded", () => {
-  load();
-  initStars();
-  initPackHover();
-  renderGrid();
-  updateStats();
-  renderAchievements();
-  startCooldown();
-
-  const isFirst = state.totalPacksOpened === 0;
-  if (isFirst) {
-    setTimeout(() => toast("Hos geldin Koleksiyoncu! Ilk paketini acmaya hazir misin? [+]"), 1200);
-  } else {
-    const collected = CHARACTERS.filter(c => state.collection[c.id]?.count > 0).length;
-    setTimeout(() => toast(`Tekrar hos geldin! ${collected}/${CHARACTERS.length} karakter topladın [C]`), 800);
-  }
-});
-
-window.addEventListener("beforeunload", save);
+  if (newCount > 0) spawnConf
