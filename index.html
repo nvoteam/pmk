@@ -12,9 +12,7 @@
 
 <canvas id="starCanvas"></canvas>
 
-<!-- ══════════════════════════════════════════
-     1. TURNSTILE EKRANI (ilk katman)
-════════════════════════════════════════════ -->
+<!-- ── TURNSTILE ─────────────────────────────────── -->
 <div id="turnstileGate" class="ts-gate">
   <div class="ts-box">
     <div class="ts-title">PİXEL MİNECRAFT<br>KOLEKSİYON</div>
@@ -23,61 +21,58 @@
       data-sitekey="0x4AAAAAADVen5BU2Y8GYspp"
       data-theme="dark"
       data-callback="onTurnstileSuccess"
-      data-error-callback="onTurnstileError">
+      data-error-callback="onTurnstileError"
+      data-expired-callback="onTurnstileExpired">
     </div>
     <div id="tsStatus" class="ts-status"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     2. GİRİŞ / KAYIT EKRANI (Turnstile sonrası)
-════════════════════════════════════════════ -->
+<!-- ── GİRİŞ EKRANI ──────────────────────────────── -->
 <div id="authGate" class="auth-gate" style="display:none">
   <div class="auth-box">
     <div class="auth-title">PİXEL MİNECRAFT<br>KOLEKSİYON</div>
 
-    <!-- Sekme -->
     <div class="auth-tabs">
-      <button class="auth-tab active" id="tabLogin"  onclick="switchAuthTab('login')">GİRİŞ</button>
+      <button class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">GİRİŞ</button>
       <button class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">KAYIT</button>
     </div>
 
-    <!-- Google -->
     <button class="btn-google" onclick="signInGoogle()">
-      <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 18 18">
+        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+        <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/>
+      </svg>
       Google ile Giriş
     </button>
 
     <div class="auth-divider"><span>veya</span></div>
 
-    <!-- Email/Şifre Formu -->
-    <div class="auth-form" id="authForm">
-      <input class="auth-input" id="authEmail"    type="email"    placeholder="E-posta"/>
-      <input class="auth-input" id="authPassword" type="password" placeholder="Şifre"/>
+    <div class="auth-form">
+      <input class="auth-input" id="authEmail"     type="email"    placeholder="E-posta"/>
+      <input class="auth-input" id="authPassword"  type="password" placeholder="Şifre"/>
       <input class="auth-input" id="authPassword2" type="password" placeholder="Şifre tekrar" style="display:none"/>
       <div id="authError" class="auth-error"></div>
       <button class="btn-auth" id="btnAuthSubmit" onclick="submitAuth()">GİRİŞ YAP</button>
       <div id="verifyMsg" class="auth-verify" style="display:none">
-        Doğrulama e-postası gönderildi! Lütfen e-postanı kontrol et.
+        Doğrulama e-postası gönderildi! Lütfen e-postanı kontrol et, ardından giriş yap.
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     3. ANA OYUN EKRANI
-════════════════════════════════════════════ -->
+<!-- ── ANA OYUN ───────────────────────────────────── -->
 <div id="gameArea" style="display:none">
 
   <!-- ÜST BAR -->
   <nav class="topbar">
-    <div class="tb-left">
-      <span class="tb-logo">PMK</span>
-    </div>
+    <div class="tb-logo">PMK</div>
     <div class="tb-nav">
-      <button class="tb-btn active" id="tbMenu"       onclick="showTab('menu')">ANA MENÜ</button>
-      <button class="tb-btn"        id="tbCollection" onclick="showTab('collection')">KOLEKSİYON</button>
-      <button class="tb-btn"        id="tbAchieve"    onclick="showTab('achievements')">BAŞARILAR</button>
+      <button class="tb-btn" id="tbMenu"       onclick="showTab('menu')">ANA MENÜ</button>
+      <button class="tb-btn" id="tbCollection" onclick="showTab('collection')">KOLEKSİYON</button>
+      <button class="tb-btn" id="tbAchieve"    onclick="showTab('achievements')">BAŞARILAR</button>
     </div>
     <div class="tb-right">
       <div class="stat-pill"><span id="coinCount">0</span> kart</div>
@@ -87,12 +82,12 @@
   </nav>
 
   <!-- SEKME: ANA MENÜ -->
-  <div id="tabMenu" class="tab-content active">
+  <div id="tabMenu" class="tab-content" style="display:none">
     <div class="layout">
 
-      <!-- SOL: KOLEKSİYON ÖZETİ -->
+      <!-- SOL -->
       <aside class="panel panel-left">
-        <div class="panel-header"><span>KOLEKSİYON</span></div>
+        <div class="panel-header"><span class="ph-icon">📚</span><span>KOLEKSİYON</span></div>
         <div class="filter-row">
           <button class="filter-btn active" onclick="setFilter('all',this)">TÜMÜ</button>
           <button class="filter-btn"        onclick="setFilter('collected',this)">TOPLANAN</button>
@@ -110,9 +105,9 @@
         </div>
       </aside>
 
-      <!-- ORTA: PAKET -->
+      <!-- ORTA -->
       <main class="panel panel-center">
-        <div class="panel-header"><span>PAKET AÇ</span></div>
+        <div class="panel-header"><span class="ph-icon">🎁</span><span>PAKET AÇ</span></div>
         <div class="pack-stage">
           <div class="pack-frame" id="packFrame" onclick="openPack()">
             <div class="pack-glow-ring"></div>
@@ -121,7 +116,7 @@
             <div class="pack-fallback" id="packFallback" style="display:none">
               <div class="pf-box">
                 <div class="pf-stripe pf-top"></div>
-                <div class="pf-center"><span class="pf-ribbon">[*]</span></div>
+                <div class="pf-center"><span class="pf-ribbon">[?]</span></div>
                 <div class="pf-stripe pf-bottom"></div>
               </div>
               <div class="pf-label">SIRADAN PAKET</div>
@@ -129,6 +124,7 @@
             <div class="pack-click-hint">TIKLA!</div>
             <div class="pack-particles" id="packParticles"></div>
           </div>
+
           <div class="pack-info-card">
             <div class="pic-name">Sıradan Paket</div>
             <div class="pic-meta">
@@ -168,9 +164,9 @@
         </div>
       </main>
 
-      <!-- SAĞ: KARAKTERLİK + STATS -->
+      <!-- SAĞ -->
       <aside class="panel panel-right">
-        <div class="panel-header"><span>KARAKTERLİK</span></div>
+        <div class="panel-header"><span class="ph-icon">👾</span><span>KARAKTERLİK</span></div>
         <div class="showcase-box" id="showcaseBox">
           <div class="showcase-empty" id="showcaseEmpty">
             <div class="se-icon">?</div>
@@ -198,6 +194,7 @@
           </div>
         </div>
       </aside>
+
     </div>
   </div>
 
@@ -205,7 +202,7 @@
   <div id="tabCollection" class="tab-content" style="display:none">
     <div class="full-panel">
       <div class="panel-header"><span>TÜM KOLEKSİYON</span></div>
-      <div class="filter-row">
+      <div class="filter-row" style="margin-bottom:12px">
         <button class="filter-btn active" onclick="setFilter('all',this)">TÜMÜ</button>
         <button class="filter-btn"        onclick="setFilter('collected',this)">TOPLANAN</button>
         <button class="filter-btn"        onclick="setFilter('missing',this)">EKSİK</button>
@@ -219,7 +216,7 @@
     <div class="full-panel">
       <div class="panel-header">
         <span>BAŞARILAR</span>
-        <span id="achCounter" style="color:var(--gold);font-size:8px">0 / 12</span>
+        <span id="achCounter" style="color:var(--gold);font-size:8px;margin-left:auto">0 / 12</span>
       </div>
       <div class="achievement-grid achievement-grid-full" id="achievementGrid"></div>
     </div>
@@ -229,7 +226,7 @@
 
 <!-- PAKET MODALI -->
 <div class="modal-overlay" id="packModal" style="display:none" onclick="modalBgClick(event)">
-  <div class="modal-box" id="modalBox">
+  <div class="modal-box">
     <button class="modal-close-btn" id="modalCloseBtn" onclick="closeModal()" style="display:none">X</button>
     <div class="modal-header">
       <div class="mh-stars">* * *</div>
@@ -241,14 +238,14 @@
       <span id="summaryNew">0 yeni</span> karakter kazandın!
     </div>
     <button class="btn-collect" id="btnCollect" onclick="closeModal()" style="display:none">
-      KOLEKSIYONA EKLE
+      KOLEKSİYONA EKLE
     </button>
   </div>
 </div>
 
 <!-- ÇIKIŞ ONAY -->
 <div class="modal-overlay" id="signOutModal" style="display:none">
-  <div class="modal-box" style="max-width:380px;gap:20px">
+  <div class="modal-box" style="max-width:360px;gap:20px">
     <div class="mh-title" style="color:#ef4444">ÇIKIŞ YAP</div>
     <div style="font-size:7px;color:#aaa;text-align:center;line-height:2">Oturumu kapatmak istediğine emin misin?</div>
     <div style="display:flex;gap:12px;width:100%">
@@ -258,9 +255,9 @@
   </div>
 </div>
 
-<!-- HESAP SİL ONAY -->
+<!-- HESAP SİL -->
 <div class="modal-overlay" id="deleteModal" style="display:none">
-  <div class="modal-box" style="max-width:380px;gap:20px">
+  <div class="modal-box" style="max-width:360px;gap:20px">
     <div class="mh-title" style="color:#ef4444">HESABI SİL</div>
     <div style="font-size:7px;color:#aaa;text-align:center;line-height:2">Tüm koleksiyonun ve hesabın silinecek. Bu işlem geri alınamaz!</div>
     <div style="display:flex;gap:12px;width:100%">
@@ -273,81 +270,102 @@
 <div id="konfeti"></div>
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE -->
+<!-- ── FİREBASE + AUTH ───────────────────────────────────────── -->
 <script type="module">
-import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged,
-         GoogleAuthProvider, signInWithPopup,
-         createUserWithEmailAndPassword,
-         signInWithEmailAndPassword,
-         sendEmailVerification,
-         signOut, deleteUser }                  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc,
-         deleteDoc }                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider,
+         signInWithPopup, createUserWithEmailAndPassword,
+         signInWithEmailAndPassword, sendEmailVerification,
+         signOut, deleteUser }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const app  = initializeApp({
   apiKey:            "AIzaSyDODcwO04L9JbPoP_bHe5vZquP68YrVW60",
   authDomain:        "pixelminecraftkoleksiyon.firebaseapp.com",
   projectId:         "pixelminecraftkoleksiyon",
   storageBucket:     "pixelminecraftkoleksiyon.firebasestorage.app",
   messagingSenderId: "756334015790",
-  appId:             "1:756334015790:web:01363b134bb7b8b668f6bf",
-  measurementId:     "G-42XR1HRXK0"
-};
-
-const app  = initializeApp(firebaseConfig);
+  appId:             "1:756334015790:web:01363b134bb7b8b668f6bf"
+});
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-// ── Turnstile ─────────────────────────────────────────────────
+// ── Turnstile ──────────────────────────────────────────────────
 const WORKER_URL = "https://dark-dream-9e83.necron-offical.workers.dev";
 let turnstilePassed = false;
 
+// authReady: Firebase auth durumu ilk kez alındığında resolve olur
+let _authReadyResolve;
+const authReady = new Promise(r => { _authReadyResolve = r; });
+
 window.onTurnstileSuccess = async (token) => {
-  const status = document.getElementById("tsStatus");
-  status.textContent = "Doğrulanıyor...";
-  status.style.color = "#f5c518";
-  try {
-    const res  = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token })
-    });
-    const data = await res.json();
-    if (data.success) {
-      turnstilePassed = true;
-      status.textContent = "Doğrulama başarılı!";
-      status.style.color = "#4ec94e";
-      setTimeout(() => {
-        const gate = document.getElementById("turnstileGate");
-        gate.style.transition = "opacity 0.5s";
-        gate.style.opacity = "0";
-        setTimeout(() => {
-          gate.style.display = "none";
-          // Kullanıcı zaten giriş yapmışsa oyunu aç, yoksa auth ekranı göster
-          if (auth.currentUser) {
-            document.getElementById("gameArea").style.display = "block";
-          } else {
-            document.getElementById("authGate").style.display = "flex";
-          }
-        }, 500);
-      }, 800);
-    } else {
-      status.textContent = "Başarısız. Tekrar dene.";
-      status.style.color = "#ef4444";
-      if (window.turnstile) turnstile.reset();
-    }
-  } catch(e) {
-    status.textContent = "Bağlantı hatası. Tekrar dene.";
-    status.style.color = "#ef4444";
-    if (window.turnstile) turnstile.reset();
+  turnstilePassed = true;
+  document.getElementById("tsStatus").textContent = "Doğrulama başarılı!";
+  document.getElementById("tsStatus").style.color = "#4ec94e";
+
+  const gate = document.getElementById("turnstileGate");
+  gate.style.transition = "opacity 0.4s";
+  gate.style.opacity = "0";
+
+  // Firebase hazır olana kadar bekle (max 3sn)
+  await Promise.race([authReady, new Promise(r => setTimeout(r, 3000))]);
+
+  gate.style.display = "none";
+
+  const user = auth.currentUser;
+  if (user && (user.emailVerified || user.providerData[0]?.providerId !== "password")) {
+    await loadAndStartGame(user);
+  } else {
+    document.getElementById("authGate").style.display = "flex";
   }
-};
-window.onTurnstileError = () => {
-  document.getElementById("tsStatus").textContent = "Hata oluştu. Sayfayı yenile.";
+
+  // Worker arka planda doğrula
+  fetch(WORKER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token })
+  }).catch(() => {});
 };
 
-// ── Auth Sekme ────────────────────────────────────────────────
+window.onTurnstileError   = () => {
+  document.getElementById("tsStatus").textContent = "Hata oluştu. Sayfayı yenile.";
+  document.getElementById("tsStatus").style.color = "#ef4444";
+};
+window.onTurnstileExpired = () => { if (window.turnstile) turnstile.reset(); };
+
+// ── Auth Durumu ────────────────────────────────────────────────
+onAuthStateChanged(auth, (user) => {
+  _authReadyResolve(user); // authReady promise'i çöz
+
+  if (!turnstilePassed) return; // Turnstile geçilmeden hiçbir şey yapma
+
+  if (user) {
+    if (!user.emailVerified && user.providerData[0]?.providerId === "password") {
+      signOut(auth);
+      document.getElementById("authGate").style.display = "flex";
+      document.getElementById("authError").textContent = "E-postanı doğrulamadan giriş yapamazsın.";
+      return;
+    }
+    loadAndStartGame(user);
+  } else {
+    document.getElementById("gameArea").style.display = "none";
+    document.getElementById("authGate").style.display = "flex";
+  }
+});
+
+async function loadAndStartGame(user) {
+  const name = user.displayName || user.email?.split("@")[0] || "Oyuncu";
+  document.getElementById("tbUser").textContent = name;
+  await window.loadFromFirestore(user.uid);
+  document.getElementById("authGate").style.display  = "none";
+  document.getElementById("gameArea").style.display  = "block";
+  window.initGame();
+}
+
+// ── Auth Sekme ─────────────────────────────────────────────────
 let authMode = "login";
 window.switchAuthTab = (mode) => {
   authMode = mode;
@@ -359,37 +377,35 @@ window.switchAuthTab = (mode) => {
   document.getElementById("verifyMsg").style.display = "none";
 };
 
-// ── Google Giriş ──────────────────────────────────────────────
+// ── Google ──────────────────────────────────────────────────────
 window.signInGoogle = async () => {
   try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth, new GoogleAuthProvider());
   } catch (e) {
-    document.getElementById("authError").textContent = "Google girişi başarısız.";
+    document.getElementById("authError").textContent = "Google girişi başarısız: " + e.message;
   }
 };
 
-// ── Email/Şifre ───────────────────────────────────────────────
+// ── Email/Şifre ─────────────────────────────────────────────────
 window.submitAuth = async () => {
   const email = document.getElementById("authEmail").value.trim();
   const pass  = document.getElementById("authPassword").value;
   const pass2 = document.getElementById("authPassword2").value;
   const errEl = document.getElementById("authError");
   errEl.textContent = "";
+  document.getElementById("verifyMsg").style.display = "none";
 
   if (!email || !pass) { errEl.textContent = "E-posta ve şifre gerekli."; return; }
 
   if (authMode === "register") {
-    if (pass !== pass2) { errEl.textContent = "Şifreler eşleşmiyor."; return; }
-    if (pass.length < 6) { errEl.textContent = "Şifre en az 6 karakter olmalı."; return; }
+    if (pass !== pass2)   { errEl.textContent = "Şifreler eşleşmiyor."; return; }
+    if (pass.length < 6)  { errEl.textContent = "Şifre en az 6 karakter olmalı."; return; }
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, pass);
       await sendEmailVerification(cred.user);
+      await signOut(auth);
       document.getElementById("verifyMsg").style.display = "block";
-      errEl.textContent = "";
-    } catch (e) {
-      errEl.textContent = firebaseErrMsg(e.code);
-    }
+    } catch (e) { errEl.textContent = firebaseMsg(e.code); }
   } else {
     try {
       const cred = await signInWithEmailAndPassword(auth, email, pass);
@@ -397,57 +413,23 @@ window.submitAuth = async () => {
         errEl.textContent = "E-postanı doğrulamadan giriş yapamazsın.";
         await signOut(auth);
       }
-    } catch (e) {
-      errEl.textContent = firebaseErrMsg(e.code);
-    }
+    } catch (e) { errEl.textContent = firebaseMsg(e.code); }
   }
 };
 
-function firebaseErrMsg(code) {
-  const msgs = {
+function firebaseMsg(code) {
+  return ({
     "auth/email-already-in-use": "Bu e-posta zaten kullanımda.",
-    "auth/invalid-email":        "Geçersiz e-posta.",
+    "auth/invalid-email":        "Geçersiz e-posta adresi.",
     "auth/wrong-password":       "Şifre yanlış.",
     "auth/user-not-found":       "Kullanıcı bulunamadı.",
-    "auth/too-many-requests":    "Çok fazla deneme. Bekle.",
+    "auth/too-many-requests":    "Çok fazla deneme. Biraz bekle.",
     "auth/weak-password":        "Şifre çok zayıf.",
-  };
-  return msgs[code] || "Bir hata oluştu: " + code;
+    "auth/invalid-credential":   "E-posta veya şifre hatalı.",
+  })[code] || "Hata: " + code;
 }
 
-// ── Auth Durumu ───────────────────────────────────────────────
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // Email/şifre ile girişteyse doğrulama zorunlu
-    if (!user.emailVerified && user.providerData[0]?.providerId === "password") {
-      await signOut(auth);
-      document.getElementById("gameArea").style.display  = "none";
-      if (turnstilePassed) {
-        document.getElementById("authGate").style.display = "flex";
-        document.getElementById("authError").textContent = "E-postanı doğrulamadan giriş yapamazsın.";
-      }
-      return;
-    }
-    // Giriş başarılı — turnstile geçilmişse oyunu göster
-    document.getElementById("authGate").style.display  = "none";
-    document.getElementById("turnstileGate").style.display = "none";
-    document.getElementById("gameArea").style.display  = "block";
-
-    const name = user.displayName || user.email?.split("@")[0] || "Oyuncu";
-    document.getElementById("tbUser").textContent = name;
-
-    await window.loadFromFirestore(user.uid);
-    window.initGame();
-  } else {
-    document.getElementById("gameArea").style.display = "none";
-    // Sadece turnstile geçildiyse auth ekranını göster
-    if (turnstilePassed) {
-      document.getElementById("authGate").style.display = "flex";
-    }
-  }
-});
-
-// ── Firestore Kayıt ───────────────────────────────────────────
+// ── Firestore ───────────────────────────────────────────────────
 window.currentUid = null;
 
 window.loadFromFirestore = async (uid) => {
@@ -455,19 +437,23 @@ window.loadFromFirestore = async (uid) => {
   try {
     const snap = await getDoc(doc(db, "saves", uid));
     if (snap.exists()) {
-      Object.assign(window.gameState, snap.data());
+      const data = snap.data();
+      // Mevcut state ile merge et
+      window.gameState = Object.assign(window.defaultState(), data);
+    } else {
+      window.gameState = window.defaultState();
     }
-  } catch(e) { console.warn("Yükleme hatası:", e); }
+  } catch (e) { console.warn("Yükleme hatası:", e); }
 };
 
 window.saveToFirestore = async () => {
   if (!window.currentUid) return;
   try {
     await setDoc(doc(db, "saves", window.currentUid), window.gameState);
-  } catch(e) { console.warn("Kayıt hatası:", e); }
+  } catch (e) { console.warn("Kayıt hatası:", e); }
 };
 
-// ── Çıkış ────────────────────────────────────────────────────
+// ── Çıkış ───────────────────────────────────────────────────────
 window.confirmSignOut = () => {
   document.getElementById("signOutModal").style.display = "flex";
 };
@@ -475,16 +461,17 @@ window.doSignOut = async () => {
   document.getElementById("signOutModal").style.display = "none";
   await signOut(auth);
   window.gameState = window.defaultState();
+  window.currentUid = null;
   document.getElementById("gameArea").style.display = "none";
-  document.getElementById("authGate").style.display = "flex";
-  // Turnstile tekrar göster
+  // Turnstile'ı sıfırla
+  turnstilePassed = false;
   document.getElementById("turnstileGate").style.display = "flex";
   document.getElementById("turnstileGate").style.opacity = "1";
-  turnstilePassed = false;
+  document.getElementById("tsStatus").textContent = "";
   if (window.turnstile) turnstile.reset();
 };
 
-// ── Hesap Sil ────────────────────────────────────────────────
+// ── Hesap Sil ───────────────────────────────────────────────────
 window.confirmDeleteAccount = () => {
   document.getElementById("deleteModal").style.display = "flex";
 };
@@ -496,12 +483,14 @@ window.doDeleteAccount = async () => {
     await deleteUser(user);
     document.getElementById("deleteModal").style.display = "none";
     window.gameState = window.defaultState();
+    window.currentUid = null;
     document.getElementById("gameArea").style.display = "none";
+    turnstilePassed = false;
     document.getElementById("turnstileGate").style.display = "flex";
     document.getElementById("turnstileGate").style.opacity = "1";
-    turnstilePassed = false;
+    document.getElementById("tsStatus").textContent = "";
     if (window.turnstile) turnstile.reset();
-  } catch(e) {
+  } catch (e) {
     alert("Hesap silinemedi. Tekrar giriş yapıp dene.");
   }
 };
