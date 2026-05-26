@@ -991,19 +991,20 @@ body {
   position: sticky; top: 0; z-index: 100;
   background: var(--panel2);
   border-bottom: 3px solid var(--gold);
-  display: flex; align-items: center;
-  padding: 0 16px; height: 48px; gap: 16px;
+  display: flex; align-items: center; flex-wrap: wrap;
+  padding: 6px 10px; min-height: 48px; gap: 6px;
+  overflow-x: auto;
 }
 .tb-logo { font-size: 10px; color: var(--gold); letter-spacing: 2px; white-space: nowrap; }
 .tb-nav  { display: flex; gap: 4px; flex: 1; justify-content: center; }
 .tb-btn  {
-  padding: 6px 12px; font-family: var(--font); font-size: 6px;
+  padding: 5px 8px; font-family: var(--font); font-size: 6px;
   background: transparent; border: 2px solid var(--border2); color: var(--text-dim);
-  cursor: pointer; letter-spacing: 1px; transition: all .15s;
+  cursor: pointer; letter-spacing: 0px; transition: all .15s; white-space: nowrap;
 }
 .tb-btn:hover  { border-color: var(--gold); color: var(--gold); }
 .tb-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
-.tb-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.tb-right { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
 .tb-user  { font-size: 6px; color: var(--text-dim); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .btn-signout {
   padding: 5px 8px; font-family: var(--font); font-size: 5px;
