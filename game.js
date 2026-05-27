@@ -4,29 +4,63 @@
 
 // ──── KARAKTERLER ─────────────────────────────────────────────
 const CHARACTERS = [
-  {
-    id: "necronvo",    name: "Necronvo",
-    img: "pmkimage/karakterler/necronvo.png",
-    rarity: "common",  rarityLabel: "SIRADAN", rarityColor: "#aaaaaa",
-    emoji: "px-skull",
-    desc: "Bu koleksiyonun sahibi. Gecenin karanlığından doğan PvP ustası. Sıradan mı dedin? Aldatıcı görünüş!",
-    weight: 30, bgText: "NECRON"
-  },
+  // ── SIRADAN ──────────────────────────────────────────────────
   {
     id: "steve",       name: "Steve",
     img: "pmkimage/karakterler/steve.png",
     rarity: "common",  rarityLabel: "SIRADAN", rarityColor: "#aaaaaa",
     emoji: "px-pick",
-    desc: "Minecraft'ın yüzü. Elinde kazması, sırtında sırt çantası. Her maceranın başlangıcı Steve ile olur!",
-    weight: 28, bgText: "STEVE"
+    desc: "Minecraft'ın ikonik varsayılan kahramanı. Her maceranın başlangıcı Steve ile olur!",
+    weight: 30, bgText: "STEVE"
   },
   {
     id: "alex",        name: "Alex",
     img: "pmkimage/karakterler/alex.png",
     rarity: "common",  rarityLabel: "SIRADAN", rarityColor: "#aaaaaa",
     emoji: "px-bow",
-    desc: "Steve'in yanılmaz arkadaşı. Okçuluğu ve hızıyla düşmanlarını alt eder. Minecraft'ın vazgeçilmez ikilisinden biri!",
-    weight: 26, bgText: "ALEX"
+    desc: "Steve'in yanılmaz arkadaşı. Okçuluğu ve hızıyla düşmanlarını alt eder.",
+    weight: 28, bgText: "ALEX"
+  },
+  {
+    id: "necronvo",    name: "Necronvo",
+    img: "pmkimage/karakterler/necronvo.png",
+    rarity: "common",  rarityLabel: "SIRADAN", rarityColor: "#aaaaaa",
+    emoji: "px-skull",
+    desc: "Bu koleksiyonun sahibi. Gecenin karanlığından doğan PvP ustası. Sıradan mı dedin? Aldatıcı görünüş!",
+    weight: 25, bgText: "NECRON"
+  },
+  // ── NADİR ────────────────────────────────────────────────────
+  {
+    id: "goktugv",     name: "Göktuğv",
+    img: "pmkimage/karakterler/goktugv.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-gem",
+    desc: "Yusufte ekibinin sessiz ama güçlü üyesi. Takımdaki her videodan tanınan, her zaman orada olan isim.",
+    weight: 22, bgText: "GÖKTUĞ"
+  },
+  {
+    id: "poniks",      name: "Poniks",
+    img: "pmkimage/karakterler/poniks.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-orb",
+    desc: "Yusufte ekibinin karizmatik üyesi. Komik anları ve beklenmedik hamleleriyle videoların vazgeçilmezi.",
+    weight: 20, bgText: "PONİKS"
+  },
+  {
+    id: "koston",      name: "Koston",
+    img: "pmkimage/karakterler/koston.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-moon",
+    desc: "Yusa Bakal ile birlikte Minecraft SMP'de kural koyan oyuncu. Kick ve YouTube'da aktif içerik üreticisi.",
+    weight: 18, bgText: "KOSTON"
+  },
+  {
+    id: "themurat",    name: "TheMurat",
+    img: "pmkimage/karakterler/themurat.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-crown",
+    desc: "Murat Can. TheMurat vs Minecraft serisiyle her gün yeni video çıkarıyor. Köyde kral olmaya yemin etmiş!",
+    weight: 16, bgText: "MURAT"
   },
   {
     id: "erdemoon",    name: "Erdemoon",
@@ -34,72 +68,74 @@ const CHARACTERS = [
     rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
     emoji: "px-moon",
     desc: "Türk Minecraft troll ustası. Sunuculara gizlice giriyor, dünyaları alt üst ediyor. Kendi halinde görünür ama aldanma!",
-    weight: 20, bgText: "ERDEM"
+    weight: 14, bgText: "ERDEM"
   },
+  // ── EPİK ─────────────────────────────────────────────────────
   {
-    id: "themurat",    name: "TheMurat",
-    img: "pmkimage/karakterler/themurat.png",
-    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
-    emoji: "px-crown",
-    desc: "Murat Can. TheMurat vs Minecraft serisiyle her gün yeni video çıkarıyor. Köyde kral olmaya yemin etmiş, durmak yok!",
-    weight: 18, bgText: "MURAT"
+    id: "ersincaki",   name: "Ersin Çakı",
+    img: "pmkimage/karakterler/ersincaki.png",
+    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
+    emoji: "px-wrench",
+    desc: "ErsinCraft kanalıyla Minecraft mod, texture, shader ve add-on içerikleri paylaşan Türk YouTuber.",
+    weight: 12, bgText: "ERSİN"
   },
   {
     id: "berkayinan",  name: "Berkay İnan",
     img: "pmkimage/karakterler/berkayinan.png",
-    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
     emoji: "px-bolt",
     desc: "Minecraft shorts'tan uzun videolara geçen enerji dolu YouTuber. Energy Going Onwards!",
-    weight: 16, bgText: "BERKAY"
+    weight: 11, bgText: "BERKAY"
+  },
+  {
+    id: "yusabakal",   name: "Yusa Bakal",
+    img: "pmkimage/karakterler/yusabakal.png",
+    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
+    emoji: "px-bolt",
+    desc: "Yusufte ekibinin Koston ile birlikte en çok video çeken ismi. Kick ve YouTube'da aktif, enerjik tarzıyla öne çıkıyor.",
+    weight: 10, bgText: "YUSA"
   },
   {
     id: "mavislime",   name: "MaviSlime",
     img: "pmkimage/karakterler/mavislime.png",
-    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
     emoji: "px-slime",
-    desc: "Aykut'un kurduğu Türk Minecraft efsanesi. 2014'ten beri parkur ve survival içerikleri üretiyor. 610 milyonu aşkın izlenme!",
-    weight: 14, bgText: "MAVİ"
+    desc: "Aykut'un kurduğu Türk Minecraft efsanesi. 2014'ten beri 610M+ izlenme! Parkur ve survival içeriklerinin kralı.",
+    weight: 9, bgText: "MAVİ"
   },
   {
     id: "dogukanadal", name: "Doğukan Adal",
     img: "pmkimage/karakterler/dogukanadal.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
     emoji: "px-fire",
-    desc: "Hardcore Minecraft ve anarşi tarzını Türkiye'de tanıtan YouTuber. Her akşam 20:00'da Twitch'te! Kitap yazarı, PvP uzmanı.",
-    weight: 12, bgText: "ADAL"
+    desc: "Hardcore Minecraft ve anarşi tarzını Türkiye'de tanıtan YouTuber/Twitch yayıncısı. Kitap yazarı, PvP uzmanı.",
+    weight: 8, bgText: "ADAL"
   },
   {
     id: "herobrine",   name: "Herobrine",
     img: "pmkimage/karakterler/herobrine.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
     emoji: "px-eye",
-    desc: "Minecraft'ın en büyük urban efsanesi. Boş gözleri seni izliyor olabilir... ya da hiç olmamış olabilir. Kim bilir?",
-    weight: 10, bgText: "HERO"
-  },
-  {
-    id: "yusufte",     name: "Yusufte",
-    img: "pmkimage/karakterler/yusufte.png",
-    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
-    emoji: "px-pickaxe",
-    desc: "Türkiye'nin en iyi PvP oyuncularından biri. Rakipleri karşısında durma, pes etme!",
-    weight: 9, bgText: "YUSUFTE"
+    desc: "Minecraft'ın en büyük urban efsanesi. Boş gözleri seni izliyor olabilir... ya da hiç olmamış olabilir.",
+    weight: 8, bgText: "HERO"
   },
   {
     id: "dream",       name: "Dream",
     img: "pmkimage/karakterler/dream.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
     emoji: "px-mask",
-    desc: "Manhunt serisinin yaratıcısı. Speedrun skandalına rağmen YouTube'un en hızlı büyüyen oyuncularından biri olmayı başardı.",
-    weight: 9, bgText: "DREAM"
+    desc: "Manhunt serisinin yaratıcısı. Speedrun skandalına rağmen YouTube'un en hızlı büyüyen oyuncularından biri.",
+    weight: 7, bgText: "DREAM"
   },
   {
-    id: "ersincaki",   name: "Ersin Çakı",
-    img: "pmkimage/karakterler/ersincaki.png",
+    id: "yusufte",     name: "Yusufte",
+    img: "pmkimage/karakterler/yusufte.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
-    emoji: "px-wrench",
-    desc: "ErsinCraft kanalıyla Minecraft mod, texture, shader ve add-on içerikleri paylaşan Türk YouTuber. Öğretici videoların adresi!",
-    weight: 8, bgText: "ERSİN"
+    emoji: "px-pickaxe",
+    desc: "Türkiye'nin en iyi PvP oyuncularından biri. Ekibinin lideri. Rakipleri karşısında durma, pes etme!",
+    weight: 6, bgText: "YUSUFTE"
   },
+  // ── EFSANE ───────────────────────────────────────────────────
   {
     id: "technoblade", name: "Technoblade",
     img: "pmkimage/karakterler/technoblade.png",
@@ -108,29 +144,27 @@ const CHARACTERS = [
     desc: "Technoblade never dies. PvP tarihinin değişmez prensi. Hayatını oyuna adadı, ölüm bile onu durduramadı.",
     weight: 3, bgText: "TECHNO"
   }
-];
-
-const PACK = {
+];const PACK = {
   cardCount: 1,
   cooldownMs: 10 * 60 * 1000
 };
 
 // ──── BAŞARILAR ───────────────────────────────────────────────
 const ACHIEVEMENTS = [
-  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",       desc: "İlk paketini aç",                check: s => s.totalPacksOpened >= 1 },
-  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",   desc: "10 paket aç",                    check: s => s.totalPacksOpened >= 10 },
-  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",   desc: "50 paket aç",                    check: s => s.totalPacksOpened >= 50 },
-  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",   desc: "İlk karakterini topla",          check: s => Object.values(s.collection).some(e => e.count > 0) },
-  { id: "all_common",    icon: "px-pickaxe", name: "Başlangıç",      desc: "Tüm Sıradan karakterleri topla", check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
-  { id: "first_rare",    icon: "px-gem",     name: "Nadir Bulucu",   desc: "İlk Nadir karakterini topla",    check: s => CHARACTERS.filter(c => c.rarity==="rare").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_epic",    icon: "px-orb",     name: "Epik An",        desc: "İlk Epik karakterini topla",     check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",       desc: "İlk Efsane karakterini topla",   check: s => CHARACTERS.filter(c => c.rarity==="legend").some(c => s.collection[c.id]?.count > 0) },
-  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon", desc: "Tüm 13 karakteri topla",         check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
-  { id: "dupe_5",        icon: "px-star",    name: "Çifte Şans",     desc: "Bir karakteri 5 kez aç",         check: s => Object.values(s.collection).some(e => e.count >= 5) },
-  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",      desc: "Necronvo'yu topla",              check: s => s.collection["necronvo"]?.count > 0 },
-  { id: "techno_own",    icon: "px-sword",   name: "Never Dies",     desc: "Technoblade'i topla",            check: s => s.collection["technoblade"]?.count > 0 },
-  { id: "steve_alex",    icon: "px-pick",    name: "Klasikler",      desc: "Steve ve Alex'i topla",          check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
-  { id: "all_turk",      icon: "px-moon",    name: "Türk Gücü",      desc: "Tüm Türk YouTuberları topla",    check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki"].every(id => s.collection[id]?.count > 0) },
+  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",       desc: "İlk paketini aç",                 check: s => s.totalPacksOpened >= 1 },
+  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",   desc: "10 paket aç",                     check: s => s.totalPacksOpened >= 10 },
+  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",   desc: "50 paket aç",                     check: s => s.totalPacksOpened >= 50 },
+  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",   desc: "İlk karakterini topla",           check: s => Object.values(s.collection).some(e => e.count > 0) },
+  { id: "all_common",    icon: "px-pick",    name: "Başlangıç",      desc: "Tüm Sıradan karakterleri topla",  check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
+  { id: "first_rare",    icon: "px-gem",     name: "Nadir Bulucu",   desc: "İlk Nadir karakterini topla",     check: s => CHARACTERS.filter(c => c.rarity==="rare").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_epic",    icon: "px-orb",     name: "Epik An",        desc: "İlk Epik karakterini topla",      check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",       desc: "Technoblade'i topla",             check: s => s.collection["technoblade"]?.count > 0 },
+  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon", desc: "Tüm 17 karakteri topla",          check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
+  { id: "dupe_5",        icon: "px-star",    name: "Çifte Şans",     desc: "Bir karakteri 5 kez aç",          check: s => Object.values(s.collection).some(e => e.count >= 5) },
+  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",      desc: "Necronvo'yu topla",               check: s => s.collection["necronvo"]?.count > 0 },
+  { id: "steve_alex",    icon: "px-pick",    name: "Klasikler",      desc: "Steve ve Alex'i topla",           check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
+  { id: "yusufte_team",  icon: "px-pickaxe", name: "Yusufte Ekibi",  desc: "Tüm ekibi topla: Yusufte, Yusa Bakal, Koston, Göktuğv, Poniks", check: s => ["yusufte","yusabakal","koston","goktugv","poniks"].every(id => s.collection[id]?.count > 0) },
+  { id: "all_turk",      icon: "px-moon",    name: "Türk Gücü",      desc: "Tüm Türk YouTuberları topla",     check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki","yusabakal","koston","goktugv","poniks"].every(id => s.collection[id]?.count > 0) },
 ];
 
 // ──── DURUM ───────────────────────────────────────────────────
