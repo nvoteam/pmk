@@ -689,6 +689,43 @@ body {
     0 15px #555,3px 15px #555,6px 15px #555,9px 15px #555,12px 15px #555;
 }
 
+/* ── Kazma (basit) — Steve ───────────────── */
+.px-pick::before {
+  background: #888;
+  box-shadow:
+    12px 0 #888,15px 0 #aaa,18px 0 #888,
+    9px 3px #888,12px 3px #bbb,
+    6px 6px #888,9px 6px #bbb,
+    3px 9px #888,6px 9px #bbb,
+    0 12px #888,3px 12px #c06000,
+    0 15px #c06000;
+}
+
+/* ── Yay — Alex ──────────────────────────── */
+.px-bow::before {
+  background: #c06000;
+  box-shadow:
+    6px 0 #c06000,
+    3px 3px #c06000,9px 3px #c06000,
+    0 6px #c06000,12px 6px #c06000,
+    3px 9px #c06000,9px 9px #c06000,
+    3px 6px #f5c518,6px 6px #f5c518,9px 6px #f5c518,
+    6px 12px #c06000,
+    3px 15px #c06000;
+}
+
+/* ── Ateş — Doğukan Adal ─────────────────── */
+.px-fire::before {
+  background: #f5c518;
+  box-shadow:
+    6px 0 #f5c518,
+    3px 3px #f5c518,6px 3px #ff8800,9px 3px #f5c518,
+    0 6px #ff8800,3px 6px #f5c518,6px 6px #ff4400,9px 6px #f5c518,12px 6px #ff8800,
+    0 9px #ff8800,3px 9px #ff4400,6px 9px #ff8800,9px 9px #ff4400,12px 9px #ff8800,
+    3px 12px #ff4400,6px 12px #ff8800,9px 12px #ff4400,
+    3px 15px #ff8800,6px 15px #ff4400,9px 15px #ff8800;
+}
+
 /* ====== BAŞARILAR ====== */
 .achievement-grid {
   display: grid;
