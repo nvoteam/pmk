@@ -25,6 +25,9 @@
       data-expired-callback="onTurnstileExpired">
     </div>
     <div id="tsStatus" class="ts-status"></div>
+    <button id="tsSkipBtn" class="ts-skip-btn" onclick="skipTurnstile()" style="display:none">
+      Yüklenemedi — Devam Et
+    </button>
   </div>
 </div>
 
@@ -96,7 +99,7 @@
         <div class="collection-grid" id="collectionGrid"></div>
         <div class="progress-section">
           <div class="progress-label">
-            <span>İLERLEME</span><span id="progressText">0 / 13</span>
+            <span>İLERLEME</span><span id="progressText">0 / 17</span>
           </div>
           <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
@@ -134,9 +137,9 @@
             <div class="pic-desc">Her pakette rastgele nadirlikte karakter çıkar. Şansını dene!</div>
             <div class="drop-table">
               <div class="dt-title">DÜŞME ORANLARI</div>
-              <div class="dt-row"><span class="dt-dot" style="background:#aaa"></span><span>Sıradan</span><span class="dt-pct">%42</span></div>
+              <div class="dt-row"><span class="dt-dot" style="background:#aaa"></span><span>Sıradan</span><span class="dt-pct">%39</span></div>
               <div class="dt-row"><span class="dt-dot" style="background:#4a90e2"></span><span>Nadir</span><span class="dt-pct">%35</span></div>
-              <div class="dt-row"><span class="dt-dot" style="background:#a855f7"></span><span>Epik</span><span class="dt-pct">%20</span></div>
+              <div class="dt-row"><span class="dt-dot" style="background:#a855f7"></span><span>Epik</span><span class="dt-pct">%23</span></div>
               <div class="dt-row"><span class="dt-dot" style="background:#f5c518"></span><span>Efsane</span><span class="dt-pct">%2</span></div>
             </div>
           </div>
@@ -301,11 +304,48 @@ let turnstilePassed = false;
 let _authReadyResolve;
 const authReady = new Promise(r => { _authReadyResolve = r; });
 
+// Turnstile 8 saniyede yüklenmezse "Devam Et" butonu göster
+const tsSkipTimer = setTimeout(() => {
+  const btn = document.getElementById("tsSkipBtn");
+  if (btn && !turnstilePassed) btn.style.display = "block";
+}, 8000);
+
+// Turnstile başarısız olursa da butonu göster
+window.onTurnstileError = () => {
+  document.getElementById("tsStatus").textContent = "Doğrulama yüklenemedi.";
+  document.getElementById("tsStatus").style.color = "#ef4444";
+  document.getElementById("tsSkipBtn").style.display = "block";
+};
+window.onTurnstileExpired = () => {
+  if (window.turnstile) turnstile.reset();
+  document.getElementById("tsSkipBtn").style.display = "block";
+};
+
+// Manuel geçiş (Turnstile yüklenemezse)
+window.skipTurnstile = () => {
+  clearTimeout(tsSkipTimer);
+  passTurnstileGate();
+};
+
+// Başarılı doğrulama
 window.onTurnstileSuccess = async (token) => {
-  turnstilePassed = true;
+  clearTimeout(tsSkipTimer);
+  document.getElementById("tsSkipBtn").style.display = "none";
   document.getElementById("tsStatus").textContent = "Doğrulama başarılı!";
   document.getElementById("tsStatus").style.color = "#4ec94e";
 
+  // Worker arka planda doğrula (başarısız olsa bile geç)
+  fetch(WORKER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token })
+  }).catch(() => {});
+
+  passTurnstileGate();
+};
+
+async function passTurnstileGate() {
+  turnstilePassed = true;
   const gate = document.getElementById("turnstileGate");
   gate.style.transition = "opacity 0.4s";
   gate.style.opacity = "0";
@@ -321,20 +361,7 @@ window.onTurnstileSuccess = async (token) => {
   } else {
     document.getElementById("authGate").style.display = "flex";
   }
-
-  // Worker arka planda doğrula
-  fetch(WORKER_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token })
-  }).catch(() => {});
-};
-
-window.onTurnstileError   = () => {
-  document.getElementById("tsStatus").textContent = "Hata oluştu. Sayfayı yenile.";
-  document.getElementById("tsStatus").style.color = "#ef4444";
-};
-window.onTurnstileExpired = () => { if (window.turnstile) turnstile.reset(); };
+}
 
 // ── Auth Durumu ────────────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
@@ -468,7 +495,12 @@ window.doSignOut = async () => {
   document.getElementById("turnstileGate").style.display = "flex";
   document.getElementById("turnstileGate").style.opacity = "1";
   document.getElementById("tsStatus").textContent = "";
+  document.getElementById("tsSkipBtn").style.display = "none";
   if (window.turnstile) turnstile.reset();
+  // 8sn sonra tekrar göster
+  setTimeout(() => {
+    if (!turnstilePassed) document.getElementById("tsSkipBtn").style.display = "block";
+  }, 8000);
 };
 
 // ── Hesap Sil ───────────────────────────────────────────────────
