@@ -66,7 +66,7 @@ const CHARACTERS = [
     id: "koston",      name: "Koston",
     img: "pmkimage/karakterler/koston.png",
     rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
-    emoji: "px-moon",
+    emoji: "px-shield",
     desc: "Yusa Bakal ile birlikte Minecraft SMP'de kural koyan oyuncu. Kick ve YouTube'da aktif içerik üreticisi.",
     weight: 18, bgText: "KOSTON"
   },
@@ -107,7 +107,7 @@ const CHARACTERS = [
     id: "yusabakal",   name: "Yusa Bakal",
     img: "pmkimage/karakterler/yusabakal.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
-    emoji: "px-bolt",
+    emoji: "px-flag",
     desc: "Yusufte ekibinin Koston ile birlikte en çok video çeken ismi. Kick ve YouTube'da aktif, enerjik tarzıyla öne çıkıyor.",
     weight: 10, bgText: "YUSA"
   },
@@ -155,7 +155,7 @@ const CHARACTERS = [
     id: "canzy",       name: "Canzy",
     img: "pmkimage/karakterler/canzy.png",
     rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
-    emoji: "px-orb",
+    emoji: "px-duck",
     desc: "Ördek skinli Minecraft YouTuber'ı. Kendine özgü tarzı ve eğlenceli içerikleriyle tanınan Türk içerik üreticisi.",
     weight: 7, bgText: "CANZY"
   },
