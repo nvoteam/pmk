@@ -175,23 +175,33 @@ const CHARACTERS = [
 
 // ──── BAŞARILAR ───────────────────────────────────────────────
 const ACHIEVEMENTS = [
-  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",         desc: "İlk paketini aç",                   check: s => s.totalPacksOpened >= 1 },
-  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",     desc: "10 paket aç",                       check: s => s.totalPacksOpened >= 10 },
-  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",     desc: "50 paket aç",                       check: s => s.totalPacksOpened >= 50 },
-  { id: "packs_100",     icon: "px-trophy",  name: "Paket Delisi",     desc: "100 paket aç",                      check: s => s.totalPacksOpened >= 100 },
-  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",     desc: "İlk karakterini topla",             check: s => Object.values(s.collection).some(e => e.count > 0) },
-  { id: "all_common",    icon: "px-pick",    name: "Başlangıç",        desc: "Tüm Sıradan karakterleri topla",    check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
-  { id: "all_rare",      icon: "px-gem",     name: "Nadir Koleksiyon", desc: "Tüm Nadir karakterleri topla",      check: s => CHARACTERS.filter(c => c.rarity==="rare").every(c => s.collection[c.id]?.count > 0) },
-  { id: "first_epic",    icon: "px-orb",     name: "Epik An",          desc: "İlk Epik karakterini topla",        check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",         desc: "Technoblade'i topla",               check: s => s.collection["technoblade"]?.count > 0 },
-  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon",   desc: "Tüm 20 karakteri topla",            check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
-  { id: "dupe_5",        icon: "px-star",    name: "Çifte Şans",       desc: "Bir karakteri 5 kez aç",            check: s => Object.values(s.collection).some(e => e.count >= 5) },
-  { id: "dupe_10",       icon: "px-star",    name: "Yenilmez",         desc: "Bir karakteri 10 kez aç",           check: s => Object.values(s.collection).some(e => e.count >= 10) },
-  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",        desc: "Necronvo'yu topla",                 check: s => s.collection["necronvo"]?.count > 0 },
-  { id: "steve_alex",    icon: "px-pick",    name: "Klasikler",        desc: "Steve ve Alex'i topla",             check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
-  { id: "yusufte_team",  icon: "px-pickaxe", name: "Yusufte Ekibi",    desc: "Tüm ekibi topla: Yusufte, Yusa Bakal, Koston, Göktuğv, Poniks, Rwaii, Peach", check: s => ["yusufte","yusabakal","koston","goktugv","poniks","rwaii","peach"].every(id => s.collection[id]?.count > 0) },
-  { id: "all_turk",      icon: "px-moon",    name: "Türk Gücü",        desc: "Tüm Türk içerik üreticilerini topla", check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki","yusabakal","koston","goktugv","poniks","rwaii","peach","canzy"].every(id => s.collection[id]?.count > 0) },
-  { id: "half_collection", icon: "px-box",   name: "Yarı Yolda",       desc: "10 farklı karakter topla",          check: s => CHARACTERS.filter(c => s.collection[c.id]?.count > 0).length >= 10 },
+  // ── KOLAY ────────────────────────────────────────────────────
+  { id: "first_pack",      icon: "px-pack",    name: "İlk Adım",           desc: "İlk paketini aç",                     difficulty: "easy",   check: s => s.totalPacksOpened >= 1 },
+  { id: "first_char",      icon: "px-card",    name: "İlk Karakter",       desc: "İlk karakterini topla",               difficulty: "easy",   check: s => Object.values(s.collection).some(e => e.count > 0) },
+  { id: "necronvo_own",    icon: "px-skull",   name: "Ev Sahibi",          desc: "Necronvo'yu topla",                   difficulty: "easy",   check: s => s.collection["necronvo"]?.count > 0 },
+  { id: "steve_alex",      icon: "px-pick",    name: "Klasikler",          desc: "Steve ve Alex'i topla",               difficulty: "easy",   check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
+  { id: "half_collection", icon: "px-box",     name: "Yarı Yolda",         desc: "10 farklı karakter topla",            difficulty: "easy",   check: s => CHARACTERS.filter(c => s.collection[c.id]?.count > 0).length >= 10 },
+  // ── ORTA ─────────────────────────────────────────────────────
+  { id: "packs_10",        icon: "px-box",     name: "Koleksiyoncu",       desc: "10 paket aç",                         difficulty: "medium", check: s => s.totalPacksOpened >= 10 },
+  { id: "packs_50",        icon: "px-chest",   name: "Paket Ustası",       desc: "50 paket aç",                         difficulty: "medium", check: s => s.totalPacksOpened >= 50 },
+  { id: "all_common",      icon: "px-pick",    name: "Başlangıç",          desc: "Tüm Sıradan karakterleri topla",      difficulty: "medium", check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
+  { id: "all_rare",        icon: "px-gem",     name: "Nadir Koleksiyon",   desc: "Tüm Nadir karakterleri topla",        difficulty: "medium", check: s => CHARACTERS.filter(c => c.rarity==="rare").every(c => s.collection[c.id]?.count > 0) },
+  { id: "first_epic",      icon: "px-orb",     name: "Epik An",            desc: "İlk Epik karakterini topla",          difficulty: "medium", check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
+  { id: "dupe_5",          icon: "px-star",    name: "Çifte Şans",         desc: "Bir karakteri 5 kez aç",              difficulty: "medium", check: s => Object.values(s.collection).some(e => e.count >= 5) },
+  { id: "yusufte_team",    icon: "px-pickaxe", name: "Yusufte Ekibi",      desc: "7 ekip üyesini topla",                difficulty: "medium", check: s => ["yusufte","yusabakal","koston","goktugv","poniks","rwaii","peach"].every(id => s.collection[id]?.count > 0) },
+  // ── ZOR ──────────────────────────────────────────────────────
+  { id: "packs_100",       icon: "px-trophy",  name: "Paket Delisi",       desc: "100 paket aç",                        difficulty: "hard",   check: s => s.totalPacksOpened >= 100 },
+  { id: "packs_250",       icon: "px-chest",   name: "Bıkmadın mı?",       desc: "250 paket aç",                        difficulty: "hard",   check: s => s.totalPacksOpened >= 250 },
+  { id: "first_legend",    icon: "px-sword",   name: "Efsanevi",           desc: "Technoblade'i topla",                 difficulty: "hard",   check: s => s.collection["technoblade"]?.count > 0 },
+  { id: "dupe_10",         icon: "px-star",    name: "Yenilmez",           desc: "Bir karakteri 10 kez aç",             difficulty: "hard",   check: s => Object.values(s.collection).some(e => e.count >= 10) },
+  { id: "all_epic",        icon: "px-orb",     name: "Epik Koleksiyon",    desc: "Tüm Epik karakterleri topla",         difficulty: "hard",   check: s => CHARACTERS.filter(c => c.rarity==="epic").every(c => s.collection[c.id]?.count > 0) },
+  { id: "all_turk",        icon: "px-moon",    name: "Türk Gücü",          desc: "Tüm Türk içerik üreticilerini topla", difficulty: "hard",   check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki","yusabakal","koston","goktugv","poniks","rwaii","peach","canzy"].every(id => s.collection[id]?.count > 0) },
+  // ── EFSANE (çok zor) ─────────────────────────────────────────
+  { id: "all_chars",       icon: "px-trophy",  name: "Tam Koleksiyon",     desc: "Tüm 20 karakteri topla",              difficulty: "legend", check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
+  { id: "packs_500",       icon: "px-chest",   name: "Obsidyen İrade",     desc: "500 paket aç",                        difficulty: "legend", check: s => s.totalPacksOpened >= 500 },
+  { id: "dupe_25",         icon: "px-star",    name: "Sonsuz Döngü",       desc: "Bir karakteri 25 kez aç",             difficulty: "legend", check: s => Object.values(s.collection).some(e => e.count >= 25) },
+  { id: "techno_legend",   icon: "px-sword",   name: "Never Dies",         desc: "Technoblade'i 3 kez topla",           difficulty: "legend", check: s => (s.collection["technoblade"]?.count ?? 0) >= 3 },
+  { id: "all_chars_twice", icon: "px-trophy",  name: "Gerçek Koleksiyoncu",desc: "Tüm karakterleri en az 2'şer kez topla", difficulty: "legend", check: s => CHARACTERS.every(c => (s.collection[c.id]?.count ?? 0) >= 2) },
 ];
 
 // ──── DURUM ───────────────────────────────────────────────────
@@ -236,19 +246,34 @@ function showAchievementToast(ach) {
   setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 500); }, 4000);
 }
 
-function renderAchievements() {
+function renderAchievements(filter = "all") {
   const grid = document.getElementById("achievementGrid");
   if (!grid) return;
   grid.innerHTML = "";
   if (!state.achievements) state.achievements = {};
-  ACHIEVEMENTS.forEach(ach => {
+
+  const diffColors = { easy: "#4ec94e", medium: "#4a90e2", hard: "#a855f7", legend: "#f5c518" };
+  const diffLabels = { easy: "KOLAY", medium: "ORTA", hard: "ZOR", legend: "EFSANE" };
+
+  let list = ACHIEVEMENTS;
+  if (filter !== "all") list = ACHIEVEMENTS.filter(a => a.difficulty === filter);
+
+  list.forEach(ach => {
     const earned = !!state.achievements[ach.id];
     const box = document.createElement("div");
     box.className = "ach-box " + (earned ? "ach-earned" : "ach-locked");
     box.title = ach.desc;
-    box.innerHTML = `<div class="ach-icon"><div class="px-symbol ${earned ? ach.icon : "px-lock"}"></div></div><div class="ach-name">${earned ? ach.name : "???"}</div><div class="ach-desc">${earned ? ach.desc : "Henüz kazanılmadı"}</div>`;
+    const col = diffColors[ach.difficulty] || "#aaa";
+    box.innerHTML = `
+      <div class="ach-diff-dot" style="background:${col}"></div>
+      <div class="ach-icon"><div class="px-symbol ${earned ? ach.icon : "px-lock"}"></div></div>
+      <div class="ach-name">${earned ? ach.name : "???"}</div>
+      <div class="ach-desc">${earned ? ach.desc : "Henüz kazanılmadı"}</div>
+      <div class="ach-diff-label" style="color:${col}">${diffLabels[ach.difficulty]}</div>
+    `;
     grid.appendChild(box);
   });
+
   const earnedCount = ACHIEVEMENTS.filter(a => state.achievements[a.id]).length;
   const counter = document.getElementById("achCounter");
   if (counter) counter.textContent = `${earnedCount} / ${ACHIEVEMENTS.length}`;
@@ -378,7 +403,11 @@ function renderCollectionFull() {
   const grid = document.getElementById("collectionGridFull");
   if (!grid) return;
   grid.innerHTML = "";
-  [...CHARACTERS].sort(compareRarity).forEach(char => {
+  let chars = [...CHARACTERS].sort(compareRarity);
+  if (currentFilter === "collected") chars = chars.filter(c => state.collection[c.id]?.count > 0);
+  if (currentFilter === "missing")   chars = chars.filter(c => !(state.collection[c.id]?.count > 0));
+  if (currentRarityFilter !== "all") chars = chars.filter(c => c.rarity === currentRarityFilter);
+  chars.forEach(char => {
     const entry = state.collection[char.id];
     const owned = entry?.count > 0;
     const slot = document.createElement("div");
@@ -405,14 +434,32 @@ function renderCollectionFull() {
   });
 }
 
+function setAchFilter(f, el) {
+  document.querySelectorAll(".rarity-filter-row .rarity-filter-btn").forEach(b => {
+    if (b.onclick?.toString().includes("setAchFilter")) b.classList.remove("active");
+  });
+  el.classList.add("active");
+  renderAchievements(f);
+}
+
 // ──── KOLEKSİYON GRID ────────────────────────────────────────
 let currentFilter = "all";
+let currentRarityFilter = "all";
 
 function setFilter(f, el) {
   currentFilter = f;
   document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
   el.classList.add("active");
   renderGrid();
+  renderCollectionFull();
+}
+
+function setRarityFilter(r, el) {
+  currentRarityFilter = r;
+  document.querySelectorAll(".rarity-filter-btn").forEach(b => b.classList.remove("active"));
+  el.classList.add("active");
+  renderGrid();
+  renderCollectionFull();
 }
 
 function renderGrid() {
@@ -423,6 +470,7 @@ function renderGrid() {
   let chars = [...CHARACTERS].sort(compareRarity);
   if (currentFilter === "collected") chars = chars.filter(c => state.collection[c.id]?.count > 0);
   if (currentFilter === "missing")   chars = chars.filter(c => !(state.collection[c.id]?.count > 0));
+  if (currentRarityFilter !== "all") chars = chars.filter(c => c.rarity === currentRarityFilter);
 
   chars.forEach(char => {
     const entry = state.collection[char.id];
