@@ -1083,3 +1083,39 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   max-height: none !important;
 }
+
+/* ====== NADİRLİK FİLTRE BUTONLARI ====== */
+.rarity-filter-row {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rarity-filter-btn {
+  padding: 5px 10px;
+  font-family: var(--font);
+  font-size: 6px;
+  background: transparent;
+  border: 2px solid var(--border2);
+  color: var(--text-dim);
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.rarity-filter-btn.active {
+  background: rgba(255,255,255,.08);
+  filter: brightness(1.3);
+}
+.rarity-filter-btn:hover { filter: brightness(1.2); }
+
+/* ====== BAŞARI ZORluk ====== */
+.ach-diff-dot {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 6px; height: 6px;
+}
+.ach-box { position: relative; }
+.ach-diff-label {
+  font-size: 5px;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
