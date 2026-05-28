@@ -726,6 +726,44 @@ body {
     3px 15px #ff8800,6px 15px #ff4400,9px 15px #ff8800;
 }
 
+/* ── Kalkan — Koston ─────────────────────── */
+.px-shield::before {
+  background: #4a90e2;
+  box-shadow:
+    3px 0 #4a90e2,6px 0 #4a90e2,9px 0 #4a90e2,12px 0 #4a90e2,
+    0 3px #4a90e2,3px 3px #7ab8f5,6px 3px #7ab8f5,9px 3px #7ab8f5,12px 3px #7ab8f5,15px 3px #4a90e2,
+    0 6px #4a90e2,3px 6px #7ab8f5,6px 6px #fff,9px 6px #7ab8f5,12px 6px #7ab8f5,15px 6px #4a90e2,
+    0 9px #4a90e2,3px 9px #7ab8f5,6px 9px #7ab8f5,9px 9px #7ab8f5,12px 9px #7ab8f5,15px 9px #4a90e2,
+    3px 12px #4a90e2,6px 12px #7ab8f5,9px 12px #7ab8f5,12px 12px #4a90e2,
+    6px 15px #4a90e2,9px 15px #4a90e2;
+}
+
+/* ── Bayrak — Yusa Bakal ─────────────────── */
+.px-flag::before {
+  background: #a855f7;
+  box-shadow:
+    0 0 #888,
+    0 3px #888,3px 3px #a855f7,6px 3px #a855f7,9px 3px #a855f7,
+    0 6px #888,3px 6px #d4aaff,6px 6px #a855f7,9px 6px #a855f7,
+    0 9px #888,3px 9px #a855f7,6px 9px #a855f7,9px 9px #a855f7,
+    0 12px #888,
+    0 15px #888,
+    0 18px #888;
+}
+
+/* ── Ördek — Canzy ───────────────────────── */
+.px-duck::before {
+  background: #f5c518;
+  box-shadow:
+    9px 0 #f5c518,12px 0 #f5c518,
+    6px 3px #f5c518,9px 3px #ffde60,12px 3px #ffde60,15px 3px #ff8800,
+    3px 6px #f5c518,6px 6px #ffde60,9px 6px #fff,12px 6px #ffde60,15px 6px #f5c518,
+    0 9px #f5c518,3px 9px #f5c518,6px 9px #f5c518,9px 9px #f5c518,12px 9px #f5c518,15px 9px #f5c518,18px 9px #f5c518,
+    0 12px #f5c518,3px 12px #ffde60,6px 12px #ffde60,9px 12px #ffde60,12px 12px #ffde60,15px 12px #ffde60,18px 12px #f5c518,
+    3px 15px #f5c518,6px 15px #f5c518,9px 15px #f5c518,12px 15px #f5c518,15px 15px #f5c518,
+    6px 18px #ff8800,9px 18px #ff8800,12px 18px #ff8800;
+}
+
 /* ====== BAŞARILAR ====== */
 .achievement-grid {
   display: grid;
