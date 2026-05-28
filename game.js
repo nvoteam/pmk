@@ -47,6 +47,22 @@ const CHARACTERS = [
     weight: 20, bgText: "PONİKS"
   },
   {
+    id: "rwaii",       name: "Rwaii",
+    img: "pmkimage/karakterler/rwaii.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-bolt",
+    desc: "Yusufte ekibinin hızlı ve güçlü üyesi. Bedwars ve PvP videolarında Yusufte ile yan yana savaşan oyuncu.",
+    weight: 18, bgText: "RWAII"
+  },
+  {
+    id: "peach",       name: "Peach",
+    img: "pmkimage/karakterler/peach.png",
+    rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
+    emoji: "px-star",
+    desc: "Yusufte ve Doğukan Adal ile UHC turnuvalarında boy gösteren Türk Minecraft oyuncusu. Rekabetçi tarzıyla öne çıkıyor.",
+    weight: 16, bgText: "PEACH"
+  },
+  {
     id: "koston",      name: "Koston",
     img: "pmkimage/karakterler/koston.png",
     rarity: "rare",    rarityLabel: "NADİR",   rarityColor: "#4a90e2",
@@ -135,6 +151,14 @@ const CHARACTERS = [
     desc: "Türkiye'nin en iyi PvP oyuncularından biri. Ekibinin lideri. Rakipleri karşısında durma, pes etme!",
     weight: 6, bgText: "YUSUFTE"
   },
+  {
+    id: "canzy",       name: "Canzy",
+    img: "pmkimage/karakterler/canzy.png",
+    rarity: "epic",    rarityLabel: "EPİK",    rarityColor: "#a855f7",
+    emoji: "px-orb",
+    desc: "Ördek skinli Minecraft YouTuber'ı. Kendine özgü tarzı ve eğlenceli içerikleriyle tanınan Türk içerik üreticisi.",
+    weight: 7, bgText: "CANZY"
+  },
   // ── EFSANE ───────────────────────────────────────────────────
   {
     id: "technoblade", name: "Technoblade",
@@ -151,20 +175,23 @@ const CHARACTERS = [
 
 // ──── BAŞARILAR ───────────────────────────────────────────────
 const ACHIEVEMENTS = [
-  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",       desc: "İlk paketini aç",                 check: s => s.totalPacksOpened >= 1 },
-  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",   desc: "10 paket aç",                     check: s => s.totalPacksOpened >= 10 },
-  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",   desc: "50 paket aç",                     check: s => s.totalPacksOpened >= 50 },
-  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",   desc: "İlk karakterini topla",           check: s => Object.values(s.collection).some(e => e.count > 0) },
-  { id: "all_common",    icon: "px-pick",    name: "Başlangıç",      desc: "Tüm Sıradan karakterleri topla",  check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
-  { id: "first_rare",    icon: "px-gem",     name: "Nadir Bulucu",   desc: "İlk Nadir karakterini topla",     check: s => CHARACTERS.filter(c => c.rarity==="rare").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_epic",    icon: "px-orb",     name: "Epik An",        desc: "İlk Epik karakterini topla",      check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
-  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",       desc: "Technoblade'i topla",             check: s => s.collection["technoblade"]?.count > 0 },
-  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon", desc: "Tüm 17 karakteri topla",          check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
-  { id: "dupe_5",        icon: "px-star",    name: "Çifte Şans",     desc: "Bir karakteri 5 kez aç",          check: s => Object.values(s.collection).some(e => e.count >= 5) },
-  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",      desc: "Necronvo'yu topla",               check: s => s.collection["necronvo"]?.count > 0 },
-  { id: "steve_alex",    icon: "px-pick",    name: "Klasikler",      desc: "Steve ve Alex'i topla",           check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
-  { id: "yusufte_team",  icon: "px-pickaxe", name: "Yusufte Ekibi",  desc: "Tüm ekibi topla: Yusufte, Yusa Bakal, Koston, Göktuğv, Poniks", check: s => ["yusufte","yusabakal","koston","goktugv","poniks"].every(id => s.collection[id]?.count > 0) },
-  { id: "all_turk",      icon: "px-moon",    name: "Türk Gücü",      desc: "Tüm Türk YouTuberları topla",     check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki","yusabakal","koston","goktugv","poniks"].every(id => s.collection[id]?.count > 0) },
+  { id: "first_pack",    icon: "px-pack",    name: "İlk Adım",         desc: "İlk paketini aç",                   check: s => s.totalPacksOpened >= 1 },
+  { id: "packs_10",      icon: "px-box",     name: "Koleksiyoncu",     desc: "10 paket aç",                       check: s => s.totalPacksOpened >= 10 },
+  { id: "packs_50",      icon: "px-chest",   name: "Paket Ustası",     desc: "50 paket aç",                       check: s => s.totalPacksOpened >= 50 },
+  { id: "packs_100",     icon: "px-trophy",  name: "Paket Delisi",     desc: "100 paket aç",                      check: s => s.totalPacksOpened >= 100 },
+  { id: "first_char",    icon: "px-card",    name: "İlk Karakter",     desc: "İlk karakterini topla",             check: s => Object.values(s.collection).some(e => e.count > 0) },
+  { id: "all_common",    icon: "px-pick",    name: "Başlangıç",        desc: "Tüm Sıradan karakterleri topla",    check: s => CHARACTERS.filter(c => c.rarity==="common").every(c => s.collection[c.id]?.count > 0) },
+  { id: "all_rare",      icon: "px-gem",     name: "Nadir Koleksiyon", desc: "Tüm Nadir karakterleri topla",      check: s => CHARACTERS.filter(c => c.rarity==="rare").every(c => s.collection[c.id]?.count > 0) },
+  { id: "first_epic",    icon: "px-orb",     name: "Epik An",          desc: "İlk Epik karakterini topla",        check: s => CHARACTERS.filter(c => c.rarity==="epic").some(c => s.collection[c.id]?.count > 0) },
+  { id: "first_legend",  icon: "px-sword",   name: "Efsanevi",         desc: "Technoblade'i topla",               check: s => s.collection["technoblade"]?.count > 0 },
+  { id: "all_chars",     icon: "px-trophy",  name: "Tam Koleksiyon",   desc: "Tüm 20 karakteri topla",            check: s => CHARACTERS.every(c => s.collection[c.id]?.count > 0) },
+  { id: "dupe_5",        icon: "px-star",    name: "Çifte Şans",       desc: "Bir karakteri 5 kez aç",            check: s => Object.values(s.collection).some(e => e.count >= 5) },
+  { id: "dupe_10",       icon: "px-star",    name: "Yenilmez",         desc: "Bir karakteri 10 kez aç",           check: s => Object.values(s.collection).some(e => e.count >= 10) },
+  { id: "necronvo_own",  icon: "px-skull",   name: "Ev Sahibi",        desc: "Necronvo'yu topla",                 check: s => s.collection["necronvo"]?.count > 0 },
+  { id: "steve_alex",    icon: "px-pick",    name: "Klasikler",        desc: "Steve ve Alex'i topla",             check: s => s.collection["steve"]?.count > 0 && s.collection["alex"]?.count > 0 },
+  { id: "yusufte_team",  icon: "px-pickaxe", name: "Yusufte Ekibi",    desc: "Tüm ekibi topla: Yusufte, Yusa Bakal, Koston, Göktuğv, Poniks, Rwaii, Peach", check: s => ["yusufte","yusabakal","koston","goktugv","poniks","rwaii","peach"].every(id => s.collection[id]?.count > 0) },
+  { id: "all_turk",      icon: "px-moon",    name: "Türk Gücü",        desc: "Tüm Türk içerik üreticilerini topla", check: s => ["erdemoon","themurat","berkayinan","mavislime","dogukanadal","yusufte","ersincaki","yusabakal","koston","goktugv","poniks","rwaii","peach","canzy"].every(id => s.collection[id]?.count > 0) },
+  { id: "half_collection", icon: "px-box",   name: "Yarı Yolda",       desc: "10 farklı karakter topla",          check: s => CHARACTERS.filter(c => s.collection[c.id]?.count > 0).length >= 10 },
 ];
 
 // ──── DURUM ───────────────────────────────────────────────────
