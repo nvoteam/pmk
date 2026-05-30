@@ -173,6 +173,45 @@ const CHARACTERS = [
   cooldownMs: 10 * 60 * 1000
 };
 
+// ── PIXEL SVG İKONLARI ──────────────────────────────────────────
+const PX_ICONS = {
+  "px-skull": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="6" height="5" fill="#ccc"/><rect x="3" y="2" width="1" height="2" fill="#111"/><rect x="6" y="2" width="1" height="2" fill="#111"/><rect x="2" y="6" width="2" height="1" fill="#ccc"/><rect x="5" y="6" width="2" height="1" fill="#ccc"/><rect x="4" y="6" width="1" height="1" fill="#555"/></svg>`,
+  "px-pick": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="1" width="3" height="1" fill="#888"/><rect x="5" y="2" width="2" height="1" fill="#aaa"/><rect x="4" y="3" width="2" height="1" fill="#888"/><rect x="3" y="4" width="2" height="1" fill="#aaa"/><rect x="2" y="5" width="2" height="1" fill="#888"/><rect x="1" y="6" width="2" height="1" fill="#c06000"/><rect x="1" y="7" width="1" height="1" fill="#c06000"/></svg>`,
+  "px-bow": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="1" height="8" fill="#c06000"/><rect x="3" y="2" width="1" height="1" fill="#c06000"/><rect x="3" y="6" width="1" height="1" fill="#c06000"/><rect x="3" y="3" width="4" height="1" fill="#f5c518"/><rect x="3" y="5" width="4" height="1" fill="#f5c518"/><rect x="7" y="4" width="1" height="1" fill="#f5c518"/></svg>`,
+  "px-moon": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="4" height="1" fill="#f5c518"/><rect x="2" y="2" width="1" height="1" fill="#f5c518"/><rect x="1" y="3" width="1" height="4" fill="#f5c518"/><rect x="2" y="7" width="1" height="1" fill="#f5c518"/><rect x="3" y="8" width="4" height="1" fill="#f5c518"/><rect x="7" y="3" width="1" height="1" fill="#f5c518"/><rect x="8" y="4" width="1" height="2" fill="#f5c518"/><rect x="7" y="6" width="1" height="1" fill="#f5c518"/></svg>`,
+  "px-crown": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="1" height="4" fill="#f5c518"/><rect x="8" y="2" width="1" height="4" fill="#f5c518"/><rect x="5" y="1" width="1" height="3" fill="#f5c518"/><rect x="2" y="4" width="6" height="3" fill="#f5c518"/><rect x="1" y="7" width="8" height="1" fill="#9a7a00"/><rect x="4" y="3" width="1" height="1" fill="#fff"/><rect x="6" y="3" width="1" height="1" fill="#fff"/></svg>`,
+  "px-gem": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="4" height="1" fill="#4a90e2"/><rect x="2" y="2" width="6" height="1" fill="#4a90e2"/><rect x="1" y="3" width="8" height="3" fill="#4a90e2"/><rect x="3" y="3" width="1" height="1" fill="#fff"/><rect x="2" y="4" width="1" height="1" fill="#7ab8f5"/><rect x="2" y="6" width="6" height="1" fill="#4a90e2"/><rect x="3" y="7" width="4" height="1" fill="#4a90e2"/><rect x="4" y="8" width="2" height="1" fill="#4a90e2"/></svg>`,
+  "px-orb": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="4" height="1" fill="#a855f7"/><rect x="2" y="2" width="6" height="1" fill="#a855f7"/><rect x="1" y="3" width="8" height="4" fill="#a855f7"/><rect x="3" y="3" width="1" height="1" fill="#d4aaff"/><rect x="4" y="2" width="1" height="1" fill="#fff"/><rect x="2" y="7" width="6" height="1" fill="#a855f7"/><rect x="3" y="8" width="4" height="1" fill="#a855f7"/></svg>`,
+  "px-bolt": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="1" width="2" height="2" fill="#4a90e2"/><rect x="4" y="3" width="4" height="2" fill="#4a90e2"/><rect x="3" y="5" width="5" height="1" fill="#4a90e2"/><rect x="2" y="6" width="4" height="2" fill="#4a90e2"/><rect x="1" y="8" width="3" height="1" fill="#4a90e2"/></svg>`,
+  "px-star": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="1" width="2" height="2" fill="#f5c518"/><rect x="1" y="3" width="8" height="2" fill="#f5c518"/><rect x="2" y="5" width="2" height="3" fill="#f5c518"/><rect x="6" y="5" width="2" height="3" fill="#f5c518"/><rect x="3" y="5" width="4" height="1" fill="#ffde60"/><rect x="4" y="3" width="2" height="1" fill="#fff"/></svg>`,
+  "px-shield": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="6" height="1" fill="#4a90e2"/><rect x="1" y="2" width="8" height="5" fill="#4a90e2"/><rect x="3" y="3" width="4" height="3" fill="#7ab8f5"/><rect x="4" y="3" width="2" height="1" fill="#fff"/><rect x="2" y="7" width="6" height="1" fill="#4a90e2"/><rect x="3" y="8" width="4" height="1" fill="#4a90e2"/><rect x="4" y="9" width="2" height="1" fill="#4a90e2"/></svg>`,
+  "px-eye": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="3" width="8" height="1" fill="#fff"/><rect x="1" y="7" width="8" height="1" fill="#fff"/><rect x="1" y="4" width="2" height="3" fill="#fff"/><rect x="7" y="4" width="2" height="3" fill="#fff"/><rect x="3" y="4" width="4" height="3" fill="#a855f7"/><rect x="4" y="5" width="2" height="1" fill="#111"/><rect x="3" y="4" width="1" height="1" fill="#d4aaff"/></svg>`,
+  "px-pickaxe": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="1" width="3" height="2" fill="#a855f7"/><rect x="5" y="2" width="2" height="1" fill="#d4aaff"/><rect x="4" y="3" width="2" height="1" fill="#a855f7"/><rect x="3" y="4" width="2" height="1" fill="#d4aaff"/><rect x="2" y="5" width="2" height="1" fill="#a855f7"/><rect x="1" y="6" width="2" height="1" fill="#d4aaff"/><rect x="1" y="7" width="1" height="1" fill="#a855f7"/></svg>`,
+  "px-mask": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="8" height="7" fill="#a855f7"/><rect x="2" y="3" width="2" height="2" fill="#111"/><rect x="6" y="3" width="2" height="2" fill="#111"/><rect x="3" y="3" width="1" height="1" fill="#d4aaff"/><rect x="3" y="6" width="4" height="1" fill="#d4aaff"/></svg>`,
+  "px-slime": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="8" height="6" fill="#4a90e2"/><rect x="2" y="3" width="2" height="1" fill="#fff"/><rect x="6" y="3" width="2" height="1" fill="#fff"/><rect x="2" y="1" width="2" height="1" fill="#4a90e2"/><rect x="6" y="1" width="2" height="1" fill="#4a90e2"/><rect x="3" y="5" width="4" height="1" fill="#7ab8f5"/><rect x="1" y="8" width="8" height="1" fill="#2a60b2"/></svg>`,
+  "px-fire": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="1" width="2" height="2" fill="#f5c518"/><rect x="3" y="2" width="1" height="1" fill="#f5c518"/><rect x="2" y="3" width="6" height="1" fill="#ff8800"/><rect x="1" y="4" width="8" height="2" fill="#ff8800"/><rect x="3" y="4" width="4" height="2" fill="#ff4400"/><rect x="1" y="6" width="8" height="2" fill="#ff4400"/><rect x="2" y="8" width="6" height="1" fill="#ff8800"/></svg>`,
+  "px-wrench": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="2" height="2" fill="#a855f7"/><rect x="1" y="3" width="1" height="1" fill="#d4aaff"/><rect x="2" y="4" width="2" height="1" fill="#a855f7"/><rect x="3" y="5" width="2" height="1" fill="#d4aaff"/><rect x="4" y="6" width="2" height="1" fill="#a855f7"/><rect x="5" y="7" width="2" height="1" fill="#d4aaff"/><rect x="6" y="8" width="3" height="1" fill="#a855f7"/></svg>`,
+  "px-sword": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="7" y="1" width="2" height="2" fill="#eee"/><rect x="6" y="2" width="1" height="1" fill="#aaa"/><rect x="5" y="3" width="2" height="1" fill="#eee"/><rect x="4" y="4" width="2" height="1" fill="#eee"/><rect x="3" y="5" width="3" height="1" fill="#f5c518"/><rect x="1" y="6" width="4" height="1" fill="#f5c518"/><rect x="1" y="7" width="2" height="1" fill="#9a7a00"/></svg>`,
+  "px-duck": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="4" height="3" fill="#f5c518"/><rect x="7" y="2" width="2" height="1" fill="#ff8800"/><rect x="5" y="2" width="1" height="1" fill="#111"/><rect x="2" y="4" width="7" height="4" fill="#f5c518"/><rect x="3" y="4" width="5" height="3" fill="#ffde60"/><rect x="1" y="7" width="8" height="1" fill="#f5c518"/><rect x="3" y="8" width="4" height="1" fill="#ff8800"/></svg>`,
+  "px-flag": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="1" height="9" fill="#888"/><rect x="3" y="1" width="5" height="1" fill="#a855f7"/><rect x="3" y="2" width="5" height="1" fill="#d4aaff"/><rect x="3" y="3" width="5" height="1" fill="#a855f7"/><rect x="3" y="4" width="5" height="1" fill="#d4aaff"/><rect x="3" y="5" width="4" height="1" fill="#a855f7"/></svg>`,
+  "px-pack": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="8" height="7" fill="#4ec94e"/><rect x="3" y="1" width="4" height="1" fill="#4ec94e"/><rect x="2" y="3" width="6" height="1" fill="#fff"/><rect x="2" y="5" width="6" height="1" fill="#7ae87a"/><rect x="4" y="2" width="2" height="3" fill="#fff"/></svg>`,
+  "px-box": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="3" width="8" height="6" fill="#4a90e2"/><rect x="1" y="3" width="8" height="1" fill="#2a60b2"/><rect x="2" y="4" width="6" height="4" fill="#7ab8f5"/><rect x="4" y="3" width="2" height="5" fill="#4a90e2"/><rect x="1" y="1" width="4" height="2" fill="#4a90e2"/><rect x="5" y="1" width="4" height="2" fill="#7ab8f5"/></svg>`,
+  "px-chest": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="8" height="6" fill="#9a7a00"/><rect x="2" y="3" width="6" height="2" fill="#f5c518"/><rect x="2" y="6" width="6" height="1" fill="#f5c518"/><rect x="4" y="4" width="2" height="2" fill="#9a7a00"/><rect x="1" y="5" width="8" height="1" fill="#7a5a00"/></svg>`,
+  "px-card": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="6" height="8" fill="#e2e2ff"/><rect x="3" y="2" width="4" height="1" fill="#a855f7"/><rect x="3" y="4" width="4" height="1" fill="#7070a0"/><rect x="3" y="6" width="4" height="1" fill="#7070a0"/><rect x="3" y="7" width="2" height="1" fill="#7070a0"/></svg>`,
+  "px-trophy": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="1" width="6" height="5" fill="#f5c518"/><rect x="1" y="2" width="1" height="3" fill="#f5c518"/><rect x="8" y="2" width="1" height="3" fill="#f5c518"/><rect x="3" y="2" width="4" height="3" fill="#ffde60"/><rect x="4" y="6" width="2" height="2" fill="#9a7a00"/><rect x="2" y="8" width="6" height="1" fill="#f5c518"/></svg>`,
+  "px-lock": `<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="4" height="1" fill="#555"/><rect x="2" y="2" width="1" height="3" fill="#555"/><rect x="7" y="2" width="1" height="3" fill="#555"/><rect x="1" y="5" width="8" height="5" fill="#555"/><rect x="4" y="6" width="2" height="1" fill="#888"/><rect x="4" y="8" width="2" height="1" fill="#888"/></svg>`,
+};
+
+function pxIcon(name, size) {
+  const s = size || 24;
+  const svg = PX_ICONS[name] || PX_ICONS["px-lock"];
+  const sized = svg.replace("<svg ", '<svg width="' + s + '" height="' + s + '" ');
+  const d = document.createElement("div");
+  d.style.cssText = "display:inline-flex;align-items:center;justify-content:center;image-rendering:pixelated;flex-shrink:0;";
+  d.innerHTML = sized;
+  return d;
+}
+
 // ──── BAŞARILAR ───────────────────────────────────────────────
 const ACHIEVEMENTS = [
   // ── KOLAY ────────────────────────────────────────────────────
@@ -240,7 +279,13 @@ function checkAchievements() {
 function showAchievementToast(ach) {
   const el = document.createElement("div");
   el.className = "ach-toast";
-  el.innerHTML = `<div class="px-symbol at-sym ${ach.icon}"></div><div><div class="at-title">BASARI KAZANILDI!</div><div class="at-name">${ach.name}</div><div class="at-desc">${ach.desc}</div></div>`;
+  const toastIco = pxIcon(ach.icon, 32);
+  toastIco.style.flexShrink = "0";
+  el.innerHTML = "";
+  el.appendChild(toastIco);
+  const txt = document.createElement("div");
+  txt.innerHTML = `<div class="at-title">BASARI KAZANILDI!</div><div class="at-name">${ach.name}</div><div class="at-desc">${ach.desc}</div>`;
+  el.appendChild(txt);
   document.body.appendChild(el);
   setTimeout(() => el.classList.add("show"), 50);
   setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 500); }, 4000);
@@ -264,13 +309,16 @@ function renderAchievements(filter = "all") {
     box.className = "ach-box " + (earned ? "ach-earned" : "ach-locked");
     box.title = ach.desc;
     const col = diffColors[ach.difficulty] || "#aaa";
-    box.innerHTML = `
-      <div class="ach-diff-dot" style="background:${col}"></div>
-      <div class="ach-icon"><div class="px-symbol ${earned ? ach.icon : "px-lock"}"></div></div>
-      <div class="ach-name">${earned ? ach.name : "???"}</div>
-      <div class="ach-desc">${earned ? ach.desc : "Henüz kazanılmadı"}</div>
-      <div class="ach-diff-label" style="color:${col}">${diffLabels[ach.difficulty]}</div>
-    `;
+    const dot = document.createElement("div");
+    dot.className = "ach-diff-dot"; dot.style.background = col;
+    box.appendChild(dot);
+    const ico = document.createElement("div");
+    ico.className = "ach-icon";
+    ico.appendChild(pxIcon(earned ? ach.icon : "px-lock", 24));
+    box.appendChild(ico);
+    const nm = document.createElement("div"); nm.className = "ach-name"; nm.textContent = earned ? ach.name : "???"; box.appendChild(nm);
+    const ds = document.createElement("div"); ds.className = "ach-desc"; ds.textContent = earned ? ach.desc : "Henüz kazanilmadi"; box.appendChild(ds);
+    const dl = document.createElement("div"); dl.className = "ach-diff-label"; dl.style.color = col; dl.textContent = diffLabels[ach.difficulty]; box.appendChild(dl);
     grid.appendChild(box);
   });
 
@@ -510,9 +558,7 @@ function renderGrid() {
 function makeSlotFallback(char) {
   const d = document.createElement("div");
   d.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%";
-  const sym = document.createElement("div");
-  sym.className = `px-symbol ${char.emoji}`;
-  d.appendChild(sym);
+  d.appendChild(pxIcon(char.emoji, 28));
   return d;
 }
 
@@ -586,11 +632,10 @@ function updateStats() {
   if (luckyEl) {
     const lucky = state.luckyChar ? CHARACTERS.find(c => c.id === state.luckyChar) : null;
     if (lucky) {
+      const ico = pxIcon(lucky.emoji, 24);
+      ico.style.margin = "auto";
       luckyEl.innerHTML = "";
-      const sym = document.createElement("div");
-      sym.className = `px-symbol ${lucky.emoji}`;
-      sym.style.cssText = "margin:auto;position:relative;";
-      luckyEl.appendChild(sym);
+      luckyEl.appendChild(ico);
     } else {
       luckyEl.textContent = "—";
     }
@@ -661,9 +706,7 @@ function showRecentCards(results) {
 function makeRecentFallback(char) {
   const d = document.createElement("div");
   d.style.cssText = "display:flex;align-items:center;justify-content:center;width:100%;height:100%";
-  const sym = document.createElement("div");
-  sym.className = `px-symbol ${char.emoji}`;
-  d.appendChild(sym);
+  d.appendChild(pxIcon(char.emoji, 24));
   return d;
 }
 
@@ -729,9 +772,7 @@ function showModal(results, newCount) {
 function makeRevFallback(char) {
   const d = document.createElement("div");
   d.style.cssText = "width:80px;height:80px;display:flex;align-items:center;justify-content:center";
-  const sym = document.createElement("div");
-  sym.className = `px-symbol px-symbol-lg ${char.emoji}`;
-  d.appendChild(sym);
+  d.appendChild(pxIcon(char.emoji, 48));
   return d;
 }
 
